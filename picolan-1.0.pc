@@ -1,0 +1,12 @@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: picolan 
+Description: a library for communicating with picolan networks
+Version: 1.0
+Requires: 
+Requires.private: gee-0.8
+Libs: -L${libdir} -lpicolan-1.0
+Cflags: -I${includedir}/

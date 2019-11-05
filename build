@@ -1,0 +1,157 @@
+#!/bin/python3
+
+import subprocess
+from subprocess import call
+import os
+from os import listdir
+from os.path import isfile, join
+from glob import glob
+import filecmp
+import sys
+
+PACKAGES = ["gserial-1.0", "gee-0.8"]
+VCFLAGS = ["-C", "-H", "gserial_test.h"]
+EXECUTABLE="main"
+CPPFLAGS = ["-I./service"]
+LDFLAGS = ["-lm"]
+BUILD_DIR = ".build"
+
+if(sys.platform == "msys"):
+    pass
+#LDFLAGS += ["-mwindows"]
+else:
+    LDFLAGS += ["-lpthread"]
+
+
+def get_file_list(extension, path, add_path=True):
+    file_list = [f for f in listdir(path) if isfile(join(path, f))]
+    ret = []
+    for f in file_list:
+        filename, file_extension = os.path.splitext(f)
+        if(file_extension == extension):
+            if(add_path):
+                ret.append(path + "/" + f)
+            else:
+                ret.append("/" + f)
+    return ret
+
+def change_file_extension(filename, new_extension):
+    base_name, file_extension = os.path.splitext(filename)
+    return base_name + "." + new_extension
+
+def gen_valac_flags():
+    ret = VCFLAGS
+    for p in PACKAGES:
+        ret.append("--pkg")
+        ret.append(p)
+    return ret
+
+def gen_valac_call():
+    ret = ["valac"]
+    ret += gen_valac_flags()
+    ret += get_file_list(".vala", "./")
+    ret += get_file_list(".vapi", "./")
+    return ret
+
+def move_c_files():
+    if not os.path.exists(BUILD_DIR):
+        os.makedirs(BUILD_DIR)
+    cfiles = get_file_list(".c", "./", False)
+    for f in cfiles:
+        newpath = BUILD_DIR + f
+
+        f = "." + f
+        #only move files if they have been changed
+        #this is to avoid changing the timestamp
+        try:
+            if(filecmp.cmp(f, newpath) == False):
+                os.rename(f, newpath)
+            else:
+                os.remove(f)
+        except OSError:
+            os.rename(f, newpath)
+
+def get_pkg_config_cflags():
+    call = ["pkg-config", "--cflags"]
+    for p in PACKAGES:
+        call.append(p)
+    out = subprocess.check_output(call)[:-1]
+    out = out.strip()
+    return out.decode('utf-8').split(' ')
+
+def get_pkg_config_libs():
+    call = ["pkg-config", "--libs"]
+    for p in PACKAGES:
+        call.append(p.strip())
+    out = subprocess.check_output(call)[:-1]
+    out = out.strip()
+    return out.decode('utf-8').split(' ')
+
+def gen_compile_c_call(cfile):
+    ret = ["gcc", "-c"]
+    ret += get_pkg_config_cflags()
+    ret += [cfile, "-o", change_file_extension(cfile, "o")]
+    return ret
+
+def gen_compile_cpp_call(cfile):
+    ret = ["g++"]
+    ret += get_pkg_config_cflags()
+    ret += CPPFLAGS
+    ret += ["-c"]
+    ret += [cfile, "-o", change_file_extension(cfile, "o")]
+    return ret
+
+print("````````````````````")
+print("Step 1: Building C files")
+print("~~~~~~~~~~~~~~~~~~~~")
+if(call(gen_valac_call()) != 0):
+    print("Build failed - aborting")
+    exit()
+
+print("~~~~~~~~~~~~~~~~~~")
+print("Step 2: Moving C files to build directory")
+print("~~~~~~~~~~~~~~~~~~")
+move_c_files()
+
+cfile_list = get_file_list(".c", BUILD_DIR)
+
+print("~~~~~~~~~~~~~~~~")
+print("Step 3: Building C files")
+print("~~~~~~~~~~~~~~~~")
+for cfile in cfile_list:
+    objfile = change_file_extension(cfile, "o")
+    diff_time = 1
+    try:
+        diff_time = os.path.getmtime(cfile) - os.path.getmtime(objfile)
+    except:
+        pass
+
+    if(diff_time > 0):
+        gcc_call = gen_compile_c_call(cfile)
+        if(call(gcc_call) != 0):
+            print("Error building c file - aborting")
+            exit()
+
+print("~~~~~~~~~~~~~~~~~~")
+print("Step 4: Building C++ files")
+print("~~~~~~~~~~~~~~~~~")
+cppfile_list = [y for x in os.walk("./") for y in glob(os.path.join(x[0], '*.cpp'))]
+
+for cppfile in cppfile_list:
+    if(call(gen_compile_cpp_call(cppfile)) != 0):
+        print("Error building cpp file - aborting")
+        exit()
+
+obj_list = [y for x in os.walk("./") for y in glob(os.path.join(x[0], '*.o'))]
+
+print("~~~~~~~~~~~~~~~~~~")
+print("Step 5: Linking")
+print("~~~~~~~~~~~~~~~~~~")
+ls = ["g++"]
+ls += obj_list
+ls += get_pkg_config_libs()
+ls += LDFLAGS
+ls += ["-o", EXECUTABLE]
+if(call(ls) != 0):
+    print("Error in linking stage!")
+    exit()
