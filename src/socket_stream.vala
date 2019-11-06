@@ -1,4 +1,3 @@
-using Gee;
 
 namespace picolan
 {
@@ -30,14 +29,14 @@ namespace picolan
 		}
 
 		protected void send_ack() throws PicolanError, Error {
-			var msg = new ArrayList<uint8>();
-			msg.add(MESSAGE_TYPE.ACK);
-			msg.add(remote_sequence);
+			var msg = new List<uint8>();
+			msg.append(MESSAGE_TYPE.ACK);
+			msg.append(remote_sequence);
 			iface.send_datagram(remote, remote_port, msg);
 		}
 
 		private async bool send_syn() throws PicolanError, Error {
-
+			return false;
 		}
 
 		private async bool recv_syn() throws PicolanError, Error {
@@ -64,8 +63,8 @@ namespace picolan
 
 		public virtual void bind(Interface iface) { }
 
-		protected signal void recv_syn_signal(ArrayList<uint8> data);
-		protected signal void ack_signal(ArrayList<uint8> data);
+		protected signal void recv_syn_signal(List<uint8> data);
+		protected signal void ack_signal(List<uint8> data);
 
 		public uint timeout = 1000;
 

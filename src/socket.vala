@@ -1,4 +1,3 @@
-using Gee;
 
 namespace picolan
 {
@@ -9,7 +8,7 @@ namespace picolan
 
 		public abstract void bind(Interface iface);
 
-		public signal void on_data(ArrayList<uint8> data);
+		public signal void on_data(List<uint8> data);
 		public signal void on_destroy();
 
 	}

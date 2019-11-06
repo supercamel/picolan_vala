@@ -1,4 +1,3 @@
-using Gee;
 
 namespace picolan
 {
@@ -15,7 +14,7 @@ namespace picolan
 			});
 		}
 
-		private void process_datagram(ArrayList<uint8> dg) {
+		private void process_datagram(List<uint8> dg) {
 			if(dg[0] == MESSAGE_TYPE.SYN) {
 				this.remote_sequence = dg[1];
 				this.remote_port = dg[2];

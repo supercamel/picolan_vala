@@ -1,4 +1,3 @@
-using Gee;
 
 namespace picolan
 {
@@ -13,14 +12,14 @@ namespace picolan
 			on_destroy();
 		}
 
-		public void send_bytes(uint8 dest, uint8 port, ArrayList<uint8> data) throws PicolanError {
+		public void send_bytes(uint8 dest, uint8 port, List<uint8> data) throws PicolanError {
 			const int MAX_SEGMENT_SIZE = 250;
 			int parts = data.size/MAX_SEGMENT_SIZE;
-			ArrayList<uint8> segment_data;
+			List<uint8> segment_data;
 			for(var i = 0; i < parts; i++) {
-				segment_data = new ArrayList<uint8>();
+				segment_data = new List<uint8>();
 				for(var j = 0; j < MAX_SEGMENT_SIZE; j++) {
-					segment_data.add(data[i*MAX_SEGMENT_SIZE + j]);
+					segment_data.append(data[i*MAX_SEGMENT_SIZE + j]);
 				}
 
 				try {
@@ -31,9 +30,9 @@ namespace picolan
 			}
 
 			var remainder = data.size%250;
-			segment_data = new ArrayList<uint8>(); 
+			segment_data = new List<uint8>(); 
 			for(var j = 0; j < remainder; j++) {
-				segment_data.add(data[parts*MAX_SEGMENT_SIZE+j]);	
+				segment_data.append(data[parts*MAX_SEGMENT_SIZE+j]);	
 			}
 			try {
 				iface.send_datagram(dest, port, segment_data);
@@ -43,9 +42,9 @@ namespace picolan
 		}
 
 		public void send_string(uint8 dest, uint8 port, string str) throws PicolanError {
-			var arr = new ArrayList<uint8>();
+			var arr = new List<uint8>();
 			for(var i = 0; i < str.length; i++) {
-				arr.add((uint8)str[i]);
+				arr.append((uint8)str[i]);
 			}
 
 			send_bytes(dest, port, arr);

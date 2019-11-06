@@ -1,5 +1,4 @@
 using gserial;
-using Gee;
 
 
 namespace picolan
@@ -24,10 +23,10 @@ namespace picolan
 		CHECK2
 	}/*}}}*/
 
-	void make_checksum(ArrayList<uint8> bytes, out int sum1, out int sum2) { /*{{{*/
+	void make_checksum(List<uint8> bytes, out int sum1, out int sum2) { /*{{{*/
 		var index = 0;
 		sum1 = sum2 = 0;
-		for(index = 0; index < bytes.size; index++) {
+		for(index = 0; index < bytes.length(); index++) {
 			sum1 = (sum1 + bytes[index]) % 255;
 			sum2 = (sum2 + sum1) % 255;
 		}
@@ -36,7 +35,7 @@ namespace picolan
 	class Parser : Object /*{{{*/
 	{
 		public Parser() {/*{{{*/
-			data = new ArrayList<uint8>();
+			data = new List<uint8>();
 		}/*}}}*/
 
 		public void read(uint8 b) {/*{{{*/
@@ -54,25 +53,25 @@ namespace picolan
 					case STATE.START: 
 						if(b == 0xAB) {
 							state = STATE.ID;
-							data = new ArrayList<uint8>();
+							data = new List<uint8>();
 						}
 
 						break;
 					case STATE.ID: 
 						id = b;
 						state = STATE.SIZE;
-						data.add(b);
+						data.append(b);
 						break;
 					case STATE.SIZE: 
 						size = b;
 						state = STATE.DATA;
-						data.add(b);
+						data.append(b);
 						break;
 					case STATE.DATA: 
-						data.add(b);
+						data.append(b);
 						// data.size-2 because the data array includes id and size bytes
 						// whereas the size is only the length of the data section
-						if(((data.size-2) >= size) || (data.size >= 255)) {
+						if(((data.length()-2) >= size) || (data.length() >= 255)) {
 							state = STATE.CHECK1;
 						}
 						break;
@@ -88,8 +87,8 @@ namespace picolan
 						make_checksum(data, out cs1, out cs2);
 
 						if((cs1 == check1) && (cs2 == check2)) {
-							data.remove_at(0);
-							data.remove_at(0);
+							data.delete_link(data.nth(0));
+							data.delete_link(data.nth(0));
 							parse_packet();
 						}
 						break;
@@ -102,22 +101,22 @@ namespace picolan
 
 			switch(id) {
 				case PACKET.PING_ECHO: 
-					on_ping_echo(data[1], data[2], data[3], data[4]);
+					on_ping_echo(data.nth_data(1), data.nth_data(2), data.nth_data(3), data.nth_data(4));
 					break;
 				case PACKET.PING: 
-					on_ping(data[1], data[2], data[3], data[4]);
+					on_ping(data.nth_data(1), data.nth_data(2), data.nth_data(3), data.nth_data(4));
 					break;
 				case PACKET.GET_ADDR_LIST: 
 					on_get_addr_list();
 					break;
 				case PACKET.DATAGRAM:
 					// deep copy the payload part to a new array
-					var payload = new ArrayList<uint8>();
-					for(var i = 4; i < data.size; i++) {
-						payload.add(data[i]);
+					var payload = new List<uint8>();
+					for(var i = 4; i < data.length(); i++) {
+						payload.append(data.nth_data(i));
 					}
 
-					on_datagram(data[1], data[2], data[3], payload);
+					on_datagram(data.nth_data(1), data.nth_data(2), data.nth_data(3), payload);
 					break;
 			}
 		}/*}}}*/
@@ -126,9 +125,9 @@ namespace picolan
 		public signal void on_addr(uint8 addr);
 		public signal void on_ping(uint8 src, uint8 dest, uint8 p1, uint8 p2);
 		public signal void on_ping_echo(uint8 src, uint8 dest, uint8 p1, uint8 p2);
-		public signal void on_datagram(uint8 src, uint8 dest, uint8 port, ArrayList<uint8> payload);
+		public signal void on_datagram(uint8 src, uint8 dest, uint8 port, List<uint8> payload);
 
-		private ArrayList<uint8> data;
+		private List<uint8> data;
 		private uint8 id;
 		private uint8 size;
 		private STATE state;
@@ -147,29 +146,29 @@ namespace picolan
 	{
 		public Interface() {/*{{{*/
 			parser = new Parser();
-			port_map = new HashMap<uint8, Socket>();
+			port_map = new HashTable<uint8, Socket>();
 
 			/*{{{*/
 			parser.on_ping.connect((src, dest, p1, p2) => {
-				var msg = new Gee.ArrayList<uint8>();
-				msg.add(PACKET.PING_ECHO);
-				msg.add(5); //packet size
-				msg.add(ttl); //time to live
-				msg.add(address); //source / own address
-				msg.add(src); // destination address
-				msg.add(p1);
-				msg.add(p2);
+				var msg = new List<uint8>();
+				msg.append(PACKET.PING_ECHO);
+				msg.append(5); //packet size
+				msg.append(ttl); //time to live
+				msg.append(address); //source / own address
+				msg.append(src); // destination address
+				msg.append(p1);
+				msg.append(p2);
 
 				int cs1, cs2;
 				make_checksum(msg, out cs1, out cs2);
-				msg.add((uint8)cs1);
-				msg.add((uint8)cs2);
+				msg.append((uint8)cs1);
+				msg.append((uint8)cs2);
 				msg = stuff_bytes(msg);
-				msg.add(0xAC);
-				msg.insert(0, 0xAB);
+				msg.append(0xAC);
+				msg.insert(0xAB, 0);
 
 				try {
-					write_byte_array(msg);
+					port.write(msg);
 				} catch(Error error) {
 					// silently ignore failures when replying to a ping
 					stdout.printf("Error while responding to a ping.\n");
@@ -232,12 +231,12 @@ namespace picolan
 		/*{{{*/
 		public bool attach_socket(Socket s) {
 			// if socket isn't attached for a port
-			if(port_map.has_key(s.get_port()) == false) {
+			if(port_map.contains(s.get_port()) == false) {
 				// attach it using the port map
-				port_map.set(s.get_port(), s);
+				port_map.insert(s.get_port(), s);
 				// connect the destruct signal to remove the socket from the port map when it no longer exists 
 				s.on_destroy.connect(() => {
-					port_map.unset(s.get_port());
+					port_map.remove(s.get_port());
 				});
 				return true;
 			} else {
@@ -269,51 +268,51 @@ namespace picolan
 			var af = new AddressField();
 			af.set_address(addr);
 
-			var msg = new Gee.ArrayList<uint8>();
-			msg.add(PACKET.ADDR);
-			msg.add(32); //packet size
-			msg.add(ttl);
+			var msg = new List<uint8>();
+			msg.append(PACKET.ADDR);
+			msg.append(32); //packet size
+			msg.append(ttl);
 
 			for(var i = 0; i < 32; i++) {
-				msg.add(af.get_bytes()[i]);
+				msg.append(af.get_bytes()[i]);
 			}
 
 			int cs1, cs2;
 			make_checksum(msg, out cs1, out cs2);
-			msg.add((uint8)cs1);
-			msg.add((uint8)cs2);
+			msg.append((uint8)cs1);
+			msg.append((uint8)cs2);
 			msg = stuff_bytes(msg);
-			msg.add(0xAC);
-			msg.insert(0, 0xAB);
+			msg.append(0xAC);
+			msg.insert(0xAB, 0);
 
-			write_byte_array(msg);
+			port.write(msg);
 		}/*}}}*/
 
-		public void send_datagram(uint8 dest, uint8 port, ArrayList<uint8> data) throws PicolanError, Error { /*{{{*/
-			if(data.size >= 250) {
+		public void send_datagram(uint8 dest, uint8 port_num, List<uint8> data) throws PicolanError, Error { /*{{{*/
+			if(data.length() >= 250) {
 				throw new PicolanError.PAYLOAD_TOO_BIG("Payload size is greater than the maximum of 250 bytes");
 			}
 
-			var msg = new ArrayList<uint8>();
-			msg.add(PACKET.DATAGRAM);
-			msg.add((uint8)(data.size + 5)); //packet size
-			msg.add(this.ttl);
-			msg.add(this.address);
-			msg.add(dest);
-			msg.add(port);
-			msg.add((uint8)data.size);
-			for(var i = 0; i < data.size; i++) {
-				msg.add(data[i]);
+			var msg = new List<uint8>();
+			msg.append(PACKET.DATAGRAM);
+			msg.append((uint8)(data.length() + 5)); //packet size
+			msg.append(this.ttl);
+			msg.append(this.address);
+			msg.append(dest);
+			msg.append(port_num);
+			msg.append((uint8)data.length());
+			for(var i = 0; i < data.length(); i++) {
+				msg.append(data.nth_data(i));
 			}
 
 			int cs1, cs2;
 			make_checksum(msg, out cs1, out cs2);
-			msg.add((uint8)cs1);
-			msg.add((uint8)cs2);
-			msg.add(0xAC);
-			msg.insert(0, 0xAB);
+			msg.append((uint8)cs1);
+			msg.append((uint8)cs2);
+			msg.append(0xAC);
+			msg.insert(0xAB, 0);
 
-			write_byte_array(msg);
+			port.write(msg);
 		}/*}}}*/
 
 		public async int ping(uint8 addr, uint timeout) throws GLib.Error {/*{{{*/
@@ -330,115 +329,103 @@ namespace picolan
 					ulong micros = 0;
 					timer.elapsed(out micros);
 					ping_time = (int)(micros/1000);
-					Idle.add((owned)callback);
+					Idle.append((owned)callback);
 					parser.disconnect(handle);
 					GLib.Source.remove(timeout_handle);
 				}
 			});
 
 			timeout_handle = GLib.Timeout.add(timeout, () => {
-				Idle.add((owned)callback);
+				Idle.append((owned)callback);
 				parser.disconnect(handle);
 				return false;
 			});
 
-			var msg = new Gee.ArrayList<uint8>();
-			msg.add(PACKET.PING);
-			msg.add(5); //packet size
-			msg.add(ttl); //time to live
-			msg.add(address); //source / own address
-			msg.add(addr); // destination address
-			msg.add(payload1);
-			msg.add(payload2);
+			var msg = new List<uint8>();
+			msg.append(PACKET.PING);
+			msg.append(5); //packet size
+			msg.append(ttl); //time to live
+			msg.append(address); //source / own address
+			msg.append(addr); // destination address
+			msg.append(payload1);
+			msg.append(payload2);
 
 			int cs1, cs2;
 			make_checksum(msg, out cs1, out cs2);
-			msg.add((uint8)cs1);
-			msg.add((uint8)cs2);
+			msg.append((uint8)cs1);
+			msg.append((uint8)cs2);
 			msg = stuff_bytes(msg);
-			msg.add(0xAC);
-			msg.insert(0, 0xAB);
+			msg.append(0xAC);
+			msg.insert(0xAB, 0);
 
-			write_byte_array(msg);
+			port.write(msg);
 
 			yield;
 			return ping_time;
 		}/*}}}*/
 
-		public void subscribe(uint8 port) throws GLib.Error { /*{{{*/
-			var msg = new Gee.ArrayList<uint8>();
-			msg.add(PACKET.SUBSCRIBE);
-			msg.add(4); // subscribe packet is 4 bytes
-			msg.add(ttl);
-			msg.add(port);
-			msg.add(this.address);
-			msg.add(1); // 1 for subscribe
+		public void subscribe(uint8 port_num) throws GLib.Error { /*{{{*/
+			var msg = new List<uint8>();
+			msg.append(PACKET.SUBSCRIBE);
+			msg.append(4); // subscribe packet is 4 bytes
+			msg.append(ttl);
+			msg.append(port_num);
+			msg.append(this.address);
+			msg.append(1); // 1 for subscribe
 
 			int cs1, cs2;
 			make_checksum(msg, out cs1, out cs2);
-			msg.add((uint8)cs1);
-			msg.add((uint8)cs2);
+			msg.append((uint8)cs1);
+			msg.append((uint8)cs2);
 			msg = stuff_bytes(msg);
-			msg.add(0xAC);
-			msg.insert(0, 0xAB);
+			msg.append(0xAC);
+			msg.insert(0xAB, 0);
 
-			write_byte_array(msg);
+			port.write(msg);
 		}
 		/*}}}*/
 
-		public void unsubscribe(uint8 port) throws GLib.Error { /*{{{*/
-			var msg = new Gee.ArrayList<uint8>();
-			msg.add(PACKET.SUBSCRIBE);
-			msg.add(4); // subscribe packet is 4 bytes
-			msg.add(ttl);
-			msg.add(port);
-			msg.add(this.address);
-			msg.add(0); // 0 for unsubscribe
+		public void unsubscribe(uint8 port_num) throws GLib.Error { /*{{{*/
+			var msg = new List<uint8>();
+			msg.append(PACKET.SUBSCRIBE);
+			msg.append(4); // subscribe packet is 4 bytes
+			msg.append(ttl);
+			msg.append(port_num);
+			msg.append(this.address);
+			msg.append(0); // 0 for unsubscribe
 
 			int cs1, cs2;
 			make_checksum(msg, out cs1, out cs2);
-			msg.add((uint8)cs1);
-			msg.add((uint8)cs2);
+			msg.append((uint8)cs1);
+			msg.append((uint8)cs2);
 			msg = stuff_bytes(msg);
-			msg.add(0xAC);
-			msg.insert(0, 0xAB);
+			msg.append(0xAC);
+			msg.insert(0xAB, 0);
 
-			write_byte_array(msg);
+			port.write(msg);
 		}
 		/*}}}*/
 
-		private Gee.ArrayList<uint8> stuff_bytes(Gee.ArrayList<uint8> bytes) { /*{{{*/
-			var ret = new Gee.ArrayList<uint8>();
-			for(var i = 0; i < bytes.size; i++) {
+		private List<uint8> stuff_bytes(List<uint8> bytes) { /*{{{*/
+			var ret = new List<uint8>();
+			for(var i = 0; i < bytes.length(); i++) {
 				if(bytes[i] == 0xAA) {
-					ret.add(0xAA);
-					ret.add(0xAA);
+					ret.append(0xAA);
+					ret.append(0xAA);
 				}
 				else if(bytes[i] == 0xAB) {
-					ret.add(0xAA);
-					ret.add(0xAB);
+					ret.append(0xAA);
+					ret.append(0xAB);
 				} 
 				else if(bytes[i] == 0xAC) {
-					ret.add(0xAA);
-					ret.add(0xAC);
+					ret.append(0xAA);
+					ret.append(0xAC);
 				}
 				else {
-					ret.add(bytes[i]);
+					ret.append(bytes[i]);
 				}
 			}
 			return ret;
-		}
-		/*}}}*/
-
-		private void write_byte_array(ArrayList<uint8> buf) throws GLib.Error { /*{{{*/
-			var arr = new Array<char>();
-			buf.foreach((item) => {
-				char c = (char)item;
-				arr.append_val(c);
-				return true;
-			});
-
-			port.write(arr);
 		}
 		/*}}}*/
 
@@ -452,8 +439,8 @@ namespace picolan
 		private gserial.Port port;
 		private Parser parser;
 
-		private HashMap<uint8, Socket> port_map;
-		public signal void on_datagram(uint8 src, uint8 dest, uint8 port, ArrayList<uint8> payload);
+		private HashTable<uint8, Socket> port_map;
+		public signal void on_datagram(uint8 src, uint8 dest, uint8 port, List<uint8> payload);
 	}
 
 }
@@ -478,8 +465,8 @@ int main() {
 		dg.bind(iface);
 		dg.on_data.connect((data) => {
 			stdout.printf("got some data\n");
-			for(var i = 0; i < data.size; i++) {
-				stdout.printf("%i ", (int)data[i]);
+			for(var i = 0; i < data.length(); i++) {
+				stdout.printf("%i ", (int)data.nth_data(i));
 			}
 			stdout.printf("\n");
 		});
