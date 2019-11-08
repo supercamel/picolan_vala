@@ -3,7 +3,6 @@
 
 #include <glib-object.h>
 #include <glib.h>
-#include <gee.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -85,12 +84,12 @@ GQuark picolan_picolan_error_quark (void);
 void picolan_datagram_send_bytes (picolanDatagram* self,
                                   guint8 dest,
                                   guint8 port,
-                                  GeeArrayList* data,
+                                  GList* data,
                                   GError** error);
 void picolan_interface_send_datagram (picolanInterface* self,
                                       guint8 dest,
-                                      guint8 port,
-                                      GeeArrayList* data,
+                                      guint8 port_num,
+                                      GList* data,
                                       GError** error);
 void picolan_datagram_send_string (picolanDatagram* self,
                                    guint8 dest,
@@ -101,16 +100,16 @@ static void picolan_datagram_real_bind (picolanSocket* base,
                                  picolanInterface* _iface);
 gboolean picolan_interface_attach_socket (picolanInterface* self,
                                           picolanSocket* s);
-static void __lambda15_ (picolanDatagram* self,
+static void __lambda14_ (picolanDatagram* self,
                   guint8 src,
                   guint8 dest,
                   guint8 _port,
-                  GeeArrayList* payload);
-static void ___lambda15__picolan_interface_on_datagram (picolanInterface* _sender,
+                  GList* payload);
+static void ___lambda14__picolan_interface_on_datagram (picolanInterface* _sender,
                                                  guint8 src,
                                                  guint8 dest,
                                                  guint8 port,
-                                                 GeeArrayList* payload,
+                                                 GList* payload,
                                                  gpointer self);
 static guint8 picolan_datagram_real_get_port (picolanSocket* base);
 static void picolan_datagram_finalize (GObject * obj);
@@ -142,74 +141,62 @@ void
 picolan_datagram_send_bytes (picolanDatagram* self,
                              guint8 dest,
                              guint8 port,
-                             GeeArrayList* data,
+                             GList* data,
                              GError** error)
 {
-	static const gint MAX_SEGMENT_SIZE = 250;
-	gint parts = 0;
-	gint _tmp0_;
-	gint _tmp1_;
-	GeeArrayList* segment_data = NULL;
-	gint remainder = 0;
-	gint _tmp14_;
-	gint _tmp15_;
-	GeeArrayList* _tmp16_;
+	static const guint MAX_SEGMENT_SIZE = (guint) 250;
+	guint parts = 0U;
+	GList* segment_data = NULL;
+	guint remainder = 0U;
 	GError* _inner_error0_ = NULL;
 	g_return_if_fail (self != NULL);
-	g_return_if_fail (data != NULL);
-	_tmp0_ = gee_abstract_collection_get_size ((GeeAbstractCollection*) data);
-	_tmp1_ = _tmp0_;
-	parts = _tmp1_ / MAX_SEGMENT_SIZE;
+	parts = g_list_length (data) / MAX_SEGMENT_SIZE;
 	{
 		gint i = 0;
 		i = 0;
 		{
-			gboolean _tmp2_ = FALSE;
-			_tmp2_ = TRUE;
+			gboolean _tmp0_ = FALSE;
+			_tmp0_ = TRUE;
 			while (TRUE) {
-				GeeArrayList* _tmp4_;
-				if (!_tmp2_) {
-					gint _tmp3_;
-					_tmp3_ = i;
-					i = _tmp3_ + 1;
+				if (!_tmp0_) {
+					gint _tmp1_;
+					_tmp1_ = i;
+					i = _tmp1_ + 1;
 				}
-				_tmp2_ = FALSE;
-				if (!(i < parts)) {
+				_tmp0_ = FALSE;
+				if (!(((guint) i) < parts)) {
 					break;
 				}
-				_tmp4_ = gee_array_list_new (G_TYPE_UCHAR, NULL, NULL, NULL, NULL, NULL);
-				_g_object_unref0 (segment_data);
-				segment_data = _tmp4_;
+				(segment_data == NULL) ? NULL : (segment_data = (g_list_free (segment_data), NULL));
+				segment_data = NULL;
 				{
 					gint j = 0;
 					j = 0;
 					{
-						gboolean _tmp5_ = FALSE;
-						_tmp5_ = TRUE;
+						gboolean _tmp2_ = FALSE;
+						_tmp2_ = TRUE;
 						while (TRUE) {
-							GeeArrayList* _tmp7_;
-							gpointer _tmp8_;
-							if (!_tmp5_) {
-								gint _tmp6_;
-								_tmp6_ = j;
-								j = _tmp6_ + 1;
+							gconstpointer _tmp4_;
+							if (!_tmp2_) {
+								gint _tmp3_;
+								_tmp3_ = j;
+								j = _tmp3_ + 1;
 							}
-							_tmp5_ = FALSE;
-							if (!(j < MAX_SEGMENT_SIZE)) {
+							_tmp2_ = FALSE;
+							if (!(((guint) j) < MAX_SEGMENT_SIZE)) {
 								break;
 							}
-							_tmp7_ = segment_data;
-							_tmp8_ = gee_abstract_list_get ((GeeAbstractList*) data, (i * MAX_SEGMENT_SIZE) + j);
-							gee_abstract_collection_add ((GeeAbstractCollection*) _tmp7_, (gpointer) ((guintptr) ((guint8) ((guintptr) _tmp8_))));
+							_tmp4_ = g_list_nth_data (data, (i * MAX_SEGMENT_SIZE) + j);
+							segment_data = g_list_append (segment_data, (gpointer) ((guintptr) ((guint8) ((guintptr) _tmp4_))));
 						}
 					}
 				}
 				{
-					picolanInterface* _tmp9_;
-					GeeArrayList* _tmp10_;
-					_tmp9_ = self->priv->iface;
-					_tmp10_ = segment_data;
-					picolan_interface_send_datagram (_tmp9_, dest, port, _tmp10_, &_inner_error0_);
+					picolanInterface* _tmp5_;
+					GList* _tmp6_;
+					_tmp5_ = self->priv->iface;
+					_tmp6_ = segment_data;
+					picolan_interface_send_datagram (_tmp5_, dest, port, _tmp6_, &_inner_error0_);
 					if (G_UNLIKELY (_inner_error0_ != NULL)) {
 						goto __catch0_g_error;
 					}
@@ -218,15 +205,15 @@ picolan_datagram_send_bytes (picolanDatagram* self,
 				__catch0_g_error:
 				{
 					GError* _error_ = NULL;
-					GError* _tmp11_;
-					const gchar* _tmp12_;
-					GError* _tmp13_;
+					GError* _tmp7_;
+					const gchar* _tmp8_;
+					GError* _tmp9_;
 					_error_ = _inner_error0_;
 					_inner_error0_ = NULL;
-					_tmp11_ = _error_;
-					_tmp12_ = _tmp11_->message;
-					_tmp13_ = g_error_new (PICOLAN_PICOLAN_ERROR, PICOLAN_PICOLAN_ERROR_COMS_FAULT, "%s", _tmp12_);
-					_inner_error0_ = _tmp13_;
+					_tmp7_ = _error_;
+					_tmp8_ = _tmp7_->message;
+					_tmp9_ = g_error_new (PICOLAN_PICOLAN_ERROR, PICOLAN_PICOLAN_ERROR_COMS_FAULT, "%s", _tmp8_);
+					_inner_error0_ = _tmp9_;
 					_g_error_free0 (_error_);
 					goto __finally0;
 				}
@@ -234,10 +221,10 @@ picolan_datagram_send_bytes (picolanDatagram* self,
 				if (G_UNLIKELY (_inner_error0_ != NULL)) {
 					if (_inner_error0_->domain == PICOLAN_PICOLAN_ERROR) {
 						g_propagate_error (error, _inner_error0_);
-						_g_object_unref0 (segment_data);
+						(segment_data == NULL) ? NULL : (segment_data = (g_list_free (segment_data), NULL));
 						return;
 					} else {
-						_g_object_unref0 (segment_data);
+						(segment_data == NULL) ? NULL : (segment_data = (g_list_free (segment_data), NULL));
 						g_critical ("file %s: line %d: uncaught error: %s (%s, %d)", __FILE__, __LINE__, _inner_error0_->message, g_quark_to_string (_inner_error0_->domain), _inner_error0_->code);
 						g_clear_error (&_inner_error0_);
 						return;
@@ -246,42 +233,37 @@ picolan_datagram_send_bytes (picolanDatagram* self,
 			}
 		}
 	}
-	_tmp14_ = gee_abstract_collection_get_size ((GeeAbstractCollection*) data);
-	_tmp15_ = _tmp14_;
-	remainder = _tmp15_ % 250;
-	_tmp16_ = gee_array_list_new (G_TYPE_UCHAR, NULL, NULL, NULL, NULL, NULL);
-	_g_object_unref0 (segment_data);
-	segment_data = _tmp16_;
+	remainder = g_list_length (data) % 250;
+	(segment_data == NULL) ? NULL : (segment_data = (g_list_free (segment_data), NULL));
+	segment_data = NULL;
 	{
 		gint j = 0;
 		j = 0;
 		{
-			gboolean _tmp17_ = FALSE;
-			_tmp17_ = TRUE;
+			gboolean _tmp10_ = FALSE;
+			_tmp10_ = TRUE;
 			while (TRUE) {
-				GeeArrayList* _tmp19_;
-				gpointer _tmp20_;
-				if (!_tmp17_) {
-					gint _tmp18_;
-					_tmp18_ = j;
-					j = _tmp18_ + 1;
+				gconstpointer _tmp12_;
+				if (!_tmp10_) {
+					gint _tmp11_;
+					_tmp11_ = j;
+					j = _tmp11_ + 1;
 				}
-				_tmp17_ = FALSE;
-				if (!(j < remainder)) {
+				_tmp10_ = FALSE;
+				if (!(((guint) j) < remainder)) {
 					break;
 				}
-				_tmp19_ = segment_data;
-				_tmp20_ = gee_abstract_list_get ((GeeAbstractList*) data, (parts * MAX_SEGMENT_SIZE) + j);
-				gee_abstract_collection_add ((GeeAbstractCollection*) _tmp19_, (gpointer) ((guintptr) ((guint8) ((guintptr) _tmp20_))));
+				_tmp12_ = g_list_nth_data (data, (parts * MAX_SEGMENT_SIZE) + j);
+				segment_data = g_list_append (segment_data, (gpointer) ((guintptr) ((guint8) ((guintptr) _tmp12_))));
 			}
 		}
 	}
 	{
-		picolanInterface* _tmp21_;
-		GeeArrayList* _tmp22_;
-		_tmp21_ = self->priv->iface;
-		_tmp22_ = segment_data;
-		picolan_interface_send_datagram (_tmp21_, dest, port, _tmp22_, &_inner_error0_);
+		picolanInterface* _tmp13_;
+		GList* _tmp14_;
+		_tmp13_ = self->priv->iface;
+		_tmp14_ = segment_data;
+		picolan_interface_send_datagram (_tmp13_, dest, port, _tmp14_, &_inner_error0_);
 		if (G_UNLIKELY (_inner_error0_ != NULL)) {
 			goto __catch1_g_error;
 		}
@@ -290,15 +272,15 @@ picolan_datagram_send_bytes (picolanDatagram* self,
 	__catch1_g_error:
 	{
 		GError* _error_ = NULL;
-		GError* _tmp23_;
-		const gchar* _tmp24_;
-		GError* _tmp25_;
+		GError* _tmp15_;
+		const gchar* _tmp16_;
+		GError* _tmp17_;
 		_error_ = _inner_error0_;
 		_inner_error0_ = NULL;
-		_tmp23_ = _error_;
-		_tmp24_ = _tmp23_->message;
-		_tmp25_ = g_error_new (PICOLAN_PICOLAN_ERROR, PICOLAN_PICOLAN_ERROR_COMS_FAULT, "%s", _tmp24_);
-		_inner_error0_ = _tmp25_;
+		_tmp15_ = _error_;
+		_tmp16_ = _tmp15_->message;
+		_tmp17_ = g_error_new (PICOLAN_PICOLAN_ERROR, PICOLAN_PICOLAN_ERROR_COMS_FAULT, "%s", _tmp16_);
+		_inner_error0_ = _tmp17_;
 		_g_error_free0 (_error_);
 		goto __finally1;
 	}
@@ -306,16 +288,16 @@ picolan_datagram_send_bytes (picolanDatagram* self,
 	if (G_UNLIKELY (_inner_error0_ != NULL)) {
 		if (_inner_error0_->domain == PICOLAN_PICOLAN_ERROR) {
 			g_propagate_error (error, _inner_error0_);
-			_g_object_unref0 (segment_data);
+			(segment_data == NULL) ? NULL : (segment_data = (g_list_free (segment_data), NULL));
 			return;
 		} else {
-			_g_object_unref0 (segment_data);
+			(segment_data == NULL) ? NULL : (segment_data = (g_list_free (segment_data), NULL));
 			g_critical ("file %s: line %d: uncaught error: %s (%s, %d)", __FILE__, __LINE__, _inner_error0_->message, g_quark_to_string (_inner_error0_->domain), _inner_error0_->code);
 			g_clear_error (&_inner_error0_);
 			return;
 		}
 	}
-	_g_object_unref0 (segment_data);
+	(segment_data == NULL) ? NULL : (segment_data = (g_list_free (segment_data), NULL));
 }
 
 static gchar
@@ -337,55 +319,51 @@ picolan_datagram_send_string (picolanDatagram* self,
                               const gchar* str,
                               GError** error)
 {
-	GeeArrayList* arr = NULL;
-	GeeArrayList* _tmp0_;
-	GeeArrayList* _tmp6_;
+	GList* arr = NULL;
+	GList* _tmp4_;
 	GError* _inner_error0_ = NULL;
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (str != NULL);
-	_tmp0_ = gee_array_list_new (G_TYPE_UCHAR, NULL, NULL, NULL, NULL, NULL);
-	arr = _tmp0_;
+	arr = NULL;
 	{
 		gint i = 0;
 		i = 0;
 		{
-			gboolean _tmp1_ = FALSE;
-			_tmp1_ = TRUE;
+			gboolean _tmp0_ = FALSE;
+			_tmp0_ = TRUE;
 			while (TRUE) {
+				gint _tmp2_;
 				gint _tmp3_;
-				gint _tmp4_;
-				GeeArrayList* _tmp5_;
-				if (!_tmp1_) {
-					gint _tmp2_;
-					_tmp2_ = i;
-					i = _tmp2_ + 1;
+				if (!_tmp0_) {
+					gint _tmp1_;
+					_tmp1_ = i;
+					i = _tmp1_ + 1;
 				}
-				_tmp1_ = FALSE;
-				_tmp3_ = strlen (str);
-				_tmp4_ = _tmp3_;
-				if (!(i < _tmp4_)) {
+				_tmp0_ = FALSE;
+				_tmp2_ = strlen (str);
+				_tmp3_ = _tmp2_;
+				if (!(i < _tmp3_)) {
 					break;
 				}
-				_tmp5_ = arr;
-				gee_abstract_collection_add ((GeeAbstractCollection*) _tmp5_, (gpointer) ((guintptr) ((guint8) string_get (str, (glong) i))));
+				arr = g_list_append (arr, (gpointer) ((guintptr) ((guint8) string_get (str, (glong) i))));
 			}
 		}
 	}
-	_tmp6_ = arr;
-	picolan_datagram_send_bytes (self, dest, port, _tmp6_, &_inner_error0_);
+	_tmp4_ = arr;
+	picolan_datagram_send_bytes (self, dest, port, _tmp4_, &_inner_error0_);
 	if (G_UNLIKELY (_inner_error0_ != NULL)) {
 		if (_inner_error0_->domain == PICOLAN_PICOLAN_ERROR) {
 			g_propagate_error (error, _inner_error0_);
-			_g_object_unref0 (arr);
+			(arr == NULL) ? NULL : (arr = (g_list_free (arr), NULL));
 			return;
 		} else {
-			_g_object_unref0 (arr);
+			(arr == NULL) ? NULL : (arr = (g_list_free (arr), NULL));
 			g_critical ("file %s: line %d: uncaught error: %s (%s, %d)", __FILE__, __LINE__, _inner_error0_->message, g_quark_to_string (_inner_error0_->domain), _inner_error0_->code);
 			g_clear_error (&_inner_error0_);
 			return;
 		}
 	}
-	_g_object_unref0 (arr);
+	(arr == NULL) ? NULL : (arr = (g_list_free (arr), NULL));
 }
 
 static gpointer
@@ -395,27 +373,26 @@ _g_object_ref0 (gpointer self)
 }
 
 static void
-__lambda15_ (picolanDatagram* self,
+__lambda14_ (picolanDatagram* self,
              guint8 src,
              guint8 dest,
              guint8 _port,
-             GeeArrayList* payload)
+             GList* payload)
 {
-	g_return_if_fail (payload != NULL);
 	if (self->priv->port == _port) {
 		g_signal_emit_by_name ((picolanSocket*) self, "on-data", payload);
 	}
 }
 
 static void
-___lambda15__picolan_interface_on_datagram (picolanInterface* _sender,
+___lambda14__picolan_interface_on_datagram (picolanInterface* _sender,
                                             guint8 src,
                                             guint8 dest,
                                             guint8 port,
-                                            GeeArrayList* payload,
+                                            GList* payload,
                                             gpointer self)
 {
-	__lambda15_ ((picolanDatagram*) self, src, dest, port, payload);
+	__lambda14_ ((picolanDatagram*) self, src, dest, port, payload);
 }
 
 static void
@@ -434,7 +411,7 @@ picolan_datagram_real_bind (picolanSocket* base,
 	_tmp1_ = self->priv->iface;
 	picolan_interface_attach_socket (_tmp1_, (picolanSocket*) self);
 	_tmp2_ = self->priv->iface;
-	g_signal_connect_object (_tmp2_, "on-datagram", (GCallback) ___lambda15__picolan_interface_on_datagram, self, 0);
+	g_signal_connect_object (_tmp2_, "on-datagram", (GCallback) ___lambda14__picolan_interface_on_datagram, self, 0);
 }
 
 static guint8

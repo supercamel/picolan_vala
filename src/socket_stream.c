@@ -3,7 +3,6 @@
 
 #include <glib-object.h>
 #include <glib.h>
-#include <gee.h>
 #include <gio/gio.h>
 
 typedef enum  {
@@ -61,7 +60,7 @@ enum  {
 static GParamSpec* picolan_socket_stream_properties[PICOLAN_SOCKET_STREAM_NUM_PROPERTIES];
 #define _g_object_unref0(var) ((var == NULL) ? NULL : (var = (g_object_unref (var), NULL)))
 typedef struct _PicolanSocketStreamSendSynData PicolanSocketStreamSendSynData;
-typedef struct _Block6Data Block6Data;
+typedef struct _Block5Data Block5Data;
 typedef struct _PicolanSocketStreamRecvSynData PicolanSocketStreamRecvSynData;
 enum  {
 	PICOLAN_SOCKET_STREAM_RECV_SYN_SIGNAL_SIGNAL,
@@ -111,7 +110,7 @@ struct _PicolanSocketStreamSendSynData {
 	gboolean result;
 };
 
-struct _Block6Data {
+struct _Block5Data {
 	int _ref_count_;
 	picolanSocketStream* self;
 	GSourceFunc callback;
@@ -132,7 +131,7 @@ struct _PicolanSocketStreamRecvSynData {
 	gboolean _task_complete_;
 	picolanSocketStream* self;
 	gboolean result;
-	Block6Data* _data6_;
+	Block5Data* _data5_;
 	gulong _tmp0_;
 };
 
@@ -150,8 +149,8 @@ void picolan_socket_stream_send_ack (picolanSocketStream* self,
                                      GError** error);
 void picolan_interface_send_datagram (picolanInterface* self,
                                       guint8 dest,
-                                      guint8 port,
-                                      GeeArrayList* data,
+                                      guint8 port_num,
+                                      GList* data,
                                       GError** error);
 static void picolan_socket_stream_send_syn_data_free (gpointer _data);
 static void picolan_socket_stream_send_syn_async_ready_wrapper (GObject *source_object,
@@ -175,16 +174,16 @@ static gboolean picolan_socket_stream_recv_syn_finish (picolanSocketStream* self
                                                 GAsyncResult* _res_,
                                                 GError** error);
 static gboolean picolan_socket_stream_recv_syn_co (PicolanSocketStreamRecvSynData* _data_);
-static Block6Data* block6_data_ref (Block6Data* _data6_);
-static void block6_data_unref (void * _userdata_);
+static Block5Data* block5_data_ref (Block5Data* _data5_);
+static void block5_data_unref (void * _userdata_);
 static gboolean _picolan_socket_stream_recv_syn_co_gsource_func (gpointer self);
-static void __lambda12_ (Block6Data* _data6_,
-                  GeeArrayList* data);
-static void ___lambda12__picolan_socket_stream_recv_syn_signal (picolanSocketStream* _sender,
-                                                         GeeArrayList* data,
+static void __lambda11_ (Block5Data* _data5_,
+                  GList* data);
+static void ___lambda11__picolan_socket_stream_recv_syn_signal (picolanSocketStream* _sender,
+                                                         GList* data,
                                                          gpointer self);
-static gboolean __lambda13_ (Block6Data* _data6_);
-static gboolean ___lambda13__gsource_func (gpointer self);
+static gboolean __lambda12_ (Block5Data* _data5_);
+static gboolean ___lambda12__gsource_func (gpointer self);
 void picolan_socket_stream_bind (picolanSocketStream* self,
                                  picolanInterface* iface);
 static void picolan_socket_stream_real_bind (picolanSocketStream* self,
@@ -233,23 +232,21 @@ void
 picolan_socket_stream_send_ack (picolanSocketStream* self,
                                 GError** error)
 {
-	GeeArrayList* msg = NULL;
-	GeeArrayList* _tmp0_;
-	picolanInterface* _tmp1_;
+	GList* msg = NULL;
+	picolanInterface* _tmp0_;
 	GError* _inner_error0_ = NULL;
 	g_return_if_fail (self != NULL);
-	_tmp0_ = gee_array_list_new (G_TYPE_UCHAR, NULL, NULL, NULL, NULL, NULL);
-	msg = _tmp0_;
-	gee_abstract_collection_add ((GeeAbstractCollection*) msg, (gpointer) ((guintptr) ((guint8) PICOLAN_MESSAGE_TYPE_ACK)));
-	gee_abstract_collection_add ((GeeAbstractCollection*) msg, (gpointer) ((guintptr) self->remote_sequence));
-	_tmp1_ = self->iface;
-	picolan_interface_send_datagram (_tmp1_, self->remote, self->remote_port, msg, &_inner_error0_);
+	msg = NULL;
+	msg = g_list_append (msg, (gpointer) ((guintptr) ((guint8) PICOLAN_MESSAGE_TYPE_ACK)));
+	msg = g_list_append (msg, (gpointer) ((guintptr) self->remote_sequence));
+	_tmp0_ = self->iface;
+	picolan_interface_send_datagram (_tmp0_, self->remote, self->remote_port, msg, &_inner_error0_);
 	if (G_UNLIKELY (_inner_error0_ != NULL)) {
 		g_propagate_error (error, _inner_error0_);
-		_g_object_unref0 (msg);
+		(msg == NULL) ? NULL : (msg = (g_list_free (msg), NULL));
 		return;
 	}
-	_g_object_unref0 (msg);
+	(msg == NULL) ? NULL : (msg = (g_list_free (msg), NULL));
 }
 
 static void
@@ -393,27 +390,27 @@ picolan_socket_stream_recv_syn_finish (picolanSocketStream* self,
 	return result;
 }
 
-static Block6Data*
-block6_data_ref (Block6Data* _data6_)
+static Block5Data*
+block5_data_ref (Block5Data* _data5_)
 {
-	g_atomic_int_inc (&_data6_->_ref_count_);
-	return _data6_;
+	g_atomic_int_inc (&_data5_->_ref_count_);
+	return _data5_;
 }
 
 static void
-block6_data_unref (void * _userdata_)
+block5_data_unref (void * _userdata_)
 {
-	Block6Data* _data6_;
-	_data6_ = (Block6Data*) _userdata_;
-	if (g_atomic_int_dec_and_test (&_data6_->_ref_count_)) {
+	Block5Data* _data5_;
+	_data5_ = (Block5Data*) _userdata_;
+	if (g_atomic_int_dec_and_test (&_data5_->_ref_count_)) {
 		picolanSocketStream* self;
-		self = _data6_->self;
-		(_data6_->callback_target_destroy_notify == NULL) ? NULL : (_data6_->callback_target_destroy_notify (_data6_->callback_target), NULL);
-		_data6_->callback = NULL;
-		_data6_->callback_target = NULL;
-		_data6_->callback_target_destroy_notify = NULL;
+		self = _data5_->self;
+		(_data5_->callback_target_destroy_notify == NULL) ? NULL : (_data5_->callback_target_destroy_notify (_data5_->callback_target), NULL);
+		_data5_->callback = NULL;
+		_data5_->callback_target = NULL;
+		_data5_->callback_target_destroy_notify = NULL;
 		_g_object_unref0 (self);
-		g_slice_free (Block6Data, _data6_);
+		g_slice_free (Block5Data, _data5_);
 	}
 }
 
@@ -426,61 +423,60 @@ _picolan_socket_stream_recv_syn_co_gsource_func (gpointer self)
 }
 
 static void
-__lambda12_ (Block6Data* _data6_,
-             GeeArrayList* data)
+__lambda11_ (Block5Data* _data5_,
+             GList* data)
 {
 	picolanSocketStream* self;
 	GSourceFunc _tmp0_;
 	gpointer _tmp0__target;
 	GDestroyNotify _tmp0__target_destroy_notify;
-	self = _data6_->self;
-	g_return_if_fail (data != NULL);
-	_data6_->got_syn = TRUE;
-	_tmp0_ = _data6_->callback;
-	_tmp0__target = _data6_->callback_target;
-	_tmp0__target_destroy_notify = _data6_->callback_target_destroy_notify;
-	_data6_->callback = NULL;
-	_data6_->callback_target = NULL;
-	_data6_->callback_target_destroy_notify = NULL;
+	self = _data5_->self;
+	_data5_->got_syn = TRUE;
+	_tmp0_ = _data5_->callback;
+	_tmp0__target = _data5_->callback_target;
+	_tmp0__target_destroy_notify = _data5_->callback_target_destroy_notify;
+	_data5_->callback = NULL;
+	_data5_->callback_target = NULL;
+	_data5_->callback_target_destroy_notify = NULL;
 	g_idle_add_full (G_PRIORITY_DEFAULT_IDLE, _tmp0_, _tmp0__target, _tmp0__target_destroy_notify);
-	g_signal_handler_disconnect ((GObject*) self, _data6_->sig_handle);
-	g_source_remove (_data6_->timeout_handle);
+	g_signal_handler_disconnect ((GObject*) self, _data5_->sig_handle);
+	g_source_remove (_data5_->timeout_handle);
 }
 
 static void
-___lambda12__picolan_socket_stream_recv_syn_signal (picolanSocketStream* _sender,
-                                                    GeeArrayList* data,
+___lambda11__picolan_socket_stream_recv_syn_signal (picolanSocketStream* _sender,
+                                                    GList* data,
                                                     gpointer self)
 {
-	__lambda12_ (self, data);
+	__lambda11_ (self, data);
 }
 
 static gboolean
-__lambda13_ (Block6Data* _data6_)
+__lambda12_ (Block5Data* _data5_)
 {
 	picolanSocketStream* self;
 	gboolean result = FALSE;
 	GSourceFunc _tmp0_;
 	gpointer _tmp0__target;
 	GDestroyNotify _tmp0__target_destroy_notify;
-	self = _data6_->self;
-	_tmp0_ = _data6_->callback;
-	_tmp0__target = _data6_->callback_target;
-	_tmp0__target_destroy_notify = _data6_->callback_target_destroy_notify;
-	_data6_->callback = NULL;
-	_data6_->callback_target = NULL;
-	_data6_->callback_target_destroy_notify = NULL;
+	self = _data5_->self;
+	_tmp0_ = _data5_->callback;
+	_tmp0__target = _data5_->callback_target;
+	_tmp0__target_destroy_notify = _data5_->callback_target_destroy_notify;
+	_data5_->callback = NULL;
+	_data5_->callback_target = NULL;
+	_data5_->callback_target_destroy_notify = NULL;
 	g_idle_add_full (G_PRIORITY_DEFAULT_IDLE, _tmp0_, _tmp0__target, _tmp0__target_destroy_notify);
-	g_signal_handler_disconnect ((GObject*) self, _data6_->sig_handle);
+	g_signal_handler_disconnect ((GObject*) self, _data5_->sig_handle);
 	result = FALSE;
 	return result;
 }
 
 static gboolean
-___lambda13__gsource_func (gpointer self)
+___lambda12__gsource_func (gpointer self)
 {
 	gboolean result;
-	result = __lambda13_ (self);
+	result = __lambda12_ (self);
 	return result;
 }
 
@@ -496,26 +492,26 @@ picolan_socket_stream_recv_syn_co (PicolanSocketStreamRecvSynData* _data_)
 		g_assert_not_reached ();
 	}
 	_state_0:
-	_data_->_data6_ = g_slice_new0 (Block6Data);
-	_data_->_data6_->_ref_count_ = 1;
-	_data_->_data6_->self = g_object_ref (_data_->self);
-	_data_->_data6_->_async_data_ = _data_;
-	_data_->_data6_->callback = _picolan_socket_stream_recv_syn_co_gsource_func;
-	_data_->_data6_->callback_target = _data_;
-	_data_->_data6_->callback_target_destroy_notify = NULL;
-	_data_->_data6_->got_syn = FALSE;
-	_data_->_data6_->timeout_handle = (guint) 0;
-	_data_->_data6_->sig_handle = (gulong) 0;
-	_data_->_tmp0_ = g_signal_connect_data (_data_->self, "recv-syn-signal", (GCallback) ___lambda12__picolan_socket_stream_recv_syn_signal, block6_data_ref (_data_->_data6_), (GClosureNotify) block6_data_unref, 0);
-	_data_->_data6_->sig_handle = _data_->_tmp0_;
-	_data_->_data6_->timeout_handle = g_timeout_add_full (G_PRIORITY_DEFAULT, _data_->self->timeout, ___lambda13__gsource_func, block6_data_ref (_data_->_data6_), block6_data_unref);
+	_data_->_data5_ = g_slice_new0 (Block5Data);
+	_data_->_data5_->_ref_count_ = 1;
+	_data_->_data5_->self = g_object_ref (_data_->self);
+	_data_->_data5_->_async_data_ = _data_;
+	_data_->_data5_->callback = _picolan_socket_stream_recv_syn_co_gsource_func;
+	_data_->_data5_->callback_target = _data_;
+	_data_->_data5_->callback_target_destroy_notify = NULL;
+	_data_->_data5_->got_syn = FALSE;
+	_data_->_data5_->timeout_handle = (guint) 0;
+	_data_->_data5_->sig_handle = (gulong) 0;
+	_data_->_tmp0_ = g_signal_connect_data (_data_->self, "recv-syn-signal", (GCallback) ___lambda11__picolan_socket_stream_recv_syn_signal, block5_data_ref (_data_->_data5_), (GClosureNotify) block5_data_unref, 0);
+	_data_->_data5_->sig_handle = _data_->_tmp0_;
+	_data_->_data5_->timeout_handle = g_timeout_add_full (G_PRIORITY_DEFAULT, _data_->self->timeout, ___lambda12__gsource_func, block5_data_ref (_data_->_data5_), block5_data_unref);
 	_data_->_state_ = 1;
 	return FALSE;
 	_state_1:
 	;
-	_data_->result = _data_->_data6_->got_syn;
-	block6_data_unref (_data_->_data6_);
-	_data_->_data6_ = NULL;
+	_data_->result = _data_->_data5_->got_syn;
+	block5_data_unref (_data_->_data5_);
+	_data_->_data5_ = NULL;
 	g_task_return_pointer (_data_->_async_result, _data_, NULL);
 	if (_data_->_state_ != 0) {
 		while (!_data_->_task_complete_) {
@@ -562,8 +558,8 @@ picolan_socket_stream_class_init (picolanSocketStreamClass * klass,
 	picolan_socket_stream_parent_class = g_type_class_peek_parent (klass);
 	((picolanSocketStreamClass *) klass)->bind = (void (*) (picolanSocketStream*, picolanInterface*)) picolan_socket_stream_real_bind;
 	G_OBJECT_CLASS (klass)->finalize = picolan_socket_stream_finalize;
-	picolan_socket_stream_signals[PICOLAN_SOCKET_STREAM_RECV_SYN_SIGNAL_SIGNAL] = g_signal_new ("recv-syn-signal", PICOLAN_TYPE_SOCKET_STREAM, G_SIGNAL_RUN_LAST, 0, NULL, NULL, g_cclosure_marshal_VOID__OBJECT, G_TYPE_NONE, 1, GEE_TYPE_ARRAY_LIST);
-	picolan_socket_stream_signals[PICOLAN_SOCKET_STREAM_ACK_SIGNAL_SIGNAL] = g_signal_new ("ack-signal", PICOLAN_TYPE_SOCKET_STREAM, G_SIGNAL_RUN_LAST, 0, NULL, NULL, g_cclosure_marshal_VOID__OBJECT, G_TYPE_NONE, 1, GEE_TYPE_ARRAY_LIST);
+	picolan_socket_stream_signals[PICOLAN_SOCKET_STREAM_RECV_SYN_SIGNAL_SIGNAL] = g_signal_new ("recv-syn-signal", PICOLAN_TYPE_SOCKET_STREAM, G_SIGNAL_RUN_LAST, 0, NULL, NULL, g_cclosure_marshal_VOID__POINTER, G_TYPE_NONE, 1, G_TYPE_POINTER);
+	picolan_socket_stream_signals[PICOLAN_SOCKET_STREAM_ACK_SIGNAL_SIGNAL] = g_signal_new ("ack-signal", PICOLAN_TYPE_SOCKET_STREAM, G_SIGNAL_RUN_LAST, 0, NULL, NULL, g_cclosure_marshal_VOID__POINTER, G_TYPE_NONE, 1, G_TYPE_POINTER);
 }
 
 static void

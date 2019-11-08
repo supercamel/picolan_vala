@@ -3,7 +3,6 @@
 
 #include <glib-object.h>
 #include <glib.h>
-#include <gee.h>
 
 #define PICOLAN_TYPE_SOCKET (picolan_socket_get_type ())
 #define PICOLAN_SOCKET(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PICOLAN_TYPE_SOCKET, picolanSocket))
@@ -60,7 +59,7 @@ static void
 picolan_socket_default_init (picolanSocketIface * iface,
                              gpointer iface_data)
 {
-	picolan_socket_signals[PICOLAN_SOCKET_ON_DATA_SIGNAL] = g_signal_new ("on-data", PICOLAN_TYPE_SOCKET, G_SIGNAL_RUN_LAST, 0, NULL, NULL, g_cclosure_marshal_VOID__OBJECT, G_TYPE_NONE, 1, GEE_TYPE_ARRAY_LIST);
+	picolan_socket_signals[PICOLAN_SOCKET_ON_DATA_SIGNAL] = g_signal_new ("on-data", PICOLAN_TYPE_SOCKET, G_SIGNAL_RUN_LAST, 0, NULL, NULL, g_cclosure_marshal_VOID__POINTER, G_TYPE_NONE, 1, G_TYPE_POINTER);
 	picolan_socket_signals[PICOLAN_SOCKET_ON_DESTROY_SIGNAL] = g_signal_new ("on-destroy", PICOLAN_TYPE_SOCKET, G_SIGNAL_RUN_LAST, 0, NULL, NULL, g_cclosure_marshal_VOID__VOID, G_TYPE_NONE, 0);
 }
 

@@ -2,7 +2,6 @@
  * generated from interface.vala, do not modify */
 
 #include <glib-object.h>
-#include <gee.h>
 #include <glib.h>
 #include <gserial.h>
 #include <stdio.h>
@@ -31,6 +30,40 @@ typedef enum  {
 
 #define PICOLAN_TYPE_STATE (picolan_state_get_type ())
 
+#define PICOLAN_TYPE_PORT_MAP (picolan_port_map_get_type ())
+#define PICOLAN_PORT_MAP(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PICOLAN_TYPE_PORT_MAP, picolanPortMap))
+#define PICOLAN_PORT_MAP_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), PICOLAN_TYPE_PORT_MAP, picolanPortMapClass))
+#define PICOLAN_IS_PORT_MAP(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PICOLAN_TYPE_PORT_MAP))
+#define PICOLAN_IS_PORT_MAP_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), PICOLAN_TYPE_PORT_MAP))
+#define PICOLAN_PORT_MAP_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), PICOLAN_TYPE_PORT_MAP, picolanPortMapClass))
+
+typedef struct _picolanPortMap picolanPortMap;
+typedef struct _picolanPortMapClass picolanPortMapClass;
+typedef struct _picolanPortMapPrivate picolanPortMapPrivate;
+
+#define PICOLAN_TYPE_SOCKET (picolan_socket_get_type ())
+#define PICOLAN_SOCKET(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PICOLAN_TYPE_SOCKET, picolanSocket))
+#define PICOLAN_IS_SOCKET(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PICOLAN_TYPE_SOCKET))
+#define PICOLAN_SOCKET_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), PICOLAN_TYPE_SOCKET, picolanSocketIface))
+
+typedef struct _picolanSocket picolanSocket;
+typedef struct _picolanSocketIface picolanSocketIface;
+
+#define PICOLAN_TYPE_INTERFACE (picolan_interface_get_type ())
+#define PICOLAN_INTERFACE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PICOLAN_TYPE_INTERFACE, picolanInterface))
+#define PICOLAN_INTERFACE_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), PICOLAN_TYPE_INTERFACE, picolanInterfaceClass))
+#define PICOLAN_IS_INTERFACE(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PICOLAN_TYPE_INTERFACE))
+#define PICOLAN_IS_INTERFACE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), PICOLAN_TYPE_INTERFACE))
+#define PICOLAN_INTERFACE_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), PICOLAN_TYPE_INTERFACE, picolanInterfaceClass))
+
+typedef struct _picolanInterface picolanInterface;
+typedef struct _picolanInterfaceClass picolanInterfaceClass;
+enum  {
+	PICOLAN_PORT_MAP_0_PROPERTY,
+	PICOLAN_PORT_MAP_NUM_PROPERTIES
+};
+static GParamSpec* picolan_port_map_properties[PICOLAN_PORT_MAP_NUM_PROPERTIES];
+
 #define PICOLAN_TYPE_PARSER (picolan_parser_get_type ())
 #define PICOLAN_PARSER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PICOLAN_TYPE_PARSER, picolanParser))
 #define PICOLAN_PARSER_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), PICOLAN_TYPE_PARSER, picolanParserClass))
@@ -46,7 +79,6 @@ enum  {
 	PICOLAN_PARSER_NUM_PROPERTIES
 };
 static GParamSpec* picolan_parser_properties[PICOLAN_PARSER_NUM_PROPERTIES];
-#define _g_object_unref0(var) ((var == NULL) ? NULL : (var = (g_object_unref (var), NULL)))
 enum  {
 	PICOLAN_PARSER_ON_GET_ADDR_LIST_SIGNAL,
 	PICOLAN_PARSER_ON_ADDR_SIGNAL,
@@ -56,30 +88,13 @@ enum  {
 	PICOLAN_PARSER_NUM_SIGNALS
 };
 static guint picolan_parser_signals[PICOLAN_PARSER_NUM_SIGNALS] = {0};
-
-#define PICOLAN_TYPE_INTERFACE (picolan_interface_get_type ())
-#define PICOLAN_INTERFACE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PICOLAN_TYPE_INTERFACE, picolanInterface))
-#define PICOLAN_INTERFACE_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), PICOLAN_TYPE_INTERFACE, picolanInterfaceClass))
-#define PICOLAN_IS_INTERFACE(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PICOLAN_TYPE_INTERFACE))
-#define PICOLAN_IS_INTERFACE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), PICOLAN_TYPE_INTERFACE))
-#define PICOLAN_INTERFACE_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), PICOLAN_TYPE_INTERFACE, picolanInterfaceClass))
-
-typedef struct _picolanInterface picolanInterface;
-typedef struct _picolanInterfaceClass picolanInterfaceClass;
 typedef struct _picolanInterfacePrivate picolanInterfacePrivate;
-
-#define PICOLAN_TYPE_SOCKET (picolan_socket_get_type ())
-#define PICOLAN_SOCKET(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PICOLAN_TYPE_SOCKET, picolanSocket))
-#define PICOLAN_IS_SOCKET(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), PICOLAN_TYPE_SOCKET))
-#define PICOLAN_SOCKET_GET_INTERFACE(obj) (G_TYPE_INSTANCE_GET_INTERFACE ((obj), PICOLAN_TYPE_SOCKET, picolanSocketIface))
-
-typedef struct _picolanSocket picolanSocket;
-typedef struct _picolanSocketIface picolanSocketIface;
 enum  {
 	PICOLAN_INTERFACE_0_PROPERTY,
 	PICOLAN_INTERFACE_NUM_PROPERTIES
 };
 static GParamSpec* picolan_interface_properties[PICOLAN_INTERFACE_NUM_PROPERTIES];
+#define _g_object_unref0(var) ((var == NULL) ? NULL : (var = (g_object_unref (var), NULL)))
 #define _g_error_free0(var) ((var == NULL) ? NULL : (var = (g_error_free (var), NULL)))
 #define _g_array_unref0(var) ((var == NULL) ? NULL : (var = (g_array_unref (var), NULL)))
 typedef struct _Block1Data Block1Data;
@@ -97,14 +112,13 @@ typedef struct _picolanAddressFieldClass picolanAddressFieldClass;
 typedef struct _Block2Data Block2Data;
 #define _g_timer_destroy0(var) ((var == NULL) ? NULL : (var = (g_timer_destroy (var), NULL)))
 typedef struct _PicolanInterfacePingData PicolanInterfacePingData;
-typedef struct _Block3Data Block3Data;
 enum  {
 	PICOLAN_INTERFACE_ON_CLOSE_SIGNAL,
 	PICOLAN_INTERFACE_ON_DATAGRAM_SIGNAL,
 	PICOLAN_INTERFACE_NUM_SIGNALS
 };
 static guint picolan_interface_signals[PICOLAN_INTERFACE_NUM_SIGNALS] = {0};
-typedef struct _Block4Data Block4Data;
+typedef struct _Block3Data Block3Data;
 
 #define PICOLAN_TYPE_DATAGRAM (picolan_datagram_get_type ())
 #define PICOLAN_DATAGRAM(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PICOLAN_TYPE_DATAGRAM, picolanDatagram))
@@ -115,8 +129,27 @@ typedef struct _Block4Data Block4Data;
 
 typedef struct _picolanDatagram picolanDatagram;
 typedef struct _picolanDatagramClass picolanDatagramClass;
-typedef struct _Block5Data Block5Data;
+typedef struct _Block4Data Block4Data;
 #define _g_main_loop_unref0(var) ((var == NULL) ? NULL : (var = (g_main_loop_unref (var), NULL)))
+
+struct _picolanPortMap {
+	GObject parent_instance;
+	picolanPortMapPrivate * priv;
+};
+
+struct _picolanPortMapClass {
+	GObjectClass parent_class;
+};
+
+struct _picolanSocketIface {
+	GTypeInterface parent_iface;
+	guint8 (*get_port) (picolanSocket* self);
+	void (*bind) (picolanSocket* self, picolanInterface* iface);
+};
+
+struct _picolanPortMapPrivate {
+	GList* map;
+};
 
 struct _picolanParser {
 	GObject parent_instance;
@@ -128,7 +161,7 @@ struct _picolanParserClass {
 };
 
 struct _picolanParserPrivate {
-	GeeArrayList* data;
+	GList* data;
 	guint8 id;
 	guint8 size;
 	picolanSTATE state;
@@ -152,17 +185,11 @@ struct _picolanInterfaceClass {
 	GObjectClass parent_class;
 };
 
-struct _picolanSocketIface {
-	GTypeInterface parent_iface;
-	guint8 (*get_port) (picolanSocket* self);
-	void (*bind) (picolanSocket* self, picolanInterface* iface);
-};
-
 struct _picolanInterfacePrivate {
 	guint8 address;
 	gserialPort* port;
 	picolanParser* parser;
-	GeeHashMap* port_map;
+	picolanPortMap* port_map;
 };
 
 struct _Block1Data {
@@ -201,47 +228,30 @@ struct _PicolanInterfacePingData {
 	GTimer* _tmp0_;
 	picolanParser* _tmp1_;
 	gulong _tmp2_;
-	GeeArrayList* msg;
-	GeeArrayList* _tmp3_;
-	GeeArrayList* _tmp4_;
-	GeeArrayList* _tmp5_;
-	GeeArrayList* _tmp6_;
-	GeeArrayList* _tmp7_;
-	GeeArrayList* _tmp8_;
-	GeeArrayList* _tmp9_;
-	GeeArrayList* _tmp10_;
+	GList* msg;
 	gint cs1;
 	gint cs2;
-	GeeArrayList* _tmp11_;
-	gint _tmp12_;
-	gint _tmp13_;
-	GeeArrayList* _tmp14_;
-	GeeArrayList* _tmp15_;
-	GeeArrayList* _tmp16_;
-	GeeArrayList* _tmp17_;
-	GeeArrayList* _tmp18_;
-	GeeArrayList* _tmp19_;
-	GeeArrayList* _tmp20_;
-	GError* _inner_error0_;
+	GList* _tmp3_;
+	gint _tmp4_;
+	gint _tmp5_;
+	GList* _tmp6_;
+	GList* _tmp7_;
+	GList* _tmp8_;
 };
 
 struct _Block3Data {
 	int _ref_count_;
-	picolanInterface* self;
-	GArray* arr;
+	picolanInterface* iface;
 };
 
 struct _Block4Data {
 	int _ref_count_;
-	picolanInterface* iface;
-};
-
-struct _Block5Data {
-	int _ref_count_;
-	Block4Data * _data4_;
+	Block3Data * _data3_;
 	picolanDatagram* dg;
 };
 
+static gint picolanPortMap_private_offset;
+static gpointer picolan_port_map_parent_class = NULL;
 static gint picolanParser_private_offset;
 static gpointer picolan_parser_parent_class = NULL;
 static gint picolanInterface_private_offset;
@@ -249,9 +259,24 @@ static gpointer picolan_interface_parent_class = NULL;
 
 GType picolan_packet_get_type (void) G_GNUC_CONST;
 GType picolan_state_get_type (void) G_GNUC_CONST;
-void picolan_make_checksum (GeeArrayList* bytes,
+void picolan_make_checksum (GList* bytes,
                             gint* sum1,
                             gint* sum2);
+GType picolan_port_map_get_type (void) G_GNUC_CONST;
+GType picolan_interface_get_type (void) G_GNUC_CONST;
+GType picolan_socket_get_type (void) G_GNUC_CONST;
+static void _g_object_unref0_ (gpointer var);
+static inline void _g_list_free__g_object_unref0_ (GList* self);
+picolanPortMap* picolan_port_map_new (void);
+picolanPortMap* picolan_port_map_construct (GType object_type);
+void picolan_port_map_add (picolanPortMap* self,
+                           picolanSocket* socket);
+void picolan_port_map_remove (picolanPortMap* self,
+                              picolanSocket* socket);
+gboolean picolan_port_map_contains (picolanPortMap* self,
+                                    picolanSocket* socket);
+guint8 picolan_socket_get_port (picolanSocket* self);
+static void picolan_port_map_finalize (GObject * obj);
 GType picolan_parser_get_type (void) G_GNUC_CONST;
 picolanParser* picolan_parser_new (void);
 picolanParser* picolan_parser_construct (GType object_type);
@@ -264,16 +289,14 @@ static void g_cclosure_user_marshal_VOID__UCHAR_UCHAR_UCHAR_UCHAR (GClosure * cl
                                                             const GValue * param_values,
                                                             gpointer invocation_hint,
                                                             gpointer marshal_data);
-static void g_cclosure_user_marshal_VOID__UCHAR_UCHAR_UCHAR_OBJECT (GClosure * closure,
-                                                             GValue * return_value,
-                                                             guint n_param_values,
-                                                             const GValue * param_values,
-                                                             gpointer invocation_hint,
-                                                             gpointer marshal_data);
+static void g_cclosure_user_marshal_VOID__UCHAR_UCHAR_UCHAR_POINTER (GClosure * closure,
+                                                              GValue * return_value,
+                                                              guint n_param_values,
+                                                              const GValue * param_values,
+                                                              gpointer invocation_hint,
+                                                              gpointer marshal_data);
 static void picolan_parser_finalize (GObject * obj);
 GQuark picolan_picolan_error_quark (void);
-GType picolan_interface_get_type (void) G_GNUC_CONST;
-GType picolan_socket_get_type (void) G_GNUC_CONST;
 picolanInterface* picolan_interface_new (void);
 picolanInterface* picolan_interface_construct (GType object_type);
 static void __lambda4_ (picolanInterface* self,
@@ -281,43 +304,41 @@ static void __lambda4_ (picolanInterface* self,
                  guint8 dest,
                  guint8 p1,
                  guint8 p2);
-static GeeArrayList* picolan_interface_stuff_bytes (picolanInterface* self,
-                                             GeeArrayList* bytes);
-static void picolan_interface_write_byte_array (picolanInterface* self,
-                                         GeeArrayList* buf,
-                                         GError** error);
+static GList* picolan_interface_stuff_bytes (picolanInterface* self,
+                                      GList* bytes);
+static void picolan_interface_write_list (picolanInterface* self,
+                                   GList* bytes);
 static void ___lambda4__picolan_parser_on_ping (picolanParser* _sender,
                                          guint8 src,
                                          guint8 dest,
                                          guint8 p1,
                                          guint8 p2,
                                          gpointer self);
-static void __lambda6_ (picolanInterface* self);
+static void __lambda5_ (picolanInterface* self);
 void picolan_interface_set_address (picolanInterface* self,
                                     guint8 addr,
                                     GError** error);
-static void ___lambda6__picolan_parser_on_get_addr_list (picolanParser* _sender,
+static void ___lambda5__picolan_parser_on_get_addr_list (picolanParser* _sender,
                                                   gpointer self);
-static void __lambda7_ (picolanInterface* self,
+static void __lambda6_ (picolanInterface* self,
                  guint8 src,
                  guint8 dest,
                  guint8 port,
-                 GeeArrayList* payload);
-static void ___lambda7__picolan_parser_on_datagram (picolanParser* _sender,
+                 GList* payload);
+static void ___lambda6__picolan_parser_on_datagram (picolanParser* _sender,
                                              guint8 src,
                                              guint8 dest,
                                              guint8 port,
-                                             GeeArrayList* payload,
+                                             GList* payload,
                                              gpointer self);
-static gboolean __lambda8_ (picolanInterface* self);
-static gboolean ___lambda8__gsource_func (gpointer self);
+static gboolean __lambda7_ (picolanInterface* self);
+static gboolean ___lambda7__gsource_func (gpointer self);
 gboolean picolan_interface_attach_socket (picolanInterface* self,
                                           picolanSocket* s);
 static Block1Data* block1_data_ref (Block1Data* _data1_);
 static void block1_data_unref (void * _userdata_);
-guint8 picolan_socket_get_port (picolanSocket* self);
-static void ___lambda9_ (Block1Data* _data1_);
-static void ____lambda9__picolan_socket_on_destroy (picolanSocket* _sender,
+static void ___lambda8_ (Block1Data* _data1_);
+static void ____lambda8__picolan_socket_on_destroy (picolanSocket* _sender,
                                              gpointer self);
 gboolean picolan_interface_open (picolanInterface* self,
                                  const gchar* port_name,
@@ -345,8 +366,8 @@ guint8* picolan_address_field_get_bytes (picolanAddressField* self,
                                          gint* result_length1);
 void picolan_interface_send_datagram (picolanInterface* self,
                                       guint8 dest,
-                                      guint8 port,
-                                      GeeArrayList* data,
+                                      guint8 port_num,
+                                      GList* data,
                                       GError** error);
 static void picolan_interface_ping_data_free (gpointer _data);
 static void picolan_interface_ping_async_ready_wrapper (GObject *source_object,
@@ -364,45 +385,39 @@ static gboolean picolan_interface_ping_co (PicolanInterfacePingData* _data_);
 static Block2Data* block2_data_ref (Block2Data* _data2_);
 static void block2_data_unref (void * _userdata_);
 static gboolean _picolan_interface_ping_co_gsource_func (gpointer self);
-static void __lambda10_ (Block2Data* _data2_,
-                  guint8 src,
-                  guint8 dest,
-                  guint8 p1,
-                  guint8 p2);
-static void ___lambda10__picolan_parser_on_ping_echo (picolanParser* _sender,
-                                               guint8 src,
-                                               guint8 dest,
-                                               guint8 p1,
-                                               guint8 p2,
-                                               gpointer self);
-static gboolean __lambda11_ (Block2Data* _data2_);
-static gboolean ___lambda11__gsource_func (gpointer self);
+static void __lambda9_ (Block2Data* _data2_,
+                 guint8 src,
+                 guint8 dest,
+                 guint8 p1,
+                 guint8 p2);
+static void ___lambda9__picolan_parser_on_ping_echo (picolanParser* _sender,
+                                              guint8 src,
+                                              guint8 dest,
+                                              guint8 p1,
+                                              guint8 p2,
+                                              gpointer self);
+static gboolean __lambda10_ (Block2Data* _data2_);
+static gboolean ___lambda10__gsource_func (gpointer self);
 void picolan_interface_subscribe (picolanInterface* self,
-                                  guint8 port,
+                                  guint8 port_num,
                                   GError** error);
 void picolan_interface_unsubscribe (picolanInterface* self,
-                                    guint8 port,
+                                    guint8 port_num,
                                     GError** error);
-static Block3Data* block3_data_ref (Block3Data* _data3_);
-static void block3_data_unref (void * _userdata_);
-static gboolean __lambda5_ (Block3Data* _data3_,
-                     guint8 item);
-static gboolean ___lambda5__gee_forall_func (gpointer g,
-                                      gpointer self);
 static void picolan_interface_finalize (GObject * obj);
 gint _vala_main (void);
+static Block3Data* block3_data_ref (Block3Data* _data3_);
+static void block3_data_unref (void * _userdata_);
+GType picolan_datagram_get_type (void) G_GNUC_CONST;
 static Block4Data* block4_data_ref (Block4Data* _data4_);
 static void block4_data_unref (void * _userdata_);
-GType picolan_datagram_get_type (void) G_GNUC_CONST;
-static Block5Data* block5_data_ref (Block5Data* _data5_);
-static void block5_data_unref (void * _userdata_);
-static void ___lambda16_ (void);
-static void ____lambda16__picolan_interface_on_close (picolanInterface* _sender,
+static void ___lambda15_ (void);
+static void ____lambda15__picolan_interface_on_close (picolanInterface* _sender,
                                                gpointer self);
-static void ___lambda17_ (Block5Data* _data5_,
+static void ___lambda16_ (Block4Data* _data4_,
                    GObject* obj,
                    GAsyncResult* res);
-static void ____lambda17__gasync_ready_callback (GObject* source_object,
+static void ____lambda16__gasync_ready_callback (GObject* source_object,
                                           GAsyncResult* res,
                                           gpointer self);
 picolanDatagram* picolan_datagram_new (guint8 _port);
@@ -410,17 +425,17 @@ picolanDatagram* picolan_datagram_construct (GType object_type,
                                              guint8 _port);
 void picolan_socket_bind (picolanSocket* self,
                           picolanInterface* iface);
-static void ___lambda18_ (GeeArrayList* data);
-static void ____lambda18__picolan_socket_on_data (picolanSocket* _sender,
-                                           GeeArrayList* data,
+static void ___lambda17_ (GList* data);
+static void ____lambda17__picolan_socket_on_data (picolanSocket* _sender,
+                                           GList* data,
                                            gpointer self);
-static gboolean ___lambda19_ (Block5Data* _data5_);
+static gboolean ___lambda18_ (Block4Data* _data4_);
 void picolan_datagram_send_string (picolanDatagram* self,
                                    guint8 dest,
                                    guint8 port,
                                    const gchar* str,
                                    GError** error);
-static gboolean ____lambda19__gsource_func (gpointer self);
+static gboolean ____lambda18__gsource_func (gpointer self);
 
 GType
 picolan_packet_get_type (void)
@@ -449,14 +464,13 @@ picolan_state_get_type (void)
 }
 
 void
-picolan_make_checksum (GeeArrayList* bytes,
+picolan_make_checksum (GList* bytes,
                        gint* sum1,
                        gint* sum2)
 {
 	gint _vala_sum1 = 0;
 	gint _vala_sum2 = 0;
 	gint index = 0;
-	g_return_if_fail (bytes != NULL);
 	index = 0;
 	_vala_sum2 = 0;
 	_vala_sum1 = _vala_sum2;
@@ -465,22 +479,18 @@ picolan_make_checksum (GeeArrayList* bytes,
 		index = 0;
 		_tmp0_ = TRUE;
 		while (TRUE) {
-			gint _tmp2_;
-			gint _tmp3_;
-			gpointer _tmp4_;
+			gconstpointer _tmp2_;
 			if (!_tmp0_) {
 				gint _tmp1_;
 				_tmp1_ = index;
 				index = _tmp1_ + 1;
 			}
 			_tmp0_ = FALSE;
-			_tmp2_ = gee_abstract_collection_get_size ((GeeAbstractCollection*) bytes);
-			_tmp3_ = _tmp2_;
-			if (!(index < _tmp3_)) {
+			if (!(((guint) index) < g_list_length (bytes))) {
 				break;
 			}
-			_tmp4_ = gee_abstract_list_get ((GeeAbstractList*) bytes, index);
-			_vala_sum1 = (_vala_sum1 + ((guint8) ((guintptr) _tmp4_))) % 255;
+			_tmp2_ = g_list_nth_data (bytes, (guint) index);
+			_vala_sum1 = (_vala_sum1 + ((guint8) ((guintptr) _tmp2_))) % 255;
 			_vala_sum2 = (_vala_sum2 + _vala_sum1) % 255;
 		}
 	}
@@ -493,6 +503,145 @@ picolan_make_checksum (GeeArrayList* bytes,
 }
 
 static inline gpointer
+picolan_port_map_get_instance_private (picolanPortMap* self)
+{
+	return G_STRUCT_MEMBER_P (self, picolanPortMap_private_offset);
+}
+
+static void
+_g_object_unref0_ (gpointer var)
+{
+	(var == NULL) ? NULL : (var = (g_object_unref (var), NULL));
+}
+
+static inline void
+_g_list_free__g_object_unref0_ (GList* self)
+{
+	g_list_free_full (self, (GDestroyNotify) _g_object_unref0_);
+}
+
+picolanPortMap*
+picolan_port_map_construct (GType object_type)
+{
+	picolanPortMap * self = NULL;
+	self = (picolanPortMap*) g_object_new (object_type, NULL);
+	(self->priv->map == NULL) ? NULL : (self->priv->map = (_g_list_free__g_object_unref0_ (self->priv->map), NULL));
+	self->priv->map = NULL;
+	return self;
+}
+
+picolanPortMap*
+picolan_port_map_new (void)
+{
+	return picolan_port_map_construct (PICOLAN_TYPE_PORT_MAP);
+}
+
+static gpointer
+_g_object_ref0 (gpointer self)
+{
+	return self ? g_object_ref (self) : NULL;
+}
+
+void
+picolan_port_map_add (picolanPortMap* self,
+                      picolanSocket* socket)
+{
+	picolanSocket* _tmp0_;
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (socket != NULL);
+	_tmp0_ = _g_object_ref0 (socket);
+	self->priv->map = g_list_append (self->priv->map, _tmp0_);
+}
+
+void
+picolan_port_map_remove (picolanPortMap* self,
+                         picolanSocket* socket)
+{
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (socket != NULL);
+	self->priv->map = g_list_remove (self->priv->map, socket);
+}
+
+gboolean
+picolan_port_map_contains (picolanPortMap* self,
+                           picolanSocket* socket)
+{
+	gboolean result = FALSE;
+	g_return_val_if_fail (self != NULL, FALSE);
+	g_return_val_if_fail (socket != NULL, FALSE);
+	{
+		gint i = 0;
+		i = 0;
+		{
+			gboolean _tmp0_ = FALSE;
+			_tmp0_ = TRUE;
+			while (TRUE) {
+				GList* _tmp2_;
+				GList* _tmp3_;
+				gconstpointer _tmp4_;
+				if (!_tmp0_) {
+					gint _tmp1_;
+					_tmp1_ = i;
+					i = _tmp1_ + 1;
+				}
+				_tmp0_ = FALSE;
+				_tmp2_ = self->priv->map;
+				if (!(((guint) i) < g_list_length (_tmp2_))) {
+					break;
+				}
+				_tmp3_ = self->priv->map;
+				_tmp4_ = g_list_nth_data (_tmp3_, (guint) i);
+				if (picolan_socket_get_port ((picolanSocket*) _tmp4_) == picolan_socket_get_port (socket)) {
+					result = TRUE;
+					return result;
+				}
+			}
+		}
+	}
+	result = FALSE;
+	return result;
+}
+
+static void
+picolan_port_map_class_init (picolanPortMapClass * klass,
+                             gpointer klass_data)
+{
+	picolan_port_map_parent_class = g_type_class_peek_parent (klass);
+	g_type_class_adjust_private_offset (klass, &picolanPortMap_private_offset);
+	G_OBJECT_CLASS (klass)->finalize = picolan_port_map_finalize;
+}
+
+static void
+picolan_port_map_instance_init (picolanPortMap * self,
+                                gpointer klass)
+{
+	self->priv = picolan_port_map_get_instance_private (self);
+}
+
+static void
+picolan_port_map_finalize (GObject * obj)
+{
+	picolanPortMap * self;
+	self = G_TYPE_CHECK_INSTANCE_CAST (obj, PICOLAN_TYPE_PORT_MAP, picolanPortMap);
+	(self->priv->map == NULL) ? NULL : (self->priv->map = (_g_list_free__g_object_unref0_ (self->priv->map), NULL));
+	G_OBJECT_CLASS (picolan_port_map_parent_class)->finalize (obj);
+}
+
+GType
+picolan_port_map_get_type (void)
+{
+	static volatile gsize picolan_port_map_type_id__volatile = 0;
+	if (g_once_init_enter (&picolan_port_map_type_id__volatile)) {
+		static const GTypeInfo g_define_type_info = { sizeof (picolanPortMapClass), (GBaseInitFunc) NULL, (GBaseFinalizeFunc) NULL, (GClassInitFunc) picolan_port_map_class_init, (GClassFinalizeFunc) NULL, NULL, sizeof (picolanPortMap), 0, (GInstanceInitFunc) picolan_port_map_instance_init, NULL };
+		GType picolan_port_map_type_id;
+		picolan_port_map_type_id = g_type_register_static (G_TYPE_OBJECT, "picolanPortMap", &g_define_type_info, 0);
+		picolanPortMap_private_offset = g_type_add_instance_private (picolan_port_map_type_id, sizeof (picolanPortMapPrivate));
+		g_once_init_leave (&picolan_port_map_type_id__volatile, picolan_port_map_type_id);
+	}
+	return picolan_port_map_type_id__volatile;
+}
+
+static inline gpointer
 picolan_parser_get_instance_private (picolanParser* self)
 {
 	return G_STRUCT_MEMBER_P (self, picolanParser_private_offset);
@@ -502,11 +651,9 @@ picolanParser*
 picolan_parser_construct (GType object_type)
 {
 	picolanParser * self = NULL;
-	GeeArrayList* _tmp0_;
 	self = (picolanParser*) g_object_new (object_type, NULL);
-	_tmp0_ = gee_array_list_new (G_TYPE_UCHAR, NULL, NULL, NULL, NULL, NULL);
-	_g_object_unref0 (self->priv->data);
-	self->priv->data = _tmp0_;
+	(self->priv->data == NULL) ? NULL : (self->priv->data = (g_list_free (self->priv->data), NULL));
+	self->priv->data = NULL;
 	return self;
 }
 
@@ -548,56 +695,40 @@ picolan_parser_read (picolanParser* self,
 			case PICOLAN_STATE_START:
 			{
 				if (((gint) b) == 0xAB) {
-					GeeArrayList* _tmp3_;
 					self->priv->state = PICOLAN_STATE_ID;
-					_tmp3_ = gee_array_list_new (G_TYPE_UCHAR, NULL, NULL, NULL, NULL, NULL);
-					_g_object_unref0 (self->priv->data);
-					self->priv->data = _tmp3_;
+					(self->priv->data == NULL) ? NULL : (self->priv->data = (g_list_free (self->priv->data), NULL));
+					self->priv->data = NULL;
 				}
 				break;
 			}
 			case PICOLAN_STATE_ID:
 			{
-				GeeArrayList* _tmp4_;
 				self->priv->id = b;
 				self->priv->state = PICOLAN_STATE_SIZE;
-				_tmp4_ = self->priv->data;
-				gee_abstract_collection_add ((GeeAbstractCollection*) _tmp4_, (gpointer) ((guintptr) b));
+				self->priv->data = g_list_append (self->priv->data, (gpointer) ((guintptr) b));
 				break;
 			}
 			case PICOLAN_STATE_SIZE:
 			{
-				GeeArrayList* _tmp5_;
 				self->priv->size = b;
 				self->priv->state = PICOLAN_STATE_DATA;
-				_tmp5_ = self->priv->data;
-				gee_abstract_collection_add ((GeeAbstractCollection*) _tmp5_, (gpointer) ((guintptr) b));
+				self->priv->data = g_list_append (self->priv->data, (gpointer) ((guintptr) b));
 				break;
 			}
 			case PICOLAN_STATE_DATA:
 			{
-				GeeArrayList* _tmp6_;
-				gboolean _tmp7_ = FALSE;
-				GeeArrayList* _tmp8_;
-				gint _tmp9_;
-				gint _tmp10_;
-				_tmp6_ = self->priv->data;
-				gee_abstract_collection_add ((GeeAbstractCollection*) _tmp6_, (gpointer) ((guintptr) b));
-				_tmp8_ = self->priv->data;
-				_tmp9_ = gee_abstract_collection_get_size ((GeeAbstractCollection*) _tmp8_);
-				_tmp10_ = _tmp9_;
-				if ((_tmp10_ - 2) >= ((gint) self->priv->size)) {
-					_tmp7_ = TRUE;
+				gboolean _tmp3_ = FALSE;
+				GList* _tmp4_;
+				self->priv->data = g_list_append (self->priv->data, (gpointer) ((guintptr) b));
+				_tmp4_ = self->priv->data;
+				if ((g_list_length (_tmp4_) - 2) >= ((guint) self->priv->size)) {
+					_tmp3_ = TRUE;
 				} else {
-					GeeArrayList* _tmp11_;
-					gint _tmp12_;
-					gint _tmp13_;
-					_tmp11_ = self->priv->data;
-					_tmp12_ = gee_abstract_collection_get_size ((GeeAbstractCollection*) _tmp11_);
-					_tmp13_ = _tmp12_;
-					_tmp7_ = _tmp13_ >= 255;
+					GList* _tmp5_;
+					_tmp5_ = self->priv->data;
+					_tmp3_ = g_list_length (_tmp5_) >= ((guint) 255);
 				}
-				if (_tmp7_) {
+				if (_tmp3_) {
 					self->priv->state = PICOLAN_STATE_CHECK1;
 				}
 				break;
@@ -612,28 +743,32 @@ picolan_parser_read (picolanParser* self,
 			{
 				gint cs1 = 0;
 				gint cs2 = 0;
-				GeeArrayList* _tmp14_;
-				gint _tmp15_ = 0;
-				gint _tmp16_ = 0;
-				gboolean _tmp17_ = FALSE;
+				GList* _tmp6_;
+				gint _tmp7_ = 0;
+				gint _tmp8_ = 0;
+				gboolean _tmp9_ = FALSE;
 				self->priv->check2 = b;
 				self->priv->state = PICOLAN_STATE_START;
-				_tmp14_ = self->priv->data;
-				picolan_make_checksum (_tmp14_, &_tmp15_, &_tmp16_);
-				cs1 = _tmp15_;
-				cs2 = _tmp16_;
+				_tmp6_ = self->priv->data;
+				picolan_make_checksum (_tmp6_, &_tmp7_, &_tmp8_);
+				cs1 = _tmp7_;
+				cs2 = _tmp8_;
 				if (cs1 == ((gint) self->priv->check1)) {
-					_tmp17_ = cs2 == ((gint) self->priv->check2);
+					_tmp9_ = cs2 == ((gint) self->priv->check2);
 				} else {
-					_tmp17_ = FALSE;
+					_tmp9_ = FALSE;
 				}
-				if (_tmp17_) {
-					GeeArrayList* _tmp18_;
-					GeeArrayList* _tmp19_;
-					_tmp18_ = self->priv->data;
-					gee_abstract_list_remove_at ((GeeAbstractList*) _tmp18_, 0);
-					_tmp19_ = self->priv->data;
-					gee_abstract_list_remove_at ((GeeAbstractList*) _tmp19_, 0);
+				if (_tmp9_) {
+					GList* _tmp10_;
+					GList* _tmp11_;
+					GList* _tmp12_;
+					GList* _tmp13_;
+					_tmp10_ = self->priv->data;
+					_tmp11_ = g_list_nth (_tmp10_, (guint) 0);
+					self->priv->data = g_list_delete_link (self->priv->data, _tmp11_);
+					_tmp12_ = self->priv->data;
+					_tmp13_ = g_list_nth (_tmp12_, (guint) 0);
+					self->priv->data = g_list_delete_link (self->priv->data, _tmp13_);
 					picolan_parser_parse_packet (self);
 				}
 				break;
@@ -651,43 +786,43 @@ picolan_parser_parse_packet (picolanParser* self)
 	switch (self->priv->id) {
 		case PICOLAN_PACKET_PING_ECHO:
 		{
-			GeeArrayList* _tmp0_;
-			gpointer _tmp1_;
-			GeeArrayList* _tmp2_;
-			gpointer _tmp3_;
-			GeeArrayList* _tmp4_;
-			gpointer _tmp5_;
-			GeeArrayList* _tmp6_;
-			gpointer _tmp7_;
+			GList* _tmp0_;
+			gconstpointer _tmp1_;
+			GList* _tmp2_;
+			gconstpointer _tmp3_;
+			GList* _tmp4_;
+			gconstpointer _tmp5_;
+			GList* _tmp6_;
+			gconstpointer _tmp7_;
 			_tmp0_ = self->priv->data;
-			_tmp1_ = gee_abstract_list_get ((GeeAbstractList*) _tmp0_, 1);
+			_tmp1_ = g_list_nth_data (_tmp0_, (guint) 1);
 			_tmp2_ = self->priv->data;
-			_tmp3_ = gee_abstract_list_get ((GeeAbstractList*) _tmp2_, 2);
+			_tmp3_ = g_list_nth_data (_tmp2_, (guint) 2);
 			_tmp4_ = self->priv->data;
-			_tmp5_ = gee_abstract_list_get ((GeeAbstractList*) _tmp4_, 3);
+			_tmp5_ = g_list_nth_data (_tmp4_, (guint) 3);
 			_tmp6_ = self->priv->data;
-			_tmp7_ = gee_abstract_list_get ((GeeAbstractList*) _tmp6_, 4);
+			_tmp7_ = g_list_nth_data (_tmp6_, (guint) 4);
 			g_signal_emit (self, picolan_parser_signals[PICOLAN_PARSER_ON_PING_ECHO_SIGNAL], 0, (guint8) ((guintptr) _tmp1_), (guint8) ((guintptr) _tmp3_), (guint8) ((guintptr) _tmp5_), (guint8) ((guintptr) _tmp7_));
 			break;
 		}
 		case PICOLAN_PACKET_PING:
 		{
-			GeeArrayList* _tmp8_;
-			gpointer _tmp9_;
-			GeeArrayList* _tmp10_;
-			gpointer _tmp11_;
-			GeeArrayList* _tmp12_;
-			gpointer _tmp13_;
-			GeeArrayList* _tmp14_;
-			gpointer _tmp15_;
+			GList* _tmp8_;
+			gconstpointer _tmp9_;
+			GList* _tmp10_;
+			gconstpointer _tmp11_;
+			GList* _tmp12_;
+			gconstpointer _tmp13_;
+			GList* _tmp14_;
+			gconstpointer _tmp15_;
 			_tmp8_ = self->priv->data;
-			_tmp9_ = gee_abstract_list_get ((GeeAbstractList*) _tmp8_, 1);
+			_tmp9_ = g_list_nth_data (_tmp8_, (guint) 1);
 			_tmp10_ = self->priv->data;
-			_tmp11_ = gee_abstract_list_get ((GeeAbstractList*) _tmp10_, 2);
+			_tmp11_ = g_list_nth_data (_tmp10_, (guint) 2);
 			_tmp12_ = self->priv->data;
-			_tmp13_ = gee_abstract_list_get ((GeeAbstractList*) _tmp12_, 3);
+			_tmp13_ = g_list_nth_data (_tmp12_, (guint) 3);
 			_tmp14_ = self->priv->data;
-			_tmp15_ = gee_abstract_list_get ((GeeAbstractList*) _tmp14_, 4);
+			_tmp15_ = g_list_nth_data (_tmp14_, (guint) 4);
 			g_signal_emit (self, picolan_parser_signals[PICOLAN_PARSER_ON_PING_SIGNAL], 0, (guint8) ((guintptr) _tmp9_), (guint8) ((guintptr) _tmp11_), (guint8) ((guintptr) _tmp13_), (guint8) ((guintptr) _tmp15_));
 			break;
 		}
@@ -698,58 +833,50 @@ picolan_parser_parse_packet (picolanParser* self)
 		}
 		case PICOLAN_PACKET_DATAGRAM:
 		{
-			GeeArrayList* payload = NULL;
-			GeeArrayList* _tmp16_;
-			GeeArrayList* _tmp25_;
-			gpointer _tmp26_;
-			GeeArrayList* _tmp27_;
-			gpointer _tmp28_;
-			GeeArrayList* _tmp29_;
-			gpointer _tmp30_;
-			GeeArrayList* _tmp31_;
-			_tmp16_ = gee_array_list_new (G_TYPE_UCHAR, NULL, NULL, NULL, NULL, NULL);
-			payload = _tmp16_;
+			GList* payload = NULL;
+			GList* _tmp21_;
+			gconstpointer _tmp22_;
+			GList* _tmp23_;
+			gconstpointer _tmp24_;
+			GList* _tmp25_;
+			gconstpointer _tmp26_;
+			GList* _tmp27_;
+			payload = NULL;
 			{
 				gint i = 0;
 				i = 4;
 				{
-					gboolean _tmp17_ = FALSE;
-					_tmp17_ = TRUE;
+					gboolean _tmp16_ = FALSE;
+					_tmp16_ = TRUE;
 					while (TRUE) {
-						GeeArrayList* _tmp19_;
-						gint _tmp20_;
-						gint _tmp21_;
-						GeeArrayList* _tmp22_;
-						GeeArrayList* _tmp23_;
-						gpointer _tmp24_;
-						if (!_tmp17_) {
-							gint _tmp18_;
-							_tmp18_ = i;
-							i = _tmp18_ + 1;
+						GList* _tmp18_;
+						GList* _tmp19_;
+						gconstpointer _tmp20_;
+						if (!_tmp16_) {
+							gint _tmp17_;
+							_tmp17_ = i;
+							i = _tmp17_ + 1;
 						}
-						_tmp17_ = FALSE;
-						_tmp19_ = self->priv->data;
-						_tmp20_ = gee_abstract_collection_get_size ((GeeAbstractCollection*) _tmp19_);
-						_tmp21_ = _tmp20_;
-						if (!(i < _tmp21_)) {
+						_tmp16_ = FALSE;
+						_tmp18_ = self->priv->data;
+						if (!(((guint) i) < g_list_length (_tmp18_))) {
 							break;
 						}
-						_tmp22_ = payload;
-						_tmp23_ = self->priv->data;
-						_tmp24_ = gee_abstract_list_get ((GeeAbstractList*) _tmp23_, i);
-						gee_abstract_collection_add ((GeeAbstractCollection*) _tmp22_, (gpointer) ((guintptr) ((guint8) ((guintptr) _tmp24_))));
+						_tmp19_ = self->priv->data;
+						_tmp20_ = g_list_nth_data (_tmp19_, (guint) i);
+						payload = g_list_append (payload, (gpointer) ((guintptr) ((guint8) ((guintptr) _tmp20_))));
 					}
 				}
 			}
+			_tmp21_ = self->priv->data;
+			_tmp22_ = g_list_nth_data (_tmp21_, (guint) 1);
+			_tmp23_ = self->priv->data;
+			_tmp24_ = g_list_nth_data (_tmp23_, (guint) 2);
 			_tmp25_ = self->priv->data;
-			_tmp26_ = gee_abstract_list_get ((GeeAbstractList*) _tmp25_, 1);
-			_tmp27_ = self->priv->data;
-			_tmp28_ = gee_abstract_list_get ((GeeAbstractList*) _tmp27_, 2);
-			_tmp29_ = self->priv->data;
-			_tmp30_ = gee_abstract_list_get ((GeeAbstractList*) _tmp29_, 3);
-			_tmp31_ = payload;
-			g_signal_emit (self, picolan_parser_signals[PICOLAN_PARSER_ON_DATAGRAM_SIGNAL], 0, (guint8) ((guintptr) _tmp26_), (guint8) ((guintptr) _tmp28_), (guint8) ((guintptr) _tmp30_), _tmp31_);
-			_g_object_unref0 (payload);
+			_tmp26_ = g_list_nth_data (_tmp25_, (guint) 3);
+			_tmp27_ = payload;
+			g_signal_emit (self, picolan_parser_signals[PICOLAN_PARSER_ON_DATAGRAM_SIGNAL], 0, (guint8) ((guintptr) _tmp22_), (guint8) ((guintptr) _tmp24_), (guint8) ((guintptr) _tmp26_), _tmp27_);
+			(payload == NULL) ? NULL : (payload = (g_list_free (payload), NULL));
 			break;
 		}
 		default:
@@ -784,15 +911,15 @@ g_cclosure_user_marshal_VOID__UCHAR_UCHAR_UCHAR_UCHAR (GClosure * closure,
 }
 
 static void
-g_cclosure_user_marshal_VOID__UCHAR_UCHAR_UCHAR_OBJECT (GClosure * closure,
-                                                        GValue * return_value,
-                                                        guint n_param_values,
-                                                        const GValue * param_values,
-                                                        gpointer invocation_hint,
-                                                        gpointer marshal_data)
+g_cclosure_user_marshal_VOID__UCHAR_UCHAR_UCHAR_POINTER (GClosure * closure,
+                                                         GValue * return_value,
+                                                         guint n_param_values,
+                                                         const GValue * param_values,
+                                                         gpointer invocation_hint,
+                                                         gpointer marshal_data)
 {
-	typedef void (*GMarshalFunc_VOID__UCHAR_UCHAR_UCHAR_OBJECT) (gpointer data1, guint8 arg_1, guint8 arg_2, guint8 arg_3, gpointer arg_4, gpointer data2);
-	register GMarshalFunc_VOID__UCHAR_UCHAR_UCHAR_OBJECT callback;
+	typedef void (*GMarshalFunc_VOID__UCHAR_UCHAR_UCHAR_POINTER) (gpointer data1, guint8 arg_1, guint8 arg_2, guint8 arg_3, gpointer arg_4, gpointer data2);
+	register GMarshalFunc_VOID__UCHAR_UCHAR_UCHAR_POINTER callback;
 	register GCClosure * cc;
 	register gpointer data1;
 	register gpointer data2;
@@ -805,8 +932,8 @@ g_cclosure_user_marshal_VOID__UCHAR_UCHAR_UCHAR_OBJECT (GClosure * closure,
 		data1 = param_values->data[0].v_pointer;
 		data2 = closure->data;
 	}
-	callback = (GMarshalFunc_VOID__UCHAR_UCHAR_UCHAR_OBJECT) (marshal_data ? marshal_data : cc->callback);
-	callback (data1, g_value_get_uchar (param_values + 1), g_value_get_uchar (param_values + 2), g_value_get_uchar (param_values + 3), g_value_get_object (param_values + 4), data2);
+	callback = (GMarshalFunc_VOID__UCHAR_UCHAR_UCHAR_POINTER) (marshal_data ? marshal_data : cc->callback);
+	callback (data1, g_value_get_uchar (param_values + 1), g_value_get_uchar (param_values + 2), g_value_get_uchar (param_values + 3), g_value_get_pointer (param_values + 4), data2);
 }
 
 static void
@@ -820,7 +947,7 @@ picolan_parser_class_init (picolanParserClass * klass,
 	picolan_parser_signals[PICOLAN_PARSER_ON_ADDR_SIGNAL] = g_signal_new ("on-addr", PICOLAN_TYPE_PARSER, G_SIGNAL_RUN_LAST, 0, NULL, NULL, g_cclosure_marshal_VOID__UCHAR, G_TYPE_NONE, 1, G_TYPE_UCHAR);
 	picolan_parser_signals[PICOLAN_PARSER_ON_PING_SIGNAL] = g_signal_new ("on-ping", PICOLAN_TYPE_PARSER, G_SIGNAL_RUN_LAST, 0, NULL, NULL, g_cclosure_user_marshal_VOID__UCHAR_UCHAR_UCHAR_UCHAR, G_TYPE_NONE, 4, G_TYPE_UCHAR, G_TYPE_UCHAR, G_TYPE_UCHAR, G_TYPE_UCHAR);
 	picolan_parser_signals[PICOLAN_PARSER_ON_PING_ECHO_SIGNAL] = g_signal_new ("on-ping-echo", PICOLAN_TYPE_PARSER, G_SIGNAL_RUN_LAST, 0, NULL, NULL, g_cclosure_user_marshal_VOID__UCHAR_UCHAR_UCHAR_UCHAR, G_TYPE_NONE, 4, G_TYPE_UCHAR, G_TYPE_UCHAR, G_TYPE_UCHAR, G_TYPE_UCHAR);
-	picolan_parser_signals[PICOLAN_PARSER_ON_DATAGRAM_SIGNAL] = g_signal_new ("on-datagram", PICOLAN_TYPE_PARSER, G_SIGNAL_RUN_LAST, 0, NULL, NULL, g_cclosure_user_marshal_VOID__UCHAR_UCHAR_UCHAR_OBJECT, G_TYPE_NONE, 4, G_TYPE_UCHAR, G_TYPE_UCHAR, G_TYPE_UCHAR, GEE_TYPE_ARRAY_LIST);
+	picolan_parser_signals[PICOLAN_PARSER_ON_DATAGRAM_SIGNAL] = g_signal_new ("on-datagram", PICOLAN_TYPE_PARSER, G_SIGNAL_RUN_LAST, 0, NULL, NULL, g_cclosure_user_marshal_VOID__UCHAR_UCHAR_UCHAR_POINTER, G_TYPE_NONE, 4, G_TYPE_UCHAR, G_TYPE_UCHAR, G_TYPE_UCHAR, G_TYPE_POINTER);
 }
 
 static void
@@ -836,7 +963,7 @@ picolan_parser_finalize (GObject * obj)
 {
 	picolanParser * self;
 	self = G_TYPE_CHECK_INSTANCE_CAST (obj, PICOLAN_TYPE_PARSER, picolanParser);
-	_g_object_unref0 (self->priv->data);
+	(self->priv->data == NULL) ? NULL : (self->priv->data = (g_list_free (self->priv->data), NULL));
 	G_OBJECT_CLASS (picolan_parser_parent_class)->finalize (obj);
 }
 
@@ -873,93 +1000,66 @@ __lambda4_ (picolanInterface* self,
             guint8 p1,
             guint8 p2)
 {
-	GeeArrayList* msg = NULL;
-	GeeArrayList* _tmp0_;
-	GeeArrayList* _tmp1_;
-	GeeArrayList* _tmp2_;
-	GeeArrayList* _tmp3_;
-	GeeArrayList* _tmp4_;
-	GeeArrayList* _tmp5_;
-	GeeArrayList* _tmp6_;
-	GeeArrayList* _tmp7_;
+	GList* msg = NULL;
 	gint cs1 = 0;
 	gint cs2 = 0;
-	GeeArrayList* _tmp8_;
-	gint _tmp9_ = 0;
-	gint _tmp10_ = 0;
-	GeeArrayList* _tmp11_;
-	GeeArrayList* _tmp12_;
-	GeeArrayList* _tmp13_;
-	GeeArrayList* _tmp14_;
-	GeeArrayList* _tmp15_;
-	GeeArrayList* _tmp16_;
+	GList* _tmp0_;
+	gint _tmp1_ = 0;
+	gint _tmp2_ = 0;
+	GList* _tmp3_;
+	GList* _tmp4_;
 	GError* _inner_error0_ = NULL;
-	_tmp0_ = gee_array_list_new (G_TYPE_UCHAR, NULL, NULL, NULL, NULL, NULL);
-	msg = _tmp0_;
-	_tmp1_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp1_, (gpointer) ((guintptr) ((guint8) PICOLAN_PACKET_PING_ECHO)));
-	_tmp2_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp2_, (gpointer) ((guintptr) ((guint8) 5)));
+	msg = NULL;
+	msg = g_list_append (msg, (gpointer) ((guintptr) ((guint8) PICOLAN_PACKET_PING_ECHO)));
+	msg = g_list_append (msg, (gpointer) ((guintptr) ((guint8) 5)));
+	msg = g_list_append (msg, (gpointer) ((guintptr) self->ttl));
+	msg = g_list_append (msg, (gpointer) ((guintptr) self->priv->address));
+	msg = g_list_append (msg, (gpointer) ((guintptr) src));
+	msg = g_list_append (msg, (gpointer) ((guintptr) p1));
+	msg = g_list_append (msg, (gpointer) ((guintptr) p2));
+	_tmp0_ = msg;
+	picolan_make_checksum (_tmp0_, &_tmp1_, &_tmp2_);
+	cs1 = _tmp1_;
+	cs2 = _tmp2_;
+	msg = g_list_append (msg, (gpointer) ((guintptr) ((guint8) cs1)));
+	msg = g_list_append (msg, (gpointer) ((guintptr) ((guint8) cs2)));
 	_tmp3_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp3_, (gpointer) ((guintptr) self->ttl));
-	_tmp4_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp4_, (gpointer) ((guintptr) self->priv->address));
-	_tmp5_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp5_, (gpointer) ((guintptr) src));
-	_tmp6_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp6_, (gpointer) ((guintptr) p1));
-	_tmp7_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp7_, (gpointer) ((guintptr) p2));
-	_tmp8_ = msg;
-	picolan_make_checksum (_tmp8_, &_tmp9_, &_tmp10_);
-	cs1 = _tmp9_;
-	cs2 = _tmp10_;
-	_tmp11_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp11_, (gpointer) ((guintptr) ((guint8) cs1)));
-	_tmp12_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp12_, (gpointer) ((guintptr) ((guint8) cs2)));
-	_tmp13_ = msg;
-	_tmp14_ = picolan_interface_stuff_bytes (self, _tmp13_);
-	_g_object_unref0 (msg);
-	msg = _tmp14_;
-	_tmp15_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp15_, (gpointer) ((guintptr) ((guint8) 0xAC)));
-	_tmp16_ = msg;
-	gee_abstract_list_insert ((GeeAbstractList*) _tmp16_, 0, (gpointer) ((guintptr) ((guint8) 0xAB)));
+	_tmp4_ = picolan_interface_stuff_bytes (self, _tmp3_);
+	(msg == NULL) ? NULL : (msg = (g_list_free (msg), NULL));
+	msg = _tmp4_;
+	msg = g_list_append (msg, (gpointer) ((guintptr) ((guint8) 0xAC)));
+	msg = g_list_insert (msg, (gpointer) ((guintptr) ((guint8) 0xAB)), 0);
 	{
-		GeeArrayList* _tmp17_;
-		_tmp17_ = msg;
-		picolan_interface_write_byte_array (self, _tmp17_, &_inner_error0_);
-		if (G_UNLIKELY (_inner_error0_ != NULL)) {
-			goto __catch2_g_error;
-		}
+		GList* _tmp5_;
+		_tmp5_ = msg;
+		picolan_interface_write_list (self, _tmp5_);
 	}
 	goto __finally2;
 	__catch2_g_error:
 	{
 		GError* _error_ = NULL;
-		FILE* _tmp18_;
-		FILE* _tmp19_;
-		GError* _tmp20_;
-		const gchar* _tmp21_;
+		FILE* _tmp6_;
+		FILE* _tmp7_;
+		GError* _tmp8_;
+		const gchar* _tmp9_;
 		_error_ = _inner_error0_;
 		_inner_error0_ = NULL;
-		_tmp18_ = stdout;
-		fprintf (_tmp18_, "Error while responding to a ping.\n");
-		_tmp19_ = stdout;
-		_tmp20_ = _error_;
-		_tmp21_ = _tmp20_->message;
-		fprintf (_tmp19_, "%s\n", _tmp21_);
+		_tmp6_ = stdout;
+		fprintf (_tmp6_, "Error while responding to a ping.\n");
+		_tmp7_ = stdout;
+		_tmp8_ = _error_;
+		_tmp9_ = _tmp8_->message;
+		fprintf (_tmp7_, "%s\n", _tmp9_);
 		_g_error_free0 (_error_);
 	}
 	__finally2:
 	if (G_UNLIKELY (_inner_error0_ != NULL)) {
-		_g_object_unref0 (msg);
+		(msg == NULL) ? NULL : (msg = (g_list_free (msg), NULL));
 		g_critical ("file %s: line %d: uncaught error: %s (%s, %d)", __FILE__, __LINE__, _inner_error0_->message, g_quark_to_string (_inner_error0_->domain), _inner_error0_->code);
 		g_clear_error (&_inner_error0_);
 		return;
 	}
-	_g_object_unref0 (msg);
+	(msg == NULL) ? NULL : (msg = (g_list_free (msg), NULL));
 }
 
 static void
@@ -974,7 +1074,7 @@ ___lambda4__picolan_parser_on_ping (picolanParser* _sender,
 }
 
 static void
-__lambda6_ (picolanInterface* self)
+__lambda5_ (picolanInterface* self)
 {
 	GError* _inner_error0_ = NULL;
 	{
@@ -1010,36 +1110,35 @@ __lambda6_ (picolanInterface* self)
 }
 
 static void
-___lambda6__picolan_parser_on_get_addr_list (picolanParser* _sender,
+___lambda5__picolan_parser_on_get_addr_list (picolanParser* _sender,
                                              gpointer self)
 {
-	__lambda6_ ((picolanInterface*) self);
+	__lambda5_ ((picolanInterface*) self);
 }
 
 static void
-__lambda7_ (picolanInterface* self,
+__lambda6_ (picolanInterface* self,
             guint8 src,
             guint8 dest,
             guint8 port,
-            GeeArrayList* payload)
+            GList* payload)
 {
-	g_return_if_fail (payload != NULL);
 	g_signal_emit (self, picolan_interface_signals[PICOLAN_INTERFACE_ON_DATAGRAM_SIGNAL], 0, src, dest, port, payload);
 }
 
 static void
-___lambda7__picolan_parser_on_datagram (picolanParser* _sender,
+___lambda6__picolan_parser_on_datagram (picolanParser* _sender,
                                         guint8 src,
                                         guint8 dest,
                                         guint8 port,
-                                        GeeArrayList* payload,
+                                        GList* payload,
                                         gpointer self)
 {
-	__lambda7_ ((picolanInterface*) self, src, dest, port, payload);
+	__lambda6_ ((picolanInterface*) self, src, dest, port, payload);
 }
 
 static gboolean
-__lambda8_ (picolanInterface* self)
+__lambda7_ (picolanInterface* self)
 {
 	gboolean result = FALSE;
 	gserialPort* _tmp0_;
@@ -1137,10 +1236,10 @@ __lambda8_ (picolanInterface* self)
 }
 
 static gboolean
-___lambda8__gsource_func (gpointer self)
+___lambda7__gsource_func (gpointer self)
 {
 	gboolean result;
-	result = __lambda8_ ((picolanInterface*) self);
+	result = __lambda7_ ((picolanInterface*) self);
 	return result;
 }
 
@@ -1149,7 +1248,7 @@ picolan_interface_construct (GType object_type)
 {
 	picolanInterface * self = NULL;
 	picolanParser* _tmp0_;
-	GeeHashMap* _tmp1_;
+	picolanPortMap* _tmp1_;
 	picolanParser* _tmp2_;
 	picolanParser* _tmp3_;
 	picolanParser* _tmp4_;
@@ -1157,16 +1256,16 @@ picolan_interface_construct (GType object_type)
 	_tmp0_ = picolan_parser_new ();
 	_g_object_unref0 (self->priv->parser);
 	self->priv->parser = _tmp0_;
-	_tmp1_ = gee_hash_map_new (G_TYPE_UCHAR, NULL, NULL, PICOLAN_TYPE_SOCKET, (GBoxedCopyFunc) g_object_ref, (GDestroyNotify) g_object_unref, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+	_tmp1_ = picolan_port_map_new ();
 	_g_object_unref0 (self->priv->port_map);
 	self->priv->port_map = _tmp1_;
 	_tmp2_ = self->priv->parser;
 	g_signal_connect_object (_tmp2_, "on-ping", (GCallback) ___lambda4__picolan_parser_on_ping, self, 0);
 	_tmp3_ = self->priv->parser;
-	g_signal_connect_object (_tmp3_, "on-get-addr-list", (GCallback) ___lambda6__picolan_parser_on_get_addr_list, self, 0);
+	g_signal_connect_object (_tmp3_, "on-get-addr-list", (GCallback) ___lambda5__picolan_parser_on_get_addr_list, self, 0);
 	_tmp4_ = self->priv->parser;
-	g_signal_connect_object (_tmp4_, "on-datagram", (GCallback) ___lambda7__picolan_parser_on_datagram, self, 0);
-	g_timeout_add_full (1, (guint) 10, ___lambda8__gsource_func, g_object_ref (self), g_object_unref);
+	g_signal_connect_object (_tmp4_, "on-datagram", (GCallback) ___lambda6__picolan_parser_on_datagram, self, 0);
+	g_timeout_add_full (1, (guint) 10, ___lambda7__gsource_func, g_object_ref (self), g_object_unref);
 	return self;
 }
 
@@ -1174,12 +1273,6 @@ picolanInterface*
 picolan_interface_new (void)
 {
 	return picolan_interface_construct (PICOLAN_TYPE_INTERFACE);
-}
-
-static gpointer
-_g_object_ref0 (gpointer self)
-{
-	return self ? g_object_ref (self) : NULL;
 }
 
 static Block1Data*
@@ -1204,20 +1297,20 @@ block1_data_unref (void * _userdata_)
 }
 
 static void
-___lambda9_ (Block1Data* _data1_)
+___lambda8_ (Block1Data* _data1_)
 {
 	picolanInterface* self;
-	GeeHashMap* _tmp0_;
+	picolanPortMap* _tmp0_;
 	self = _data1_->self;
 	_tmp0_ = self->priv->port_map;
-	gee_abstract_map_unset ((GeeAbstractMap*) _tmp0_, (gpointer) ((guintptr) picolan_socket_get_port (_data1_->s)), NULL);
+	picolan_port_map_remove (_tmp0_, _data1_->s);
 }
 
 static void
-____lambda9__picolan_socket_on_destroy (picolanSocket* _sender,
+____lambda8__picolan_socket_on_destroy (picolanSocket* _sender,
                                         gpointer self)
 {
-	___lambda9_ (self);
+	___lambda8_ (self);
 }
 
 gboolean
@@ -1227,7 +1320,7 @@ picolan_interface_attach_socket (picolanInterface* self,
 	gboolean result = FALSE;
 	Block1Data* _data1_;
 	picolanSocket* _tmp0_;
-	GeeHashMap* _tmp1_;
+	picolanPortMap* _tmp1_;
 	g_return_val_if_fail (self != NULL, FALSE);
 	g_return_val_if_fail (s != NULL, FALSE);
 	_data1_ = g_slice_new0 (Block1Data);
@@ -1237,11 +1330,11 @@ picolan_interface_attach_socket (picolanInterface* self,
 	_g_object_unref0 (_data1_->s);
 	_data1_->s = _tmp0_;
 	_tmp1_ = self->priv->port_map;
-	if (gee_abstract_map_has_key ((GeeAbstractMap*) _tmp1_, (gpointer) ((guintptr) picolan_socket_get_port (_data1_->s))) == FALSE) {
-		GeeHashMap* _tmp2_;
+	if (picolan_port_map_contains (_tmp1_, _data1_->s) == FALSE) {
+		picolanPortMap* _tmp2_;
 		_tmp2_ = self->priv->port_map;
-		gee_abstract_map_set ((GeeAbstractMap*) _tmp2_, (gpointer) ((guintptr) picolan_socket_get_port (_data1_->s)), _data1_->s);
-		g_signal_connect_data (_data1_->s, "on-destroy", (GCallback) ____lambda9__picolan_socket_on_destroy, block1_data_ref (_data1_), (GClosureNotify) block1_data_unref, 0);
+		picolan_port_map_add (_tmp2_, _data1_->s);
+		g_signal_connect_data (_data1_->s, "on-destroy", (GCallback) ____lambda8__picolan_socket_on_destroy, block1_data_ref (_data1_), (GClosureNotify) block1_data_unref, 0);
 		result = TRUE;
 		block1_data_unref (_data1_);
 		_data1_ = NULL;
@@ -1305,212 +1398,139 @@ picolan_interface_set_address (picolanInterface* self,
 	picolanAddressField* af = NULL;
 	picolanAddressField* _tmp0_;
 	picolanAddressField* _tmp1_;
-	GeeArrayList* msg = NULL;
-	GeeArrayList* _tmp2_;
-	GeeArrayList* _tmp3_;
-	GeeArrayList* _tmp4_;
-	GeeArrayList* _tmp5_;
+	GList* msg = NULL;
 	gint cs1 = 0;
 	gint cs2 = 0;
-	GeeArrayList* _tmp14_;
-	gint _tmp15_ = 0;
-	gint _tmp16_ = 0;
-	GeeArrayList* _tmp17_;
-	GeeArrayList* _tmp18_;
-	GeeArrayList* _tmp19_;
-	GeeArrayList* _tmp20_;
-	GeeArrayList* _tmp21_;
-	GeeArrayList* _tmp22_;
-	GeeArrayList* _tmp23_;
-	GError* _inner_error0_ = NULL;
+	GList* _tmp9_;
+	gint _tmp10_ = 0;
+	gint _tmp11_ = 0;
+	GList* _tmp12_;
+	GList* _tmp13_;
+	GList* _tmp14_;
 	g_return_if_fail (self != NULL);
 	self->priv->address = addr;
 	_tmp0_ = picolan_address_field_new ();
 	af = _tmp0_;
 	_tmp1_ = af;
 	picolan_address_field_set_address (_tmp1_, addr);
-	_tmp2_ = gee_array_list_new (G_TYPE_UCHAR, NULL, NULL, NULL, NULL, NULL);
-	msg = _tmp2_;
-	_tmp3_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp3_, (gpointer) ((guintptr) ((guint8) PICOLAN_PACKET_ADDR)));
-	_tmp4_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp4_, (gpointer) ((guintptr) ((guint8) 32)));
-	_tmp5_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp5_, (gpointer) ((guintptr) self->ttl));
+	msg = NULL;
+	msg = g_list_append (msg, (gpointer) ((guintptr) ((guint8) PICOLAN_PACKET_ADDR)));
+	msg = g_list_append (msg, (gpointer) ((guintptr) ((guint8) 32)));
+	msg = g_list_append (msg, (gpointer) ((guintptr) self->ttl));
 	{
 		gint i = 0;
 		i = 0;
 		{
-			gboolean _tmp6_ = FALSE;
-			_tmp6_ = TRUE;
+			gboolean _tmp2_ = FALSE;
+			_tmp2_ = TRUE;
 			while (TRUE) {
-				GeeArrayList* _tmp8_;
-				picolanAddressField* _tmp9_;
-				gint _tmp10_ = 0;
-				guint8* _tmp11_;
-				guint8* _tmp12_;
-				gint _tmp12__length1;
-				guint8 _tmp13_;
-				if (!_tmp6_) {
-					gint _tmp7_;
-					_tmp7_ = i;
-					i = _tmp7_ + 1;
+				picolanAddressField* _tmp4_;
+				gint _tmp5_ = 0;
+				guint8* _tmp6_;
+				guint8* _tmp7_;
+				gint _tmp7__length1;
+				guint8 _tmp8_;
+				if (!_tmp2_) {
+					gint _tmp3_;
+					_tmp3_ = i;
+					i = _tmp3_ + 1;
 				}
-				_tmp6_ = FALSE;
+				_tmp2_ = FALSE;
 				if (!(i < 32)) {
 					break;
 				}
-				_tmp8_ = msg;
-				_tmp9_ = af;
-				_tmp11_ = picolan_address_field_get_bytes (_tmp9_, &_tmp10_);
-				_tmp12_ = _tmp11_;
-				_tmp12__length1 = _tmp10_;
-				_tmp13_ = _tmp12_[i];
-				gee_abstract_collection_add ((GeeAbstractCollection*) _tmp8_, (gpointer) ((guintptr) _tmp13_));
-				_tmp12_ = (g_free (_tmp12_), NULL);
+				_tmp4_ = af;
+				_tmp6_ = picolan_address_field_get_bytes (_tmp4_, &_tmp5_);
+				_tmp7_ = _tmp6_;
+				_tmp7__length1 = _tmp5_;
+				_tmp8_ = _tmp7_[i];
+				msg = g_list_append (msg, (gpointer) ((guintptr) _tmp8_));
+				_tmp7_ = (g_free (_tmp7_), NULL);
 			}
 		}
 	}
+	_tmp9_ = msg;
+	picolan_make_checksum (_tmp9_, &_tmp10_, &_tmp11_);
+	cs1 = _tmp10_;
+	cs2 = _tmp11_;
+	msg = g_list_append (msg, (gpointer) ((guintptr) ((guint8) cs1)));
+	msg = g_list_append (msg, (gpointer) ((guintptr) ((guint8) cs2)));
+	_tmp12_ = msg;
+	_tmp13_ = picolan_interface_stuff_bytes (self, _tmp12_);
+	(msg == NULL) ? NULL : (msg = (g_list_free (msg), NULL));
+	msg = _tmp13_;
+	msg = g_list_append (msg, (gpointer) ((guintptr) ((guint8) 0xAC)));
+	msg = g_list_insert (msg, (gpointer) ((guintptr) ((guint8) 0xAB)), 0);
 	_tmp14_ = msg;
-	picolan_make_checksum (_tmp14_, &_tmp15_, &_tmp16_);
-	cs1 = _tmp15_;
-	cs2 = _tmp16_;
-	_tmp17_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp17_, (gpointer) ((guintptr) ((guint8) cs1)));
-	_tmp18_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp18_, (gpointer) ((guintptr) ((guint8) cs2)));
-	_tmp19_ = msg;
-	_tmp20_ = picolan_interface_stuff_bytes (self, _tmp19_);
-	_g_object_unref0 (msg);
-	msg = _tmp20_;
-	_tmp21_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp21_, (gpointer) ((guintptr) ((guint8) 0xAC)));
-	_tmp22_ = msg;
-	gee_abstract_list_insert ((GeeAbstractList*) _tmp22_, 0, (gpointer) ((guintptr) ((guint8) 0xAB)));
-	_tmp23_ = msg;
-	picolan_interface_write_byte_array (self, _tmp23_, &_inner_error0_);
-	if (G_UNLIKELY (_inner_error0_ != NULL)) {
-		g_propagate_error (error, _inner_error0_);
-		_g_object_unref0 (msg);
-		_picolan_address_field_unref0 (af);
-		return;
-	}
-	_g_object_unref0 (msg);
+	picolan_interface_write_list (self, _tmp14_);
+	(msg == NULL) ? NULL : (msg = (g_list_free (msg), NULL));
 	_picolan_address_field_unref0 (af);
 }
 
 void
 picolan_interface_send_datagram (picolanInterface* self,
                                  guint8 dest,
-                                 guint8 port,
-                                 GeeArrayList* data,
+                                 guint8 port_num,
+                                 GList* data,
                                  GError** error)
 {
-	gint _tmp0_;
-	gint _tmp1_;
-	GeeArrayList* msg = NULL;
-	GeeArrayList* _tmp3_;
-	GeeArrayList* _tmp4_;
-	GeeArrayList* _tmp5_;
-	gint _tmp6_;
-	gint _tmp7_;
-	GeeArrayList* _tmp8_;
-	GeeArrayList* _tmp9_;
-	GeeArrayList* _tmp10_;
-	GeeArrayList* _tmp11_;
-	GeeArrayList* _tmp12_;
-	gint _tmp13_;
-	gint _tmp14_;
+	GList* msg = NULL;
 	gint cs1 = 0;
 	gint cs2 = 0;
-	GeeArrayList* _tmp21_;
-	gint _tmp22_ = 0;
-	gint _tmp23_ = 0;
-	GeeArrayList* _tmp24_;
-	GeeArrayList* _tmp25_;
-	GeeArrayList* _tmp26_;
-	GeeArrayList* _tmp27_;
-	GeeArrayList* _tmp28_;
+	GList* _tmp4_;
+	gint _tmp5_ = 0;
+	gint _tmp6_ = 0;
+	GList* _tmp7_;
 	GError* _inner_error0_ = NULL;
 	g_return_if_fail (self != NULL);
-	g_return_if_fail (data != NULL);
-	_tmp0_ = gee_abstract_collection_get_size ((GeeAbstractCollection*) data);
-	_tmp1_ = _tmp0_;
-	if (_tmp1_ >= 250) {
-		GError* _tmp2_;
-		_tmp2_ = g_error_new_literal (PICOLAN_PICOLAN_ERROR, PICOLAN_PICOLAN_ERROR_PAYLOAD_TOO_BIG, "Payload size is greater than the maximum of 250 bytes");
-		_inner_error0_ = _tmp2_;
+	if (g_list_length (data) >= ((guint) 250)) {
+		GError* _tmp0_;
+		_tmp0_ = g_error_new_literal (PICOLAN_PICOLAN_ERROR, PICOLAN_PICOLAN_ERROR_PAYLOAD_TOO_BIG, "Payload size is greater than the maximum of 250 bytes");
+		_inner_error0_ = _tmp0_;
 		g_propagate_error (error, _inner_error0_);
 		return;
 	}
-	_tmp3_ = gee_array_list_new (G_TYPE_UCHAR, NULL, NULL, NULL, NULL, NULL);
-	msg = _tmp3_;
-	_tmp4_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp4_, (gpointer) ((guintptr) ((guint8) PICOLAN_PACKET_DATAGRAM)));
-	_tmp5_ = msg;
-	_tmp6_ = gee_abstract_collection_get_size ((GeeAbstractCollection*) data);
-	_tmp7_ = _tmp6_;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp5_, (gpointer) ((guintptr) ((guint8) (_tmp7_ + 5))));
-	_tmp8_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp8_, (gpointer) ((guintptr) self->ttl));
-	_tmp9_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp9_, (gpointer) ((guintptr) self->priv->address));
-	_tmp10_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp10_, (gpointer) ((guintptr) dest));
-	_tmp11_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp11_, (gpointer) ((guintptr) port));
-	_tmp12_ = msg;
-	_tmp13_ = gee_abstract_collection_get_size ((GeeAbstractCollection*) data);
-	_tmp14_ = _tmp13_;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp12_, (gpointer) ((guintptr) ((guint8) _tmp14_)));
+	msg = NULL;
+	msg = g_list_append (msg, (gpointer) ((guintptr) ((guint8) PICOLAN_PACKET_DATAGRAM)));
+	msg = g_list_append (msg, (gpointer) ((guintptr) ((guint8) (g_list_length (data) + 5))));
+	msg = g_list_append (msg, (gpointer) ((guintptr) self->ttl));
+	msg = g_list_append (msg, (gpointer) ((guintptr) self->priv->address));
+	msg = g_list_append (msg, (gpointer) ((guintptr) dest));
+	msg = g_list_append (msg, (gpointer) ((guintptr) port_num));
+	msg = g_list_append (msg, (gpointer) ((guintptr) ((guint8) g_list_length (data))));
 	{
 		gint i = 0;
 		i = 0;
 		{
-			gboolean _tmp15_ = FALSE;
-			_tmp15_ = TRUE;
+			gboolean _tmp1_ = FALSE;
+			_tmp1_ = TRUE;
 			while (TRUE) {
-				gint _tmp17_;
-				gint _tmp18_;
-				GeeArrayList* _tmp19_;
-				gpointer _tmp20_;
-				if (!_tmp15_) {
-					gint _tmp16_;
-					_tmp16_ = i;
-					i = _tmp16_ + 1;
+				gconstpointer _tmp3_;
+				if (!_tmp1_) {
+					gint _tmp2_;
+					_tmp2_ = i;
+					i = _tmp2_ + 1;
 				}
-				_tmp15_ = FALSE;
-				_tmp17_ = gee_abstract_collection_get_size ((GeeAbstractCollection*) data);
-				_tmp18_ = _tmp17_;
-				if (!(i < _tmp18_)) {
+				_tmp1_ = FALSE;
+				if (!(((guint) i) < g_list_length (data))) {
 					break;
 				}
-				_tmp19_ = msg;
-				_tmp20_ = gee_abstract_list_get ((GeeAbstractList*) data, i);
-				gee_abstract_collection_add ((GeeAbstractCollection*) _tmp19_, (gpointer) ((guintptr) ((guint8) ((guintptr) _tmp20_))));
+				_tmp3_ = g_list_nth_data (data, (guint) i);
+				msg = g_list_append (msg, (gpointer) ((guintptr) ((guint8) ((guintptr) _tmp3_))));
 			}
 		}
 	}
-	_tmp21_ = msg;
-	picolan_make_checksum (_tmp21_, &_tmp22_, &_tmp23_);
-	cs1 = _tmp22_;
-	cs2 = _tmp23_;
-	_tmp24_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp24_, (gpointer) ((guintptr) ((guint8) cs1)));
-	_tmp25_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp25_, (gpointer) ((guintptr) ((guint8) cs2)));
-	_tmp26_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp26_, (gpointer) ((guintptr) ((guint8) 0xAC)));
-	_tmp27_ = msg;
-	gee_abstract_list_insert ((GeeAbstractList*) _tmp27_, 0, (gpointer) ((guintptr) ((guint8) 0xAB)));
-	_tmp28_ = msg;
-	picolan_interface_write_byte_array (self, _tmp28_, &_inner_error0_);
-	if (G_UNLIKELY (_inner_error0_ != NULL)) {
-		g_propagate_error (error, _inner_error0_);
-		_g_object_unref0 (msg);
-		return;
-	}
-	_g_object_unref0 (msg);
+	_tmp4_ = msg;
+	picolan_make_checksum (_tmp4_, &_tmp5_, &_tmp6_);
+	cs1 = _tmp5_;
+	cs2 = _tmp6_;
+	msg = g_list_append (msg, (gpointer) ((guintptr) ((guint8) cs1)));
+	msg = g_list_append (msg, (gpointer) ((guintptr) ((guint8) cs2)));
+	msg = g_list_append (msg, (gpointer) ((guintptr) ((guint8) 0xAC)));
+	msg = g_list_insert (msg, (gpointer) ((guintptr) ((guint8) 0xAB)), 0);
+	_tmp7_ = msg;
+	picolan_interface_write_list (self, _tmp7_);
+	(msg == NULL) ? NULL : (msg = (g_list_free (msg), NULL));
 }
 
 static void
@@ -1608,11 +1628,11 @@ _picolan_interface_ping_co_gsource_func (gpointer self)
 }
 
 static void
-__lambda10_ (Block2Data* _data2_,
-             guint8 src,
-             guint8 dest,
-             guint8 p1,
-             guint8 p2)
+__lambda9_ (Block2Data* _data2_,
+            guint8 src,
+            guint8 dest,
+            guint8 p1,
+            guint8 p2)
 {
 	picolanInterface* self;
 	gboolean _tmp0_ = FALSE;
@@ -1647,18 +1667,18 @@ __lambda10_ (Block2Data* _data2_,
 }
 
 static void
-___lambda10__picolan_parser_on_ping_echo (picolanParser* _sender,
-                                          guint8 src,
-                                          guint8 dest,
-                                          guint8 p1,
-                                          guint8 p2,
-                                          gpointer self)
+___lambda9__picolan_parser_on_ping_echo (picolanParser* _sender,
+                                         guint8 src,
+                                         guint8 dest,
+                                         guint8 p1,
+                                         guint8 p2,
+                                         gpointer self)
 {
-	__lambda10_ (self, src, dest, p1, p2);
+	__lambda9_ (self, src, dest, p1, p2);
 }
 
 static gboolean
-__lambda11_ (Block2Data* _data2_)
+__lambda10_ (Block2Data* _data2_)
 {
 	picolanInterface* self;
 	gboolean result = FALSE;
@@ -1681,10 +1701,10 @@ __lambda11_ (Block2Data* _data2_)
 }
 
 static gboolean
-___lambda11__gsource_func (gpointer self)
+___lambda10__gsource_func (gpointer self)
 {
 	gboolean result;
-	result = __lambda11_ (self);
+	result = __lambda10_ (self);
 	return result;
 }
 
@@ -1715,59 +1735,39 @@ picolan_interface_ping_co (PicolanInterfacePingData* _data_)
 	_data_->_data2_->timeout_handle = (guint) 0;
 	_data_->_data2_->handle = (gulong) 0;
 	_data_->_tmp1_ = _data_->self->priv->parser;
-	_data_->_tmp2_ = g_signal_connect_data (_data_->_tmp1_, "on-ping-echo", (GCallback) ___lambda10__picolan_parser_on_ping_echo, block2_data_ref (_data_->_data2_), (GClosureNotify) block2_data_unref, 0);
+	_data_->_tmp2_ = g_signal_connect_data (_data_->_tmp1_, "on-ping-echo", (GCallback) ___lambda9__picolan_parser_on_ping_echo, block2_data_ref (_data_->_data2_), (GClosureNotify) block2_data_unref, 0);
 	_data_->_data2_->handle = _data_->_tmp2_;
-	_data_->_data2_->timeout_handle = g_timeout_add_full (G_PRIORITY_DEFAULT, _data_->timeout, ___lambda11__gsource_func, block2_data_ref (_data_->_data2_), block2_data_unref);
-	_data_->_tmp3_ = gee_array_list_new (G_TYPE_UCHAR, NULL, NULL, NULL, NULL, NULL);
-	_data_->msg = _data_->_tmp3_;
-	_data_->_tmp4_ = _data_->msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _data_->_tmp4_, (gpointer) ((guintptr) ((guint8) PICOLAN_PACKET_PING)));
-	_data_->_tmp5_ = _data_->msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _data_->_tmp5_, (gpointer) ((guintptr) ((guint8) 5)));
+	_data_->_data2_->timeout_handle = g_timeout_add_full (G_PRIORITY_DEFAULT, _data_->timeout, ___lambda10__gsource_func, block2_data_ref (_data_->_data2_), block2_data_unref);
+	_data_->msg = NULL;
+	_data_->msg = g_list_append (_data_->msg, (gpointer) ((guintptr) ((guint8) PICOLAN_PACKET_PING)));
+	_data_->msg = g_list_append (_data_->msg, (gpointer) ((guintptr) ((guint8) 5)));
+	_data_->msg = g_list_append (_data_->msg, (gpointer) ((guintptr) _data_->self->ttl));
+	_data_->msg = g_list_append (_data_->msg, (gpointer) ((guintptr) _data_->self->priv->address));
+	_data_->msg = g_list_append (_data_->msg, (gpointer) ((guintptr) _data_->addr));
+	_data_->msg = g_list_append (_data_->msg, (gpointer) ((guintptr) _data_->_data2_->payload1));
+	_data_->msg = g_list_append (_data_->msg, (gpointer) ((guintptr) _data_->_data2_->payload2));
+	_data_->_tmp3_ = _data_->msg;
+	_data_->_tmp4_ = 0;
+	_data_->_tmp5_ = 0;
+	picolan_make_checksum (_data_->_tmp3_, &_data_->_tmp4_, &_data_->_tmp5_);
+	_data_->cs1 = _data_->_tmp4_;
+	_data_->cs2 = _data_->_tmp5_;
+	_data_->msg = g_list_append (_data_->msg, (gpointer) ((guintptr) ((guint8) _data_->cs1)));
+	_data_->msg = g_list_append (_data_->msg, (gpointer) ((guintptr) ((guint8) _data_->cs2)));
 	_data_->_tmp6_ = _data_->msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _data_->_tmp6_, (gpointer) ((guintptr) _data_->self->ttl));
-	_data_->_tmp7_ = _data_->msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _data_->_tmp7_, (gpointer) ((guintptr) _data_->self->priv->address));
+	_data_->_tmp7_ = picolan_interface_stuff_bytes (_data_->self, _data_->_tmp6_);
+	(_data_->msg == NULL) ? NULL : (_data_->msg = (g_list_free (_data_->msg), NULL));
+	_data_->msg = _data_->_tmp7_;
+	_data_->msg = g_list_append (_data_->msg, (gpointer) ((guintptr) ((guint8) 0xAC)));
+	_data_->msg = g_list_insert (_data_->msg, (gpointer) ((guintptr) ((guint8) 0xAB)), 0);
 	_data_->_tmp8_ = _data_->msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _data_->_tmp8_, (gpointer) ((guintptr) _data_->addr));
-	_data_->_tmp9_ = _data_->msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _data_->_tmp9_, (gpointer) ((guintptr) _data_->_data2_->payload1));
-	_data_->_tmp10_ = _data_->msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _data_->_tmp10_, (gpointer) ((guintptr) _data_->_data2_->payload2));
-	_data_->_tmp11_ = _data_->msg;
-	_data_->_tmp12_ = 0;
-	_data_->_tmp13_ = 0;
-	picolan_make_checksum (_data_->_tmp11_, &_data_->_tmp12_, &_data_->_tmp13_);
-	_data_->cs1 = _data_->_tmp12_;
-	_data_->cs2 = _data_->_tmp13_;
-	_data_->_tmp14_ = _data_->msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _data_->_tmp14_, (gpointer) ((guintptr) ((guint8) _data_->cs1)));
-	_data_->_tmp15_ = _data_->msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _data_->_tmp15_, (gpointer) ((guintptr) ((guint8) _data_->cs2)));
-	_data_->_tmp16_ = _data_->msg;
-	_data_->_tmp17_ = picolan_interface_stuff_bytes (_data_->self, _data_->_tmp16_);
-	_g_object_unref0 (_data_->msg);
-	_data_->msg = _data_->_tmp17_;
-	_data_->_tmp18_ = _data_->msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _data_->_tmp18_, (gpointer) ((guintptr) ((guint8) 0xAC)));
-	_data_->_tmp19_ = _data_->msg;
-	gee_abstract_list_insert ((GeeAbstractList*) _data_->_tmp19_, 0, (gpointer) ((guintptr) ((guint8) 0xAB)));
-	_data_->_tmp20_ = _data_->msg;
-	picolan_interface_write_byte_array (_data_->self, _data_->_tmp20_, &_data_->_inner_error0_);
-	if (G_UNLIKELY (_data_->_inner_error0_ != NULL)) {
-		g_task_return_error (_data_->_async_result, _data_->_inner_error0_);
-		_g_object_unref0 (_data_->msg);
-		block2_data_unref (_data_->_data2_);
-		_data_->_data2_ = NULL;
-		g_object_unref (_data_->_async_result);
-		return FALSE;
-	}
+	picolan_interface_write_list (_data_->self, _data_->_tmp8_);
 	_data_->_state_ = 1;
 	return FALSE;
 	_state_1:
 	;
 	_data_->result = _data_->_data2_->ping_time;
-	_g_object_unref0 (_data_->msg);
+	(_data_->msg == NULL) ? NULL : (_data_->msg = (g_list_free (_data_->msg), NULL));
 	block2_data_unref (_data_->_data2_);
 	_data_->_data2_ = NULL;
 	g_task_return_pointer (_data_->_async_result, _data_, NULL);
@@ -1782,204 +1782,127 @@ picolan_interface_ping_co (PicolanInterfacePingData* _data_)
 
 void
 picolan_interface_subscribe (picolanInterface* self,
-                             guint8 port,
+                             guint8 port_num,
                              GError** error)
 {
-	GeeArrayList* msg = NULL;
-	GeeArrayList* _tmp0_;
-	GeeArrayList* _tmp1_;
-	GeeArrayList* _tmp2_;
-	GeeArrayList* _tmp3_;
-	GeeArrayList* _tmp4_;
-	GeeArrayList* _tmp5_;
-	GeeArrayList* _tmp6_;
+	GList* msg = NULL;
 	gint cs1 = 0;
 	gint cs2 = 0;
-	GeeArrayList* _tmp7_;
-	gint _tmp8_ = 0;
-	gint _tmp9_ = 0;
-	GeeArrayList* _tmp10_;
-	GeeArrayList* _tmp11_;
-	GeeArrayList* _tmp12_;
-	GeeArrayList* _tmp13_;
-	GeeArrayList* _tmp14_;
-	GeeArrayList* _tmp15_;
-	GeeArrayList* _tmp16_;
-	GError* _inner_error0_ = NULL;
+	GList* _tmp0_;
+	gint _tmp1_ = 0;
+	gint _tmp2_ = 0;
+	GList* _tmp3_;
+	GList* _tmp4_;
+	GList* _tmp5_;
 	g_return_if_fail (self != NULL);
-	_tmp0_ = gee_array_list_new (G_TYPE_UCHAR, NULL, NULL, NULL, NULL, NULL);
-	msg = _tmp0_;
-	_tmp1_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp1_, (gpointer) ((guintptr) ((guint8) PICOLAN_PACKET_SUBSCRIBE)));
-	_tmp2_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp2_, (gpointer) ((guintptr) ((guint8) 4)));
+	msg = NULL;
+	msg = g_list_append (msg, (gpointer) ((guintptr) ((guint8) PICOLAN_PACKET_SUBSCRIBE)));
+	msg = g_list_append (msg, (gpointer) ((guintptr) ((guint8) 4)));
+	msg = g_list_append (msg, (gpointer) ((guintptr) self->ttl));
+	msg = g_list_append (msg, (gpointer) ((guintptr) port_num));
+	msg = g_list_append (msg, (gpointer) ((guintptr) self->priv->address));
+	msg = g_list_append (msg, (gpointer) ((guintptr) ((guint8) 1)));
+	_tmp0_ = msg;
+	picolan_make_checksum (_tmp0_, &_tmp1_, &_tmp2_);
+	cs1 = _tmp1_;
+	cs2 = _tmp2_;
+	msg = g_list_append (msg, (gpointer) ((guintptr) ((guint8) cs1)));
+	msg = g_list_append (msg, (gpointer) ((guintptr) ((guint8) cs2)));
 	_tmp3_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp3_, (gpointer) ((guintptr) self->ttl));
-	_tmp4_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp4_, (gpointer) ((guintptr) port));
+	_tmp4_ = picolan_interface_stuff_bytes (self, _tmp3_);
+	(msg == NULL) ? NULL : (msg = (g_list_free (msg), NULL));
+	msg = _tmp4_;
+	msg = g_list_append (msg, (gpointer) ((guintptr) ((guint8) 0xAC)));
+	msg = g_list_insert (msg, (gpointer) ((guintptr) ((guint8) 0xAB)), 0);
 	_tmp5_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp5_, (gpointer) ((guintptr) self->priv->address));
-	_tmp6_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp6_, (gpointer) ((guintptr) ((guint8) 1)));
-	_tmp7_ = msg;
-	picolan_make_checksum (_tmp7_, &_tmp8_, &_tmp9_);
-	cs1 = _tmp8_;
-	cs2 = _tmp9_;
-	_tmp10_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp10_, (gpointer) ((guintptr) ((guint8) cs1)));
-	_tmp11_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp11_, (gpointer) ((guintptr) ((guint8) cs2)));
-	_tmp12_ = msg;
-	_tmp13_ = picolan_interface_stuff_bytes (self, _tmp12_);
-	_g_object_unref0 (msg);
-	msg = _tmp13_;
-	_tmp14_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp14_, (gpointer) ((guintptr) ((guint8) 0xAC)));
-	_tmp15_ = msg;
-	gee_abstract_list_insert ((GeeAbstractList*) _tmp15_, 0, (gpointer) ((guintptr) ((guint8) 0xAB)));
-	_tmp16_ = msg;
-	picolan_interface_write_byte_array (self, _tmp16_, &_inner_error0_);
-	if (G_UNLIKELY (_inner_error0_ != NULL)) {
-		g_propagate_error (error, _inner_error0_);
-		_g_object_unref0 (msg);
-		return;
-	}
-	_g_object_unref0 (msg);
+	picolan_interface_write_list (self, _tmp5_);
+	(msg == NULL) ? NULL : (msg = (g_list_free (msg), NULL));
 }
 
 void
 picolan_interface_unsubscribe (picolanInterface* self,
-                               guint8 port,
+                               guint8 port_num,
                                GError** error)
 {
-	GeeArrayList* msg = NULL;
-	GeeArrayList* _tmp0_;
-	GeeArrayList* _tmp1_;
-	GeeArrayList* _tmp2_;
-	GeeArrayList* _tmp3_;
-	GeeArrayList* _tmp4_;
-	GeeArrayList* _tmp5_;
-	GeeArrayList* _tmp6_;
+	GList* msg = NULL;
 	gint cs1 = 0;
 	gint cs2 = 0;
-	GeeArrayList* _tmp7_;
-	gint _tmp8_ = 0;
-	gint _tmp9_ = 0;
-	GeeArrayList* _tmp10_;
-	GeeArrayList* _tmp11_;
-	GeeArrayList* _tmp12_;
-	GeeArrayList* _tmp13_;
-	GeeArrayList* _tmp14_;
-	GeeArrayList* _tmp15_;
-	GeeArrayList* _tmp16_;
-	GError* _inner_error0_ = NULL;
+	GList* _tmp0_;
+	gint _tmp1_ = 0;
+	gint _tmp2_ = 0;
+	GList* _tmp3_;
+	GList* _tmp4_;
+	GList* _tmp5_;
 	g_return_if_fail (self != NULL);
-	_tmp0_ = gee_array_list_new (G_TYPE_UCHAR, NULL, NULL, NULL, NULL, NULL);
-	msg = _tmp0_;
-	_tmp1_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp1_, (gpointer) ((guintptr) ((guint8) PICOLAN_PACKET_SUBSCRIBE)));
-	_tmp2_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp2_, (gpointer) ((guintptr) ((guint8) 4)));
+	msg = NULL;
+	msg = g_list_append (msg, (gpointer) ((guintptr) ((guint8) PICOLAN_PACKET_SUBSCRIBE)));
+	msg = g_list_append (msg, (gpointer) ((guintptr) ((guint8) 4)));
+	msg = g_list_append (msg, (gpointer) ((guintptr) self->ttl));
+	msg = g_list_append (msg, (gpointer) ((guintptr) port_num));
+	msg = g_list_append (msg, (gpointer) ((guintptr) self->priv->address));
+	msg = g_list_append (msg, (gpointer) ((guintptr) ((guint8) 0)));
+	_tmp0_ = msg;
+	picolan_make_checksum (_tmp0_, &_tmp1_, &_tmp2_);
+	cs1 = _tmp1_;
+	cs2 = _tmp2_;
+	msg = g_list_append (msg, (gpointer) ((guintptr) ((guint8) cs1)));
+	msg = g_list_append (msg, (gpointer) ((guintptr) ((guint8) cs2)));
 	_tmp3_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp3_, (gpointer) ((guintptr) self->ttl));
-	_tmp4_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp4_, (gpointer) ((guintptr) port));
+	_tmp4_ = picolan_interface_stuff_bytes (self, _tmp3_);
+	(msg == NULL) ? NULL : (msg = (g_list_free (msg), NULL));
+	msg = _tmp4_;
+	msg = g_list_append (msg, (gpointer) ((guintptr) ((guint8) 0xAC)));
+	msg = g_list_insert (msg, (gpointer) ((guintptr) ((guint8) 0xAB)), 0);
 	_tmp5_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp5_, (gpointer) ((guintptr) self->priv->address));
-	_tmp6_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp6_, (gpointer) ((guintptr) ((guint8) 0)));
-	_tmp7_ = msg;
-	picolan_make_checksum (_tmp7_, &_tmp8_, &_tmp9_);
-	cs1 = _tmp8_;
-	cs2 = _tmp9_;
-	_tmp10_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp10_, (gpointer) ((guintptr) ((guint8) cs1)));
-	_tmp11_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp11_, (gpointer) ((guintptr) ((guint8) cs2)));
-	_tmp12_ = msg;
-	_tmp13_ = picolan_interface_stuff_bytes (self, _tmp12_);
-	_g_object_unref0 (msg);
-	msg = _tmp13_;
-	_tmp14_ = msg;
-	gee_abstract_collection_add ((GeeAbstractCollection*) _tmp14_, (gpointer) ((guintptr) ((guint8) 0xAC)));
-	_tmp15_ = msg;
-	gee_abstract_list_insert ((GeeAbstractList*) _tmp15_, 0, (gpointer) ((guintptr) ((guint8) 0xAB)));
-	_tmp16_ = msg;
-	picolan_interface_write_byte_array (self, _tmp16_, &_inner_error0_);
-	if (G_UNLIKELY (_inner_error0_ != NULL)) {
-		g_propagate_error (error, _inner_error0_);
-		_g_object_unref0 (msg);
-		return;
-	}
-	_g_object_unref0 (msg);
+	picolan_interface_write_list (self, _tmp5_);
+	(msg == NULL) ? NULL : (msg = (g_list_free (msg), NULL));
 }
 
-static GeeArrayList*
+static GList*
 picolan_interface_stuff_bytes (picolanInterface* self,
-                               GeeArrayList* bytes)
+                               GList* bytes)
 {
-	GeeArrayList* result = NULL;
-	GeeArrayList* ret = NULL;
-	GeeArrayList* _tmp0_;
+	GList* result = NULL;
+	GList* ret = NULL;
 	g_return_val_if_fail (self != NULL, NULL);
-	g_return_val_if_fail (bytes != NULL, NULL);
-	_tmp0_ = gee_array_list_new (G_TYPE_UCHAR, NULL, NULL, NULL, NULL, NULL);
-	ret = _tmp0_;
+	ret = NULL;
 	{
 		gint i = 0;
 		i = 0;
 		{
-			gboolean _tmp1_ = FALSE;
-			_tmp1_ = TRUE;
+			gboolean _tmp0_ = FALSE;
+			_tmp0_ = TRUE;
 			while (TRUE) {
-				gint _tmp3_;
-				gint _tmp4_;
-				gpointer _tmp5_;
-				if (!_tmp1_) {
-					gint _tmp2_;
-					_tmp2_ = i;
-					i = _tmp2_ + 1;
+				gconstpointer _tmp2_;
+				if (!_tmp0_) {
+					gint _tmp1_;
+					_tmp1_ = i;
+					i = _tmp1_ + 1;
 				}
-				_tmp1_ = FALSE;
-				_tmp3_ = gee_abstract_collection_get_size ((GeeAbstractCollection*) bytes);
-				_tmp4_ = _tmp3_;
-				if (!(i < _tmp4_)) {
+				_tmp0_ = FALSE;
+				if (!(((guint) i) < g_list_length (bytes))) {
 					break;
 				}
-				_tmp5_ = gee_abstract_list_get ((GeeAbstractList*) bytes, i);
-				if (((gint) ((guint8) ((guintptr) _tmp5_))) == 0xAA) {
-					GeeArrayList* _tmp6_;
-					GeeArrayList* _tmp7_;
-					_tmp6_ = ret;
-					gee_abstract_collection_add ((GeeAbstractCollection*) _tmp6_, (gpointer) ((guintptr) ((guint8) 0xAA)));
-					_tmp7_ = ret;
-					gee_abstract_collection_add ((GeeAbstractCollection*) _tmp7_, (gpointer) ((guintptr) ((guint8) 0xAA)));
+				_tmp2_ = g_list_nth_data (bytes, (guint) i);
+				if (((gint) ((guint8) ((guintptr) _tmp2_))) == 0xAA) {
+					ret = g_list_append (ret, (gpointer) ((guintptr) ((guint8) 0xAA)));
+					ret = g_list_append (ret, (gpointer) ((guintptr) ((guint8) 0xAA)));
 				} else {
-					gpointer _tmp8_;
-					_tmp8_ = gee_abstract_list_get ((GeeAbstractList*) bytes, i);
-					if (((gint) ((guint8) ((guintptr) _tmp8_))) == 0xAB) {
-						GeeArrayList* _tmp9_;
-						GeeArrayList* _tmp10_;
-						_tmp9_ = ret;
-						gee_abstract_collection_add ((GeeAbstractCollection*) _tmp9_, (gpointer) ((guintptr) ((guint8) 0xAA)));
-						_tmp10_ = ret;
-						gee_abstract_collection_add ((GeeAbstractCollection*) _tmp10_, (gpointer) ((guintptr) ((guint8) 0xAB)));
+					gconstpointer _tmp3_;
+					_tmp3_ = g_list_nth_data (bytes, (guint) i);
+					if (((gint) ((guint8) ((guintptr) _tmp3_))) == 0xAB) {
+						ret = g_list_append (ret, (gpointer) ((guintptr) ((guint8) 0xAA)));
+						ret = g_list_append (ret, (gpointer) ((guintptr) ((guint8) 0xAB)));
 					} else {
-						gpointer _tmp11_;
-						_tmp11_ = gee_abstract_list_get ((GeeAbstractList*) bytes, i);
-						if (((gint) ((guint8) ((guintptr) _tmp11_))) == 0xAC) {
-							GeeArrayList* _tmp12_;
-							GeeArrayList* _tmp13_;
-							_tmp12_ = ret;
-							gee_abstract_collection_add ((GeeAbstractCollection*) _tmp12_, (gpointer) ((guintptr) ((guint8) 0xAA)));
-							_tmp13_ = ret;
-							gee_abstract_collection_add ((GeeAbstractCollection*) _tmp13_, (gpointer) ((guintptr) ((guint8) 0xAC)));
+						gconstpointer _tmp4_;
+						_tmp4_ = g_list_nth_data (bytes, (guint) i);
+						if (((gint) ((guint8) ((guintptr) _tmp4_))) == 0xAC) {
+							ret = g_list_append (ret, (gpointer) ((guintptr) ((guint8) 0xAA)));
+							ret = g_list_append (ret, (gpointer) ((guintptr) ((guint8) 0xAC)));
 						} else {
-							GeeArrayList* _tmp14_;
-							gpointer _tmp15_;
-							_tmp14_ = ret;
-							_tmp15_ = gee_abstract_list_get ((GeeAbstractList*) bytes, i);
-							gee_abstract_collection_add ((GeeAbstractCollection*) _tmp14_, (gpointer) ((guintptr) ((guint8) ((guintptr) _tmp15_))));
+							gconstpointer _tmp5_;
+							_tmp5_ = g_list_nth_data (bytes, (guint) i);
+							ret = g_list_append (ret, (gpointer) ((guintptr) ((guint8) ((guintptr) _tmp5_))));
 						}
 					}
 				}
@@ -1990,77 +1913,52 @@ picolan_interface_stuff_bytes (picolanInterface* self,
 	return result;
 }
 
-static Block3Data*
-block3_data_ref (Block3Data* _data3_)
-{
-	g_atomic_int_inc (&_data3_->_ref_count_);
-	return _data3_;
-}
-
 static void
-block3_data_unref (void * _userdata_)
+picolan_interface_write_list (picolanInterface* self,
+                              GList* bytes)
 {
-	Block3Data* _data3_;
-	_data3_ = (Block3Data*) _userdata_;
-	if (g_atomic_int_dec_and_test (&_data3_->_ref_count_)) {
-		picolanInterface* self;
-		self = _data3_->self;
-		_g_array_unref0 (_data3_->arr);
-		_g_object_unref0 (self);
-		g_slice_free (Block3Data, _data3_);
-	}
-}
-
-static gboolean
-__lambda5_ (Block3Data* _data3_,
-            guint8 item)
-{
-	picolanInterface* self;
-	gboolean result = FALSE;
-	gchar c = '\0';
-	self = _data3_->self;
-	c = (gchar) item;
-	g_array_append_val (_data3_->arr, c);
-	result = TRUE;
-	return result;
-}
-
-static gboolean
-___lambda5__gee_forall_func (gpointer g,
-                             gpointer self)
-{
-	gboolean result;
-	result = __lambda5_ (self, (guint8) ((guintptr) g));
-	return result;
-}
-
-static void
-picolan_interface_write_byte_array (picolanInterface* self,
-                                    GeeArrayList* buf,
-                                    GError** error)
-{
-	Block3Data* _data3_;
+	GArray* b = NULL;
 	GArray* _tmp0_;
-	gserialPort* _tmp1_;
+	gserialPort* _tmp5_;
+	GArray* _tmp6_;
 	GError* _inner_error0_ = NULL;
 	g_return_if_fail (self != NULL);
-	g_return_if_fail (buf != NULL);
-	_data3_ = g_slice_new0 (Block3Data);
-	_data3_->_ref_count_ = 1;
-	_data3_->self = g_object_ref (self);
 	_tmp0_ = g_array_new (TRUE, TRUE, sizeof (gchar));
-	_data3_->arr = _tmp0_;
-	gee_abstract_collection_foreach ((GeeAbstractCollection*) buf, ___lambda5__gee_forall_func, _data3_);
-	_tmp1_ = self->priv->port;
-	gserial_port_write (_tmp1_, _data3_->arr, &_inner_error0_);
+	b = _tmp0_;
+	{
+		gint i = 0;
+		i = 0;
+		{
+			gboolean _tmp1_ = FALSE;
+			_tmp1_ = TRUE;
+			while (TRUE) {
+				GArray* _tmp3_;
+				gconstpointer _tmp4_;
+				if (!_tmp1_) {
+					gint _tmp2_;
+					_tmp2_ = i;
+					i = _tmp2_ + 1;
+				}
+				_tmp1_ = FALSE;
+				if (!(((guint) i) < g_list_length (bytes))) {
+					break;
+				}
+				_tmp3_ = b;
+				_tmp4_ = g_list_nth_data (bytes, (guint) i);
+				g_array_append_val (_tmp3_, (gchar) ((guint8) ((guintptr) _tmp4_)));
+			}
+		}
+	}
+	_tmp5_ = self->priv->port;
+	_tmp6_ = b;
+	gserial_port_write (_tmp5_, _tmp6_, &_inner_error0_);
 	if (G_UNLIKELY (_inner_error0_ != NULL)) {
-		g_propagate_error (error, _inner_error0_);
-		block3_data_unref (_data3_);
-		_data3_ = NULL;
+		_g_array_unref0 (b);
+		g_critical ("file %s: line %d: uncaught error: %s (%s, %d)", __FILE__, __LINE__, _inner_error0_->message, g_quark_to_string (_inner_error0_->domain), _inner_error0_->code);
+		g_clear_error (&_inner_error0_);
 		return;
 	}
-	block3_data_unref (_data3_);
-	_data3_ = NULL;
+	_g_array_unref0 (b);
 }
 
 static void
@@ -2071,7 +1969,7 @@ picolan_interface_class_init (picolanInterfaceClass * klass,
 	g_type_class_adjust_private_offset (klass, &picolanInterface_private_offset);
 	G_OBJECT_CLASS (klass)->finalize = picolan_interface_finalize;
 	picolan_interface_signals[PICOLAN_INTERFACE_ON_CLOSE_SIGNAL] = g_signal_new ("on-close", PICOLAN_TYPE_INTERFACE, G_SIGNAL_RUN_LAST, 0, NULL, NULL, g_cclosure_marshal_VOID__VOID, G_TYPE_NONE, 0);
-	picolan_interface_signals[PICOLAN_INTERFACE_ON_DATAGRAM_SIGNAL] = g_signal_new ("on-datagram", PICOLAN_TYPE_INTERFACE, G_SIGNAL_RUN_LAST, 0, NULL, NULL, g_cclosure_user_marshal_VOID__UCHAR_UCHAR_UCHAR_OBJECT, G_TYPE_NONE, 4, G_TYPE_UCHAR, G_TYPE_UCHAR, G_TYPE_UCHAR, GEE_TYPE_ARRAY_LIST);
+	picolan_interface_signals[PICOLAN_INTERFACE_ON_DATAGRAM_SIGNAL] = g_signal_new ("on-datagram", PICOLAN_TYPE_INTERFACE, G_SIGNAL_RUN_LAST, 0, NULL, NULL, g_cclosure_user_marshal_VOID__UCHAR_UCHAR_UCHAR_POINTER, G_TYPE_NONE, 4, G_TYPE_UCHAR, G_TYPE_UCHAR, G_TYPE_UCHAR, G_TYPE_POINTER);
 }
 
 static void
@@ -2108,6 +2006,24 @@ picolan_interface_get_type (void)
 	return picolan_interface_type_id__volatile;
 }
 
+static Block3Data*
+block3_data_ref (Block3Data* _data3_)
+{
+	g_atomic_int_inc (&_data3_->_ref_count_);
+	return _data3_;
+}
+
+static void
+block3_data_unref (void * _userdata_)
+{
+	Block3Data* _data3_;
+	_data3_ = (Block3Data*) _userdata_;
+	if (g_atomic_int_dec_and_test (&_data3_->_ref_count_)) {
+		_g_object_unref0 (_data3_->iface);
+		g_slice_free (Block3Data, _data3_);
+	}
+}
+
 static Block4Data*
 block4_data_ref (Block4Data* _data4_)
 {
@@ -2121,33 +2037,15 @@ block4_data_unref (void * _userdata_)
 	Block4Data* _data4_;
 	_data4_ = (Block4Data*) _userdata_;
 	if (g_atomic_int_dec_and_test (&_data4_->_ref_count_)) {
-		_g_object_unref0 (_data4_->iface);
+		_g_object_unref0 (_data4_->dg);
+		block3_data_unref (_data4_->_data3_);
+		_data4_->_data3_ = NULL;
 		g_slice_free (Block4Data, _data4_);
 	}
 }
 
-static Block5Data*
-block5_data_ref (Block5Data* _data5_)
-{
-	g_atomic_int_inc (&_data5_->_ref_count_);
-	return _data5_;
-}
-
 static void
-block5_data_unref (void * _userdata_)
-{
-	Block5Data* _data5_;
-	_data5_ = (Block5Data*) _userdata_;
-	if (g_atomic_int_dec_and_test (&_data5_->_ref_count_)) {
-		_g_object_unref0 (_data5_->dg);
-		block4_data_unref (_data5_->_data4_);
-		_data5_->_data4_ = NULL;
-		g_slice_free (Block5Data, _data5_);
-	}
-}
-
-static void
-___lambda16_ (void)
+___lambda15_ (void)
 {
 	FILE* _tmp0_;
 	_tmp0_ = stdout;
@@ -2155,25 +2053,25 @@ ___lambda16_ (void)
 }
 
 static void
-____lambda16__picolan_interface_on_close (picolanInterface* _sender,
+____lambda15__picolan_interface_on_close (picolanInterface* _sender,
                                           gpointer self)
 {
-	___lambda16_ ();
+	___lambda15_ ();
 }
 
 static void
-___lambda17_ (Block5Data* _data5_,
+___lambda16_ (Block4Data* _data4_,
               GObject* obj,
               GAsyncResult* res)
 {
-	Block4Data* _data4_;
+	Block3Data* _data3_;
 	gint time = 0;
 	picolanInterface* _tmp0_;
 	FILE* _tmp1_;
 	GError* _inner_error0_ = NULL;
-	_data4_ = _data5_->_data4_;
+	_data3_ = _data4_->_data3_;
 	g_return_if_fail (res != NULL);
-	_tmp0_ = _data4_->iface;
+	_tmp0_ = _data3_->iface;
 	time = picolan_interface_ping_finish (_tmp0_, res, &_inner_error0_);
 	if (G_UNLIKELY (_inner_error0_ != NULL)) {
 		g_critical ("file %s: line %d: uncaught error: %s (%s, %d)", __FILE__, __LINE__, _inner_error0_->message, g_quark_to_string (_inner_error0_->domain), _inner_error0_->code);
@@ -2185,20 +2083,19 @@ ___lambda17_ (Block5Data* _data5_,
 }
 
 static void
-____lambda17__gasync_ready_callback (GObject* source_object,
+____lambda16__gasync_ready_callback (GObject* source_object,
                                      GAsyncResult* res,
                                      gpointer self)
 {
-	___lambda17_ (self, source_object, res);
-	block5_data_unref (self);
+	___lambda16_ (self, source_object, res);
+	block4_data_unref (self);
 }
 
 static void
-___lambda18_ (GeeArrayList* data)
+___lambda17_ (GList* data)
 {
 	FILE* _tmp0_;
-	FILE* _tmp7_;
-	g_return_if_fail (data != NULL);
+	FILE* _tmp5_;
 	_tmp0_ = stdout;
 	fprintf (_tmp0_, "got some data\n");
 	{
@@ -2208,48 +2105,44 @@ ___lambda18_ (GeeArrayList* data)
 			gboolean _tmp1_ = FALSE;
 			_tmp1_ = TRUE;
 			while (TRUE) {
-				gint _tmp3_;
-				gint _tmp4_;
-				FILE* _tmp5_;
-				gpointer _tmp6_;
+				FILE* _tmp3_;
+				gconstpointer _tmp4_;
 				if (!_tmp1_) {
 					gint _tmp2_;
 					_tmp2_ = i;
 					i = _tmp2_ + 1;
 				}
 				_tmp1_ = FALSE;
-				_tmp3_ = gee_abstract_collection_get_size ((GeeAbstractCollection*) data);
-				_tmp4_ = _tmp3_;
-				if (!(i < _tmp4_)) {
+				if (!(((guint) i) < g_list_length (data))) {
 					break;
 				}
-				_tmp5_ = stdout;
-				_tmp6_ = gee_abstract_list_get ((GeeAbstractList*) data, i);
-				fprintf (_tmp5_, "%i ", (gint) ((guint8) ((guintptr) _tmp6_)));
+				_tmp3_ = stdout;
+				_tmp4_ = g_list_nth_data (data, (guint) i);
+				fprintf (_tmp3_, "%i ", (gint) ((guint8) ((guintptr) _tmp4_)));
 			}
 		}
 	}
-	_tmp7_ = stdout;
-	fprintf (_tmp7_, "\n");
+	_tmp5_ = stdout;
+	fprintf (_tmp5_, "\n");
 }
 
 static void
-____lambda18__picolan_socket_on_data (picolanSocket* _sender,
-                                      GeeArrayList* data,
+____lambda17__picolan_socket_on_data (picolanSocket* _sender,
+                                      GList* data,
                                       gpointer self)
 {
-	___lambda18_ (data);
+	___lambda17_ (data);
 }
 
 static gboolean
-___lambda19_ (Block5Data* _data5_)
+___lambda18_ (Block4Data* _data4_)
 {
-	Block4Data* _data4_;
+	Block3Data* _data3_;
 	gboolean result = FALSE;
 	picolanDatagram* _tmp0_;
 	GError* _inner_error0_ = NULL;
-	_data4_ = _data5_->_data4_;
-	_tmp0_ = _data5_->dg;
+	_data3_ = _data4_->_data3_;
+	_tmp0_ = _data4_->dg;
 	picolan_datagram_send_string (_tmp0_, (guint8) 1, (guint8) 20, "Hello world!!", &_inner_error0_);
 	if (G_UNLIKELY (_inner_error0_ != NULL)) {
 		gboolean _tmp1_ = FALSE;
@@ -2262,10 +2155,10 @@ ___lambda19_ (Block5Data* _data5_)
 }
 
 static gboolean
-____lambda19__gsource_func (gpointer self)
+____lambda18__gsource_func (gpointer self)
 {
 	gboolean result;
-	result = ___lambda19_ (self);
+	result = ___lambda18_ (self);
 	return result;
 }
 
@@ -2273,17 +2166,17 @@ gint
 _vala_main (void)
 {
 	gint result = 0;
-	Block4Data* _data4_;
+	Block3Data* _data3_;
 	picolanInterface* _tmp0_;
 	GMainLoop* loop = NULL;
 	GMainLoop* _tmp14_;
 	GError* _inner_error0_ = NULL;
-	_data4_ = g_slice_new0 (Block4Data);
-	_data4_->_ref_count_ = 1;
+	_data3_ = g_slice_new0 (Block3Data);
+	_data3_->_ref_count_ = 1;
 	_tmp0_ = picolan_interface_new ();
-	_data4_->iface = _tmp0_;
+	_data3_->iface = _tmp0_;
 	{
-		Block5Data* _data5_;
+		Block4Data* _data4_;
 		picolanInterface* _tmp1_;
 		picolanInterface* _tmp2_;
 		picolanInterface* _tmp3_;
@@ -2292,37 +2185,37 @@ _vala_main (void)
 		picolanDatagram* _tmp6_;
 		picolanInterface* _tmp7_;
 		picolanDatagram* _tmp8_;
-		_data5_ = g_slice_new0 (Block5Data);
-		_data5_->_ref_count_ = 1;
-		_data5_->_data4_ = block4_data_ref (_data4_);
-		_tmp1_ = _data4_->iface;
+		_data4_ = g_slice_new0 (Block4Data);
+		_data4_->_ref_count_ = 1;
+		_data4_->_data3_ = block3_data_ref (_data3_);
+		_tmp1_ = _data3_->iface;
 		picolan_interface_open (_tmp1_, "/dev/pts/4", 1000000, &_inner_error0_);
 		if (G_UNLIKELY (_inner_error0_ != NULL)) {
-			block5_data_unref (_data5_);
-			_data5_ = NULL;
+			block4_data_unref (_data4_);
+			_data4_ = NULL;
 			goto __catch5_g_error;
 		}
-		_tmp2_ = _data4_->iface;
-		g_signal_connect (_tmp2_, "on-close", (GCallback) ____lambda16__picolan_interface_on_close, NULL);
-		_tmp3_ = _data4_->iface;
+		_tmp2_ = _data3_->iface;
+		g_signal_connect (_tmp2_, "on-close", (GCallback) ____lambda15__picolan_interface_on_close, NULL);
+		_tmp3_ = _data3_->iface;
 		picolan_interface_set_address (_tmp3_, (guint8) 6, &_inner_error0_);
 		if (G_UNLIKELY (_inner_error0_ != NULL)) {
-			block5_data_unref (_data5_);
-			_data5_ = NULL;
+			block4_data_unref (_data4_);
+			_data4_ = NULL;
 			goto __catch5_g_error;
 		}
-		_tmp4_ = _data4_->iface;
-		picolan_interface_ping (_tmp4_, (guint8) 1, (guint) 1000, ____lambda17__gasync_ready_callback, block5_data_ref (_data5_));
+		_tmp4_ = _data3_->iface;
+		picolan_interface_ping (_tmp4_, (guint8) 1, (guint) 1000, ____lambda16__gasync_ready_callback, block4_data_ref (_data4_));
 		_tmp5_ = picolan_datagram_new ((guint8) 80);
-		_data5_->dg = _tmp5_;
-		_tmp6_ = _data5_->dg;
-		_tmp7_ = _data4_->iface;
+		_data4_->dg = _tmp5_;
+		_tmp6_ = _data4_->dg;
+		_tmp7_ = _data3_->iface;
 		picolan_socket_bind ((picolanSocket*) _tmp6_, _tmp7_);
-		_tmp8_ = _data5_->dg;
-		g_signal_connect ((picolanSocket*) _tmp8_, "on-data", (GCallback) ____lambda18__picolan_socket_on_data, NULL);
-		g_timeout_add_full (1, (guint) 1000, ____lambda19__gsource_func, block5_data_ref (_data5_), block5_data_unref);
-		block5_data_unref (_data5_);
-		_data5_ = NULL;
+		_tmp8_ = _data4_->dg;
+		g_signal_connect ((picolanSocket*) _tmp8_, "on-data", (GCallback) ____lambda17__picolan_socket_on_data, NULL);
+		g_timeout_add_full (1, (guint) 1000, ____lambda18__gsource_func, block4_data_ref (_data4_), block4_data_unref);
+		block4_data_unref (_data4_);
+		_data4_ = NULL;
 	}
 	goto __finally5;
 	__catch5_g_error:
@@ -2345,8 +2238,8 @@ _vala_main (void)
 	__finally5:
 	if (G_UNLIKELY (_inner_error0_ != NULL)) {
 		gint _tmp13_ = -1;
-		block4_data_unref (_data4_);
-		_data4_ = NULL;
+		block3_data_unref (_data3_);
+		_data3_ = NULL;
 		g_critical ("file %s: line %d: uncaught error: %s (%s, %d)", __FILE__, __LINE__, _inner_error0_->message, g_quark_to_string (_inner_error0_->domain), _inner_error0_->code);
 		g_clear_error (&_inner_error0_);
 		return _tmp13_;
@@ -2356,8 +2249,8 @@ _vala_main (void)
 	g_main_loop_run (loop);
 	result = 0;
 	_g_main_loop_unref0 (loop);
-	block4_data_unref (_data4_);
-	_data4_ = NULL;
+	block3_data_unref (_data3_);
+	_data3_ = NULL;
 	return result;
 }
 

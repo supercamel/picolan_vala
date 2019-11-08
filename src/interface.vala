@@ -27,10 +27,37 @@ namespace picolan
 		var index = 0;
 		sum1 = sum2 = 0;
 		for(index = 0; index < bytes.length(); index++) {
-			sum1 = (sum1 + bytes[index]) % 255;
+			sum1 = (sum1 + bytes.nth_data(index)) % 255;
 			sum2 = (sum2 + sum1) % 255;
 		}
 	}/*}}}*/
+
+	class PortMap : Object
+	{
+		public PortMap() {
+			map = new List<Socket>();
+		}
+
+		public void add(Socket socket) {
+			map.append(socket);
+		}
+
+		public void remove(Socket socket) {
+			map.remove(socket);
+		}
+
+		public bool contains(Socket socket) {
+			for(var i = 0; i < map.length(); i++) {
+				if(map.nth_data(i).get_port() == socket.get_port()) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+		private List<Socket> map;
+	}
+
 
 	class Parser : Object /*{{{*/
 	{
@@ -146,7 +173,7 @@ namespace picolan
 	{
 		public Interface() {/*{{{*/
 			parser = new Parser();
-			port_map = new HashTable<uint8, Socket>();
+			port_map = new PortMap();
 
 			/*{{{*/
 			parser.on_ping.connect((src, dest, p1, p2) => {
@@ -168,7 +195,7 @@ namespace picolan
 				msg.insert(0xAB, 0);
 
 				try {
-					port.write(msg);
+					write_list(msg);
 				} catch(Error error) {
 					// silently ignore failures when replying to a ping
 					stdout.printf("Error while responding to a ping.\n");
@@ -231,12 +258,12 @@ namespace picolan
 		/*{{{*/
 		public bool attach_socket(Socket s) {
 			// if socket isn't attached for a port
-			if(port_map.contains(s.get_port()) == false) {
+			if(port_map.contains(s) == false) {
 				// attach it using the port map
-				port_map.insert(s.get_port(), s);
+				port_map.add(s);
 				// connect the destruct signal to remove the socket from the port map when it no longer exists 
 				s.on_destroy.connect(() => {
-					port_map.remove(s.get_port());
+					port_map.remove(s);
 				});
 				return true;
 			} else {
@@ -285,7 +312,7 @@ namespace picolan
 			msg.append(0xAC);
 			msg.insert(0xAB, 0);
 
-			port.write(msg);
+			write_list(msg);
 		}/*}}}*/
 
 		public void send_datagram(uint8 dest, uint8 port_num, List<uint8> data) throws PicolanError, Error { /*{{{*/
@@ -312,7 +339,7 @@ namespace picolan
 			msg.append(0xAC);
 			msg.insert(0xAB, 0);
 
-			port.write(msg);
+			write_list(msg);
 		}/*}}}*/
 
 		public async int ping(uint8 addr, uint timeout) throws GLib.Error {/*{{{*/
@@ -329,14 +356,14 @@ namespace picolan
 					ulong micros = 0;
 					timer.elapsed(out micros);
 					ping_time = (int)(micros/1000);
-					Idle.append((owned)callback);
+					Idle.add((owned)callback);
 					parser.disconnect(handle);
 					GLib.Source.remove(timeout_handle);
 				}
 			});
 
 			timeout_handle = GLib.Timeout.add(timeout, () => {
-				Idle.append((owned)callback);
+				Idle.add((owned)callback);
 				parser.disconnect(handle);
 				return false;
 			});
@@ -358,8 +385,7 @@ namespace picolan
 			msg.append(0xAC);
 			msg.insert(0xAB, 0);
 
-			port.write(msg);
-
+			write_list(msg);
 			yield;
 			return ping_time;
 		}/*}}}*/
@@ -381,7 +407,7 @@ namespace picolan
 			msg.append(0xAC);
 			msg.insert(0xAB, 0);
 
-			port.write(msg);
+			write_list(msg);
 		}
 		/*}}}*/
 
@@ -402,32 +428,40 @@ namespace picolan
 			msg.append(0xAC);
 			msg.insert(0xAB, 0);
 
-			port.write(msg);
+			write_list(msg);
 		}
 		/*}}}*/
 
 		private List<uint8> stuff_bytes(List<uint8> bytes) { /*{{{*/
 			var ret = new List<uint8>();
 			for(var i = 0; i < bytes.length(); i++) {
-				if(bytes[i] == 0xAA) {
+				if(bytes.nth_data(i) == 0xAA) {
 					ret.append(0xAA);
 					ret.append(0xAA);
 				}
-				else if(bytes[i] == 0xAB) {
+				else if(bytes.nth_data(i) == 0xAB) {
 					ret.append(0xAA);
 					ret.append(0xAB);
 				} 
-				else if(bytes[i] == 0xAC) {
+				else if(bytes.nth_data(i) == 0xAC) {
 					ret.append(0xAA);
 					ret.append(0xAC);
 				}
 				else {
-					ret.append(bytes[i]);
+					ret.append(bytes.nth_data(i));
 				}
 			}
 			return ret;
 		}
 		/*}}}*/
+
+		private void write_list(List<uint8> bytes) {
+			var b = new GLib.Array<char>();
+			for(var i = 0; i < bytes.length(); i++) {
+				b.append_val((char)bytes.nth_data(i));
+			}
+			port.write(b);
+		}
 
 
 		public uint8 ttl = 6;
@@ -439,7 +473,7 @@ namespace picolan
 		private gserial.Port port;
 		private Parser parser;
 
-		private HashTable<uint8, Socket> port_map;
+		private PortMap port_map;
 		public signal void on_datagram(uint8 src, uint8 dest, uint8 port, List<uint8> payload);
 	}
 

@@ -3,7 +3,6 @@
 
 #include <glib-object.h>
 #include <glib.h>
-#include <gee.h>
 
 #define PICOLAN_TYPE_SOCKET (picolan_socket_get_type ())
 #define PICOLAN_SOCKET(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), PICOLAN_TYPE_SOCKET, picolanSocket))
@@ -115,18 +114,18 @@ static void picolan_client_real_bind (picolanSocketStream* base,
                                picolanInterface* _iface);
 gboolean picolan_interface_attach_socket (picolanInterface* self,
                                           picolanSocket* s);
-static void __lambda14_ (picolanClient* self,
+static void __lambda13_ (picolanClient* self,
                   guint8 src,
                   guint8 dest,
                   guint8 _port,
-                  GeeArrayList* payload);
+                  GList* payload);
 static void picolan_client_process_datagram (picolanClient* self,
-                                      GeeArrayList* dg);
-static void ___lambda14__picolan_interface_on_datagram (picolanInterface* _sender,
+                                      GList* dg);
+static void ___lambda13__picolan_interface_on_datagram (picolanInterface* _sender,
                                                  guint8 src,
                                                  guint8 dest,
                                                  guint8 port,
-                                                 GeeArrayList* payload,
+                                                 GList* payload,
                                                  gpointer self);
 GType picolan_message_type_get_type (void) G_GNUC_CONST;
 picolanClient* picolan_client_new (void);
@@ -141,27 +140,26 @@ _g_object_ref0 (gpointer self)
 }
 
 static void
-__lambda14_ (picolanClient* self,
+__lambda13_ (picolanClient* self,
              guint8 src,
              guint8 dest,
              guint8 _port,
-             GeeArrayList* payload)
+             GList* payload)
 {
-	g_return_if_fail (payload != NULL);
 	if (((picolanSocketStream*) self)->port == _port) {
 		picolan_client_process_datagram (self, payload);
 	}
 }
 
 static void
-___lambda14__picolan_interface_on_datagram (picolanInterface* _sender,
+___lambda13__picolan_interface_on_datagram (picolanInterface* _sender,
                                             guint8 src,
                                             guint8 dest,
                                             guint8 port,
-                                            GeeArrayList* payload,
+                                            GList* payload,
                                             gpointer self)
 {
-	__lambda14_ ((picolanClient*) self, src, dest, port, payload);
+	__lambda13_ ((picolanClient*) self, src, dest, port, payload);
 }
 
 static void
@@ -180,28 +178,27 @@ picolan_client_real_bind (picolanSocketStream* base,
 	_tmp1_ = ((picolanSocketStream*) self)->iface;
 	picolan_interface_attach_socket (_tmp1_, (picolanSocket*) self);
 	_tmp2_ = ((picolanSocketStream*) self)->iface;
-	g_signal_connect_object (_tmp2_, "on-datagram", (GCallback) ___lambda14__picolan_interface_on_datagram, self, 0);
+	g_signal_connect_object (_tmp2_, "on-datagram", (GCallback) ___lambda13__picolan_interface_on_datagram, self, 0);
 }
 
 static void
 picolan_client_process_datagram (picolanClient* self,
-                                 GeeArrayList* dg)
+                                 GList* dg)
 {
-	gpointer _tmp0_;
+	gconstpointer _tmp0_;
 	g_return_if_fail (self != NULL);
-	g_return_if_fail (dg != NULL);
-	_tmp0_ = gee_abstract_list_get ((GeeAbstractList*) dg, 0);
+	_tmp0_ = g_list_nth_data (dg, (guint) 0);
 	if (((guint8) ((guintptr) _tmp0_)) == PICOLAN_MESSAGE_TYPE_SYN) {
-		gpointer _tmp1_;
-		gpointer _tmp2_;
-		_tmp1_ = gee_abstract_list_get ((GeeAbstractList*) dg, 1);
+		gconstpointer _tmp1_;
+		gconstpointer _tmp2_;
+		_tmp1_ = g_list_nth_data (dg, (guint) 1);
 		((picolanSocketStream*) self)->remote_sequence = (guint8) ((guintptr) _tmp1_);
-		_tmp2_ = gee_abstract_list_get ((GeeAbstractList*) dg, 2);
+		_tmp2_ = g_list_nth_data (dg, (guint) 2);
 		((picolanSocketStream*) self)->remote_port = (guint8) ((guintptr) _tmp2_);
 		g_signal_emit_by_name ((picolanSocketStream*) self, "recv-syn-signal", dg);
 	} else {
-		gpointer _tmp3_;
-		_tmp3_ = gee_abstract_list_get ((GeeAbstractList*) dg, 0);
+		gconstpointer _tmp3_;
+		_tmp3_ = g_list_nth_data (dg, (guint) 0);
 		if (((guint8) ((guintptr) _tmp3_)) == PICOLAN_MESSAGE_TYPE_ACK) {
 			g_signal_emit_by_name ((picolanSocketStream*) self, "ack-signal", dg);
 		}

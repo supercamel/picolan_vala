@@ -15,11 +15,11 @@ namespace picolan
 		}
 
 		private void process_datagram(List<uint8> dg) {
-			if(dg[0] == MESSAGE_TYPE.SYN) {
-				this.remote_sequence = dg[1];
-				this.remote_port = dg[2];
+			if(dg.nth_data(0) == MESSAGE_TYPE.SYN) {
+				this.remote_sequence = dg.nth_data(1);
+				this.remote_port = dg.nth_data(2);
 				recv_syn_signal(dg);
-			} else if(dg[0] == MESSAGE_TYPE.ACK) {
+			} else if(dg.nth_data(0) == MESSAGE_TYPE.ACK) {
 				ack_signal(dg);
 			}
 		}
