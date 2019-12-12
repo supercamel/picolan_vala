@@ -384,6 +384,8 @@ doc_DATA = \
 	AUTHORS                                     \
 	NEWS
 
+
+#
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = gpicolan-1.0.pc
 all: config.h

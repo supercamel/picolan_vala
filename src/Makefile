@@ -136,7 +136,8 @@ am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(girdir)" \
 	"$(DESTDIR)$(typelibdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 am__DEPENDENCIES_1 =
-am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
+am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
 libgpicolan_1_0_la_DEPENDENCIES = $(am__DEPENDENCIES_2)
 am__objects_1 = libgpicolan_1_0_la-address_field.lo \
 	libgpicolan_1_0_la-client.lo libgpicolan_1_0_la-datagram.lo \
@@ -376,11 +377,13 @@ lib_LTLIBRARIES = libgpicolan-1.0.la
 VALAFLAGS = --pkg gserial-1.0 --pkg gio-2.0
 GPICOLAN_CFLAGS = \
 	$(GLIB_CFLAGS)          \
-	$(GOBJECT_CFLAGS)
+	$(GOBJECT_CFLAGS) \
+	$(GSERIAL_CFLAGS)
 
 GPICOLAN_LIBS = \
     $(GLIB_LIBS)            \
-    $(GOBJECT_LIBS)
+    $(GOBJECT_LIBS) \
+	$(GSERIAL_LIBS)
 
 libgpicolan_1_0_la_CFLAGS = \
     $(WARN_CFLAGS)          \

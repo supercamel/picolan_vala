@@ -6,11 +6,13 @@ VALAFLAGS= --pkg gserial-1.0 --pkg gio-2.0
 
 GPICOLAN_CFLAGS =          \
 	$(GLIB_CFLAGS)          \
-	$(GOBJECT_CFLAGS)
+	$(GOBJECT_CFLAGS) \
+	$(GSERIAL_CFLAGS)
 
 GPICOLAN_LIBS =            \
     $(GLIB_LIBS)            \
-    $(GOBJECT_LIBS)
+    $(GOBJECT_LIBS) \
+	$(GSERIAL_LIBS)
 
 ## Shared library
 libgpicolan_1_0_la_CFLAGS =    \
