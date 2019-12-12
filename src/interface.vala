@@ -1,7 +1,7 @@
 using gserial;
 
 
-namespace picolan
+namespace gpicolan
 {
 	enum PACKET {/*{{{*/
 		INVALID,
@@ -458,7 +458,8 @@ namespace picolan
 		private void write_list(List<uint8> bytes) {
 			var b = new GLib.Array<char>();
 			for(var i = 0; i < bytes.length(); i++) {
-				b.append_val((char)bytes.nth_data(i));
+				var n = (char)bytes.nth_data(i);
+				b.append_val(n);
 			}
 			port.write(b);
 		}
@@ -480,7 +481,7 @@ namespace picolan
 }
 
 int main() {
-	var iface = new picolan.Interface();
+	var iface = new gpicolan.Interface();
 
 	try {
 		iface.open("/dev/pts/4", 1000000);
@@ -495,7 +496,7 @@ int main() {
 			stdout.printf("time: %i\n", time);
 		});
 
-		var dg = new picolan.Datagram(80);
+		var dg = new gpicolan.Datagram.with_port(80);
 		dg.bind(iface);
 		dg.on_data.connect((data) => {
 			stdout.printf("got some data\n");

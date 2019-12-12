@@ -652,6 +652,7 @@ PACKAGE_STRING='gpicolan 1.0'
 PACKAGE_BUGREPORT=''
 PACKAGE_URL=''
 
+ac_unique_file="src/gpicolan.h"
 ac_default_prefix='/usr/'
 # Factoring default headers for most tests.
 ac_includes_default="\
@@ -2853,7 +2854,7 @@ fi
 
 ac_config_headers="$ac_config_headers config.h"
 
-# AC_CONFIG_SRCDIR([src/gpicolan.h])
+
 
 
 
@@ -4352,8 +4353,8 @@ esac
 
 
 
-macro_version='2.4.6'
-macro_revision='2.4.6'
+macro_version='2.4.6.42-b88ce'
+macro_revision='2.4.6.42'
 
 
 
@@ -12505,8 +12506,8 @@ $as_echo "no" >&6; }
 fi
 
 pkg_failed=no
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for glib-2.0 >= 2.16" >&5
-$as_echo_n "checking for glib-2.0 >= 2.16... " >&6; }
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for GLIB" >&5
+$as_echo_n "checking for GLIB... " >&6; }
 
 if test -n "$GLIB_CFLAGS"; then
     pkg_cv_GLIB_CFLAGS="$GLIB_CFLAGS"
@@ -12546,7 +12547,7 @@ fi
 
 
 if test $pkg_failed = yes; then
-        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -12573,7 +12574,7 @@ Alternatively, you may set the environment variables GLIB_CFLAGS
 and GLIB_LIBS to avoid the need to call pkg-config.
 See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
-        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
 $as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
@@ -12596,8 +12597,8 @@ $as_echo "yes" >&6; }
 fi
 
 pkg_failed=no
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for gobject-2.0 >= 2.0" >&5
-$as_echo_n "checking for gobject-2.0 >= 2.0... " >&6; }
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for GOBJECT" >&5
+$as_echo_n "checking for GOBJECT... " >&6; }
 
 if test -n "$GOBJECT_CFLAGS"; then
     pkg_cv_GOBJECT_CFLAGS="$GOBJECT_CFLAGS"
@@ -12637,7 +12638,7 @@ fi
 
 
 if test $pkg_failed = yes; then
-        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -12664,7 +12665,7 @@ Alternatively, you may set the environment variables GOBJECT_CFLAGS
 and GOBJECT_LIBS to avoid the need to call pkg-config.
 See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
-        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
 $as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
@@ -12687,8 +12688,8 @@ $as_echo "yes" >&6; }
 fi
 
 pkg_failed=no
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for gserial-1.0 >= 1.0" >&5
-$as_echo_n "checking for gserial-1.0 >= 1.0... " >&6; }
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for GSERIAL" >&5
+$as_echo_n "checking for GSERIAL... " >&6; }
 
 if test -n "$GSERIAL_CFLAGS"; then
     pkg_cv_GSERIAL_CFLAGS="$GSERIAL_CFLAGS"
@@ -12728,7 +12729,7 @@ fi
 
 
 if test $pkg_failed = yes; then
-        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+   	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -12755,7 +12756,7 @@ Alternatively, you may set the environment variables GSERIAL_CFLAGS
 and GSERIAL_LIBS to avoid the need to call pkg-config.
 See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
-        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+     	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }
 	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
 $as_echo "$as_me: error: in \`$ac_pwd':" >&2;}

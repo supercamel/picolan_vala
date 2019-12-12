@@ -5,7 +5,7 @@ AC_INIT([gpicolan],
 AM_INIT_AUTOMAKE([1.11 foreign subdir-objects parallel-tests])
 
 AC_CONFIG_HEADERS([config.h])
-# AC_CONFIG_SRCDIR([src/gpicolan.h])
+AC_CONFIG_SRCDIR([src/gpicolan.h])
 AC_CONFIG_MACRO_DIR([m4])
 
 AC_PREFIX_DEFAULT('/usr/')

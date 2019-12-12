@@ -1,9 +1,17 @@
 
-namespace picolan
+namespace gpicolan
 {
 	public class Datagram : Object, Socket
 	{
-		public Datagram(uint8 _port) {
+		public Datagram() {
+
+		}
+
+		public void set_port(uint8 _port) {
+			port = _port;
+		}
+
+		public Datagram.with_port(uint8 _port) {
 			port = _port;
 			timeout = 1000;
 		}

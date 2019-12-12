@@ -1,5 +1,5 @@
 
-namespace picolan
+namespace gpicolan
 {
 
 	public class Client : SocketStream

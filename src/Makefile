@@ -15,7 +15,6 @@
 
 
 
-
 am__is_gnu_make = { \
   if test -z '$(MAKELEVEL)'; then \
     false; \
@@ -87,10 +86,9 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-build_triplet = x86_64-w64-mingw32
-host_triplet = x86_64-w64-mingw32
-am__append_1 = gpicolan-1.0.gir
-am__append_2 = $(gir_DATA) $(typelib_DATA)
+build_triplet = x86_64-pc-linux-gnu
+host_triplet = x86_64-pc-linux-gnu
+am__append_1 = $(gir_DATA) $(typelib_DATA)
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/introspection.m4 \
@@ -132,8 +130,7 @@ am__uninstall_files_from_dir = { \
     || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
-am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(girdir)" \
-	"$(DESTDIR)$(typelibdir)"
+am__installdirs = "$(DESTDIR)$(libdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 am__DEPENDENCIES_1 =
 am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
@@ -209,7 +206,6 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
-DATA = $(gir_DATA) $(typelib_DATA)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 # Read a list of newline-separated strings from the standard input,
 # and print each of them once, without duplicates.  Input order is
@@ -234,21 +230,21 @@ am__DIST_COMMON = $(srcdir)/Makefile.in \
 	address_field.c client.c datagram.c interface.c socket.c \
 	socket_stream.c
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} /home/Flamingo/picolan_vala/missing aclocal-1.16
+ACLOCAL = ${SHELL} /home/samuel/Programming/Vala/picolan_vala/picolan_vala/missing aclocal-1.16
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 0
 AR = ar
 AS = as
-AUTOCONF = ${SHELL} /home/Flamingo/picolan_vala/missing autoconf
-AUTOHEADER = ${SHELL} /home/Flamingo/picolan_vala/missing autoheader
-AUTOMAKE = ${SHELL} /home/Flamingo/picolan_vala/missing automake-1.16
+AUTOCONF = ${SHELL} /home/samuel/Programming/Vala/picolan_vala/picolan_vala/missing autoconf
+AUTOHEADER = ${SHELL} /home/samuel/Programming/Vala/picolan_vala/picolan_vala/missing autoheader
+AUTOMAKE = ${SHELL} /home/samuel/Programming/Vala/picolan_vala/picolan_vala/missing automake-1.16
 AWK = gawk
 CC = gcc
 CCDEPMODE = depmode=gcc3
 CFLAGS = -g -O2
 CPP = gcc -E
 CPPFLAGS = 
-CYGPATH_W = cygpath -w
+CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
 DLLTOOL = dlltool
@@ -258,42 +254,42 @@ ECHO_C =
 ECHO_N = -n
 ECHO_T = 
 EGREP = /usr/bin/grep -E
-EXEEXT = .exe
+EXEEXT = 
 FGREP = /usr/bin/grep -F
-GLIB_CFLAGS = -mms-bitfields -IC:/msys64/mingw64/include/glib-2.0 -IC:/msys64/mingw64/lib/glib-2.0/include -IC:/msys64/mingw64/include
-GLIB_LIBS = -LC:/msys64/mingw64/lib -lintl -lglib-2.0
-GOBJECT_CFLAGS = -mms-bitfields -IC:/msys64/mingw64/include -IC:/msys64/mingw64/lib/libffi-3.2.1/include -IC:/msys64/mingw64/include/glib-2.0 -IC:/msys64/mingw64/lib/glib-2.0/include -IC:/msys64/mingw64/include
-GOBJECT_LIBS = -LC:/msys64/mingw64/lib -lgobject-2.0 -lintl -lglib-2.0
+GLIB_CFLAGS = -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include 
+GLIB_LIBS = -lglib-2.0 
+GOBJECT_CFLAGS = -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/lib/libffi-3.2.1/include 
+GOBJECT_LIBS = -lgobject-2.0 -lglib-2.0 
 GREP = /usr/bin/grep
-GSERIAL_CFLAGS = -mms-bitfields -IC:/msys64/mingw64/include/gserial-1.0 -IC:/msys64/mingw64/include -IC:/msys64/mingw64/lib/libffi-3.2.1/include -IC:/msys64/mingw64/include/glib-2.0 -IC:/msys64/mingw64/lib/glib-2.0/include -IC:/msys64/mingw64/include
-GSERIAL_LIBS = -LC:/msys64/mingw64/lib -lgserial-1.0 -lgobject-2.0 -lintl -lglib-2.0
+GSERIAL_CFLAGS = -I/usr/include/gserial-1.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/lib/libffi-3.2.1/include 
+GSERIAL_LIBS = -lgserial-1.0 -lgobject-2.0 -lglib-2.0 
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
-INTROSPECTION_CFLAGS = -pthread -mms-bitfields -IC:/msys64/mingw64/include/gobject-introspection-1.0 -IC:/msys64/mingw64/include -IC:/msys64/mingw64/lib/libffi-3.2.1/include -IC:/msys64/mingw64/include/glib-2.0 -IC:/msys64/mingw64/lib/glib-2.0/include -IC:/msys64/mingw64/include
-INTROSPECTION_COMPILER = C:/msys64/mingw64/bin/g-ir-compiler.exe
-INTROSPECTION_GENERATE = C:/msys64/mingw64/bin/g-ir-generate.exe
-INTROSPECTION_GIRDIR = C:/msys64/mingw64/share/gir-1.0
-INTROSPECTION_LIBS = -LC:/msys64/mingw64/lib -lgirepository-1.0 -lgobject-2.0 -lintl -lglib-2.0
-INTROSPECTION_MAKEFILE = C:/msys64/mingw64/share/gobject-introspection-1.0/Makefile.introspection
-INTROSPECTION_SCANNER = C:/msys64/mingw64/bin/g-ir-scanner
-INTROSPECTION_TYPELIBDIR = C:/msys64/mingw64/lib/girepository-1.0
-LD = C:/msys64/mingw64/x86_64-w64-mingw32/bin/ld.exe
+INTROSPECTION_CFLAGS = -I/usr/include/gobject-introspection-1.0 -I/usr/lib/libffi-3.2.1/include -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -pthread 
+INTROSPECTION_COMPILER = /usr/bin/g-ir-compiler
+INTROSPECTION_GENERATE = /usr/bin/g-ir-generate
+INTROSPECTION_GIRDIR = /usr/share/gir-1.0
+INTROSPECTION_LIBS = -lgirepository-1.0 -lgobject-2.0 -lglib-2.0 
+INTROSPECTION_MAKEFILE = /usr/share/gobject-introspection-1.0/Makefile.introspection
+INTROSPECTION_SCANNER = /usr/bin/g-ir-scanner
+INTROSPECTION_TYPELIBDIR = /usr/lib/girepository-1.0
+LD = /usr/bin/ld -m elf_x86_64
 LDFLAGS = 
 LIBOBJS = 
 LIBS = 
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LIPO = 
-LN_S = cp -pR
+LN_S = ln -s
 LTLIBOBJS = 
 LT_SYS_LIBRARY_PATH = 
 LT_VERSION_INFO = 1:0:0
-MAKEINFO = ${SHELL} /home/Flamingo/picolan_vala/missing makeinfo
+MAKEINFO = ${SHELL} /home/samuel/Programming/Vala/picolan_vala/picolan_vala/missing makeinfo
 MANIFEST_TOOL = :
 MKDIR_P = /usr/bin/mkdir -p
-NM = /mingw64/bin/nm -B
+NM = /usr/bin/nm -B
 NMEDIT = 
 OBJDUMP = objdump
 OBJEXT = o
@@ -307,24 +303,24 @@ PACKAGE_TARNAME = gpicolan
 PACKAGE_URL = 
 PACKAGE_VERSION = 1.0
 PATH_SEPARATOR = :
-PKG_CONFIG = /mingw64/bin/pkg-config
+PKG_CONFIG = /usr/bin/pkg-config
 PKG_CONFIG_LIBDIR = 
-PKG_CONFIG_PATH = /mingw64/lib/pkgconfig:/mingw64/share/pkgconfig
+PKG_CONFIG_PATH = 
 RANLIB = ranlib
 SED = /usr/bin/sed
 SET_MAKE = 
 SHELL = /bin/sh
 STRIP = strip
 VALAC = valac
-VAPIGEN = C:/msys64/mingw64/bin/vapigen-0.44
-VAPIGEN_MAKEFILE = C:/msys64/mingw64/share/vala/Makefile.vapigen
-VAPIGEN_VAPIDIR = C:/msys64/mingw64/share/vala/vapi
+VAPIGEN = /usr/bin/vapigen-0.46
+VAPIGEN_MAKEFILE = /usr/share/vala/Makefile.vapigen
+VAPIGEN_VAPIDIR = /usr/share/vala/vapi
 VERSION = 1.0
 WARN_CFLAGS =  -Wall -Wstrict-prototypes -Wnested-externs -Werror=missing-prototypes -Werror=implicit-function-declaration -Werror=pointer-arith -Werror=init-self -Werror=format=2 -Werror=missing-include-dirs -Werror=return-type 
-abs_builddir = /home/Flamingo/picolan_vala/src
-abs_srcdir = /home/Flamingo/picolan_vala/src
-abs_top_builddir = /home/Flamingo/picolan_vala
-abs_top_srcdir = /home/Flamingo/picolan_vala
+abs_builddir = /home/samuel/Programming/Vala/picolan_vala/picolan_vala/src
+abs_srcdir = /home/samuel/Programming/Vala/picolan_vala/picolan_vala/src
+abs_top_builddir = /home/samuel/Programming/Vala/picolan_vala/picolan_vala
+abs_top_srcdir = /home/samuel/Programming/Vala/picolan_vala/picolan_vala
 ac_ct_AR = ar
 ac_ct_CC = gcc
 ac_ct_DUMPBIN = 
@@ -334,26 +330,26 @@ am__quote =
 am__tar = $${TAR-tar} chof - "$$tardir"
 am__untar = $${TAR-tar} xf -
 bindir = ${exec_prefix}/bin
-build = x86_64-w64-mingw32
-build_alias = x86_64-w64-mingw32
+build = x86_64-pc-linux-gnu
+build_alias = 
 build_cpu = x86_64
-build_os = mingw32
-build_vendor = w64
+build_os = linux-gnu
+build_vendor = pc
 builddir = .
 datadir = ${datarootdir}
 datarootdir = ${prefix}/share
 docdir = ${datarootdir}/doc/${PACKAGE_TARNAME}
 dvidir = ${docdir}
 exec_prefix = ${prefix}
-host = x86_64-w64-mingw32
+host = x86_64-pc-linux-gnu
 host_alias = 
 host_cpu = x86_64
-host_os = mingw32
-host_vendor = w64
+host_os = linux-gnu
+host_vendor = pc
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /home/Flamingo/picolan_vala/install-sh
+install_sh = ${SHELL} /home/samuel/Programming/Vala/picolan_vala/picolan_vala/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -362,7 +358,7 @@ mandir = ${datarootdir}/man
 mkdir_p = $(MKDIR_P)
 oldincludedir = /usr/include
 pdfdir = ${docdir}
-prefix = /mingw64
+prefix = /usr/
 program_transform_name = s,x,x,
 psdir = ${docdir}
 sbindir = ${exec_prefix}/sbin
@@ -373,8 +369,8 @@ target_alias =
 top_build_prefix = ../
 top_builddir = ..
 top_srcdir = ..
-lib_LTLIBRARIES = libgpicolan-1.0.la
-VALAFLAGS = --pkg gserial-1.0 --pkg gio-2.0
+lib_LTLIBRARIES = libgpicolan.1.0.la
+VALAFLAGS = --pkg gserial-1.0 --pkg gio-2.0 --library gpicolan-1.0 -H gpicolan.h -X -fPIC -X -shared --gir gpicolan-1.0.gir
 GPICOLAN_CFLAGS = \
 	$(GLIB_CFLAGS)          \
 	$(GOBJECT_CFLAGS) \
@@ -391,7 +387,7 @@ libgpicolan_1_0_la_CFLAGS = \
     $(GPICOLAN_CFLAGS)     \
 	-DG_LOG_DOMAIN=\"gpicolan\"
 
-no_undefined = -no-undefined
+#no_undefined = -no-undefined
 libgpicolan_1_0_la_LDFLAGS = \
 	-version-info $(LT_VERSION_INFO)    \
 	$(no_undefined)
@@ -407,25 +403,16 @@ sources_vala = \
 	socket.vala \
 	socket_stream.vala
 
+sources_public_h = gpicolan.h
 sources_c = $(sources_vala:.vala=.c)
 libgpicolan_1_0_la_SOURCES = \
 	$(sources_vala)
 
 libgpicolanincdir = $(includedir)/gpicolan-1.0
-CLEANFILES = $(am__append_2)
-INTROSPECTION_GIRS = $(am__append_1)
+CLEANFILES = $(sources_c) gpicolan.h $(am__append_1)
+INTROSPECTION_GIRS = 
 INTROSPECTION_SCANNER_ARGS = $(INTROSPECTION_FLAGS) --add-include-path=$(srcdir) --add-include-path=$(builddir) --warn-all --warn-error
 INTROSPECTION_COMPILER_ARGS = --includedir=$(srcdir) --includedir=$(builddir)
-introspection_sources = $(sources_c) gpicolan.h
-gpicolan_1_0_gir_INCLUDES = GObject-2.0 GLib-2.0
-gpicolan_1_0_gir_CFLAGS = $(GPICOLAN_CFLAGS) -I$(srcdir) -I$(builddir)
-gpicolan_1_0_gir_LIBS = libgpicolan.1.0.la
-gpicolan_1_0_gir_FILES = $(introspection_sources)
-gpicolan_1_0_gir_SCANNERFLAGS = --identifier-prefix=gpicolan --c-include "gpicolan.h"
-girdir = $(datadir)/gir-1.0
-gir_DATA = $(INTROSPECTION_GIRS)
-typelibdir = $(libdir)/girepository-1.0
-typelib_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
 VAPIGEN_VAPIS = gpicolan-1.0.vapi
 gpicolan_1_0_vapi_METADATADIRS = $(srcdir)
 gpicolan_1_0_vapi_FILES = gpicolan-1.0.gir
@@ -499,7 +486,7 @@ clean-libLTLIBRARIES:
 	  rm -f $${locs}; \
 	}
 
-libgpicolan-1.0.la: $(libgpicolan_1_0_la_OBJECTS) $(libgpicolan_1_0_la_DEPENDENCIES) $(EXTRA_libgpicolan_1_0_la_DEPENDENCIES) 
+libgpicolan.1.0.la: $(libgpicolan_1_0_la_OBJECTS) $(libgpicolan_1_0_la_DEPENDENCIES) $(EXTRA_libgpicolan_1_0_la_DEPENDENCIES) 
 	$(AM_V_CCLD)$(libgpicolan_1_0_la_LINK) -rpath $(libdir) $(libgpicolan_1_0_la_OBJECTS) $(libgpicolan_1_0_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
@@ -626,48 +613,6 @@ mostlyclean-libtool:
 
 clean-libtool:
 	-rm -rf .libs _libs
-install-girDATA: $(gir_DATA)
-	@$(NORMAL_INSTALL)
-	@list='$(gir_DATA)'; test -n "$(girdir)" || list=; \
-	if test -n "$$list"; then \
-	  echo " $(MKDIR_P) '$(DESTDIR)$(girdir)'"; \
-	  $(MKDIR_P) "$(DESTDIR)$(girdir)" || exit 1; \
-	fi; \
-	for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  echo "$$d$$p"; \
-	done | $(am__base_list) | \
-	while read files; do \
-	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(girdir)'"; \
-	  $(INSTALL_DATA) $$files "$(DESTDIR)$(girdir)" || exit $$?; \
-	done
-
-uninstall-girDATA:
-	@$(NORMAL_UNINSTALL)
-	@list='$(gir_DATA)'; test -n "$(girdir)" || list=; \
-	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
-	dir='$(DESTDIR)$(girdir)'; $(am__uninstall_files_from_dir)
-install-typelibDATA: $(typelib_DATA)
-	@$(NORMAL_INSTALL)
-	@list='$(typelib_DATA)'; test -n "$(typelibdir)" || list=; \
-	if test -n "$$list"; then \
-	  echo " $(MKDIR_P) '$(DESTDIR)$(typelibdir)'"; \
-	  $(MKDIR_P) "$(DESTDIR)$(typelibdir)" || exit 1; \
-	fi; \
-	for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  echo "$$d$$p"; \
-	done | $(am__base_list) | \
-	while read files; do \
-	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(typelibdir)'"; \
-	  $(INSTALL_DATA) $$files "$(DESTDIR)$(typelibdir)" || exit $$?; \
-	done
-
-uninstall-typelibDATA:
-	@$(NORMAL_UNINSTALL)
-	@list='$(typelib_DATA)'; test -n "$(typelibdir)" || list=; \
-	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
-	dir='$(DESTDIR)$(typelibdir)'; $(am__uninstall_files_from_dir)
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -756,9 +701,10 @@ distdir-am: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES) $(DATA)
+#all-local:
+all-am: Makefile $(LTLIBRARIES) all-local
 installdirs:
-	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(girdir)" "$(DESTDIR)$(typelibdir)"; do \
+	for dir in "$(DESTDIR)$(libdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -833,7 +779,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-girDATA install-typelibDATA
+install-data-am:
 
 install-dvi: install-dvi-am
 
@@ -884,33 +830,32 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-girDATA uninstall-libLTLIBRARIES \
-	uninstall-typelibDATA
+uninstall-am: uninstall-libLTLIBRARIES
 
 .MAKE: install-am install-strip
 
-.PHONY: CTAGS GTAGS TAGS all all-am am--depfiles check check-am clean \
-	clean-generic clean-libLTLIBRARIES clean-libtool cscopelist-am \
-	ctags ctags-am distclean distclean-compile distclean-generic \
-	distclean-libtool distclean-tags distdir dvi dvi-am html \
-	html-am info info-am install install-am install-data \
-	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-girDATA install-html install-html-am \
-	install-info install-info-am install-libLTLIBRARIES \
-	install-man install-pdf install-pdf-am install-ps \
-	install-ps-am install-strip install-typelibDATA installcheck \
+.PHONY: CTAGS GTAGS TAGS all all-am all-local am--depfiles check \
+	check-am clean clean-generic clean-libLTLIBRARIES \
+	clean-libtool cscopelist-am ctags ctags-am distclean \
+	distclean-compile distclean-generic distclean-libtool \
+	distclean-tags distdir dvi dvi-am html html-am info info-am \
+	install install-am install-data install-data-am install-dvi \
+	install-dvi-am install-exec install-exec-am install-html \
+	install-html-am install-info install-info-am \
+	install-libLTLIBRARIES install-man install-pdf install-pdf-am \
+	install-ps install-ps-am install-strip installcheck \
 	installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags tags-am uninstall uninstall-am uninstall-girDATA \
-	uninstall-libLTLIBRARIES uninstall-typelibDATA
+	tags tags-am uninstall uninstall-am uninstall-libLTLIBRARIES
 
 .PRECIOUS: Makefile
 
 
 -include $(INTROSPECTION_MAKEFILE)
 
-gpicolan-1.0.gir: libgpicolan-1.0.la
+all-local:
+	g-ir-compiler --shared-library=libgpicolan-1.0.so --output=gpicolan-1.0.typelib gpicolan-1.0.gir
 
 -include $(VAPIGEN_MAKEFILE)
 

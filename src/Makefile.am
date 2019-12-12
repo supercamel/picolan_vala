@@ -1,8 +1,8 @@
 ## Process this file with automake to produce Makefile.in
-lib_LTLIBRARIES = libgpicolan-1.0.la
+lib_LTLIBRARIES = libgpicolan.1.0.la
 
 VALAC=valac
-VALAFLAGS= --pkg gserial-1.0 --pkg gio-2.0
+VALAFLAGS= --pkg gserial-1.0 --pkg gio-2.0 --library gpicolan-1.0 -H gpicolan.h -X -fPIC -X -shared --gir gpicolan-1.0.gir
 
 GPICOLAN_CFLAGS =          \
 	$(GLIB_CFLAGS)          \
@@ -39,7 +39,7 @@ sources_vala =                 \
 	interface.vala \
 	socket.vala \
 	socket_stream.vala
-							   
+					
 sources_c = $(sources_vala:.vala=.c)
 							
 
@@ -49,7 +49,7 @@ libgpicolan_1_0_la_SOURCES =   \
 libgpicolanincdir = $(includedir)/gpicolan-1.0
 
 ## Misc
-CLEANFILES =
+CLEANFILES = $(sources_c) gpicolan.h
 
 ## GObject Introspection Support
 -include $(INTROSPECTION_MAKEFILE)
@@ -58,21 +58,8 @@ INTROSPECTION_SCANNER_ARGS = $(INTROSPECTION_FLAGS) --add-include-path=$(srcdir)
 INTROSPECTION_COMPILER_ARGS = --includedir=$(srcdir) --includedir=$(builddir)
 
 if HAVE_INTROSPECTION
-introspection_sources = $(sources_c) gpicolan.h
-
-gpicolan-1.0.gir: libgpicolan-1.0.la
-gpicolan_1_0_gir_INCLUDES = GObject-2.0 GLib-2.0
-gpicolan_1_0_gir_CFLAGS = $(GPICOLAN_CFLAGS) -I$(srcdir) -I$(builddir)
-gpicolan_1_0_gir_LIBS = libgpicolan.1.0.la
-gpicolan_1_0_gir_FILES = $(introspection_sources)
-gpicolan_1_0_gir_SCANNERFLAGS = --identifier-prefix=gpicolan --c-include "gpicolan.h"
-INTROSPECTION_GIRS += gpicolan-1.0.gir
-
-girdir = $(datadir)/gir-1.0
-gir_DATA = $(INTROSPECTION_GIRS)
-
-typelibdir = $(libdir)/girepository-1.0
-typelib_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
+all-local:
+	g-ir-compiler --shared-library=libgpicolan-1.0.so --output=gpicolan-1.0.typelib gpicolan-1.0.gir
 
 CLEANFILES += $(gir_DATA) $(typelib_DATA)
 endif

@@ -14,7 +14,6 @@
 
 @SET_MAKE@
 
-
 VPATH = @srcdir@
 am__is_gnu_make = { \
   if test -z '$(MAKELEVEL)'; then \
@@ -89,8 +88,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-@HAVE_INTROSPECTION_TRUE@am__append_1 = gpicolan-1.0.gir
-@HAVE_INTROSPECTION_TRUE@am__append_2 = $(gir_DATA) $(typelib_DATA)
+@HAVE_INTROSPECTION_TRUE@am__append_1 = $(gir_DATA) $(typelib_DATA)
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/introspection.m4 \
@@ -132,8 +130,7 @@ am__uninstall_files_from_dir = { \
     || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
-am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(girdir)" \
-	"$(DESTDIR)$(typelibdir)"
+am__installdirs = "$(DESTDIR)$(libdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 am__DEPENDENCIES_1 =
 am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
@@ -209,7 +206,6 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
-DATA = $(gir_DATA) $(typelib_DATA)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 # Read a list of newline-separated strings from the standard input,
 # and print each of them once, without duplicates.  Input order is
@@ -373,8 +369,8 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-lib_LTLIBRARIES = libgpicolan-1.0.la
-VALAFLAGS = --pkg gserial-1.0 --pkg gio-2.0
+lib_LTLIBRARIES = libgpicolan.1.0.la
+VALAFLAGS = --pkg gserial-1.0 --pkg gio-2.0 --library gpicolan-1.0 -H gpicolan.h -X -fPIC -X -shared --gir gpicolan-1.0.gir
 GPICOLAN_CFLAGS = \
 	$(GLIB_CFLAGS)          \
 	$(GOBJECT_CFLAGS) \
@@ -407,25 +403,16 @@ sources_vala = \
 	socket.vala \
 	socket_stream.vala
 
+sources_public_h = gpicolan.h
 sources_c = $(sources_vala:.vala=.c)
 libgpicolan_1_0_la_SOURCES = \
 	$(sources_vala)
 
 libgpicolanincdir = $(includedir)/gpicolan-1.0
-CLEANFILES = $(am__append_2)
-INTROSPECTION_GIRS = $(am__append_1)
+CLEANFILES = $(sources_c) gpicolan.h $(am__append_1)
+INTROSPECTION_GIRS = 
 INTROSPECTION_SCANNER_ARGS = $(INTROSPECTION_FLAGS) --add-include-path=$(srcdir) --add-include-path=$(builddir) --warn-all --warn-error
 INTROSPECTION_COMPILER_ARGS = --includedir=$(srcdir) --includedir=$(builddir)
-@HAVE_INTROSPECTION_TRUE@introspection_sources = $(sources_c) gpicolan.h
-@HAVE_INTROSPECTION_TRUE@gpicolan_1_0_gir_INCLUDES = GObject-2.0 GLib-2.0
-@HAVE_INTROSPECTION_TRUE@gpicolan_1_0_gir_CFLAGS = $(GPICOLAN_CFLAGS) -I$(srcdir) -I$(builddir)
-@HAVE_INTROSPECTION_TRUE@gpicolan_1_0_gir_LIBS = libgpicolan.1.0.la
-@HAVE_INTROSPECTION_TRUE@gpicolan_1_0_gir_FILES = $(introspection_sources)
-@HAVE_INTROSPECTION_TRUE@gpicolan_1_0_gir_SCANNERFLAGS = --identifier-prefix=gpicolan --c-include "gpicolan.h"
-@HAVE_INTROSPECTION_TRUE@girdir = $(datadir)/gir-1.0
-@HAVE_INTROSPECTION_TRUE@gir_DATA = $(INTROSPECTION_GIRS)
-@HAVE_INTROSPECTION_TRUE@typelibdir = $(libdir)/girepository-1.0
-@HAVE_INTROSPECTION_TRUE@typelib_DATA = $(INTROSPECTION_GIRS:.gir=.typelib)
 @ENABLE_VAPIGEN_TRUE@VAPIGEN_VAPIS = gpicolan-1.0.vapi
 @ENABLE_VAPIGEN_TRUE@gpicolan_1_0_vapi_METADATADIRS = $(srcdir)
 @ENABLE_VAPIGEN_TRUE@gpicolan_1_0_vapi_FILES = gpicolan-1.0.gir
@@ -499,7 +486,7 @@ clean-libLTLIBRARIES:
 	  rm -f $${locs}; \
 	}
 
-libgpicolan-1.0.la: $(libgpicolan_1_0_la_OBJECTS) $(libgpicolan_1_0_la_DEPENDENCIES) $(EXTRA_libgpicolan_1_0_la_DEPENDENCIES) 
+libgpicolan.1.0.la: $(libgpicolan_1_0_la_OBJECTS) $(libgpicolan_1_0_la_DEPENDENCIES) $(EXTRA_libgpicolan_1_0_la_DEPENDENCIES) 
 	$(AM_V_CCLD)$(libgpicolan_1_0_la_LINK) -rpath $(libdir) $(libgpicolan_1_0_la_OBJECTS) $(libgpicolan_1_0_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
@@ -626,48 +613,6 @@ mostlyclean-libtool:
 
 clean-libtool:
 	-rm -rf .libs _libs
-install-girDATA: $(gir_DATA)
-	@$(NORMAL_INSTALL)
-	@list='$(gir_DATA)'; test -n "$(girdir)" || list=; \
-	if test -n "$$list"; then \
-	  echo " $(MKDIR_P) '$(DESTDIR)$(girdir)'"; \
-	  $(MKDIR_P) "$(DESTDIR)$(girdir)" || exit 1; \
-	fi; \
-	for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  echo "$$d$$p"; \
-	done | $(am__base_list) | \
-	while read files; do \
-	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(girdir)'"; \
-	  $(INSTALL_DATA) $$files "$(DESTDIR)$(girdir)" || exit $$?; \
-	done
-
-uninstall-girDATA:
-	@$(NORMAL_UNINSTALL)
-	@list='$(gir_DATA)'; test -n "$(girdir)" || list=; \
-	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
-	dir='$(DESTDIR)$(girdir)'; $(am__uninstall_files_from_dir)
-install-typelibDATA: $(typelib_DATA)
-	@$(NORMAL_INSTALL)
-	@list='$(typelib_DATA)'; test -n "$(typelibdir)" || list=; \
-	if test -n "$$list"; then \
-	  echo " $(MKDIR_P) '$(DESTDIR)$(typelibdir)'"; \
-	  $(MKDIR_P) "$(DESTDIR)$(typelibdir)" || exit 1; \
-	fi; \
-	for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  echo "$$d$$p"; \
-	done | $(am__base_list) | \
-	while read files; do \
-	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(typelibdir)'"; \
-	  $(INSTALL_DATA) $$files "$(DESTDIR)$(typelibdir)" || exit $$?; \
-	done
-
-uninstall-typelibDATA:
-	@$(NORMAL_UNINSTALL)
-	@list='$(typelib_DATA)'; test -n "$(typelibdir)" || list=; \
-	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
-	dir='$(DESTDIR)$(typelibdir)'; $(am__uninstall_files_from_dir)
 
 ID: $(am__tagged_files)
 	$(am__define_uniq_tagged_files); mkid -fID $$unique
@@ -756,9 +701,10 @@ distdir-am: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(LTLIBRARIES) $(DATA)
+@HAVE_INTROSPECTION_FALSE@all-local:
+all-am: Makefile $(LTLIBRARIES) all-local
 installdirs:
-	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(girdir)" "$(DESTDIR)$(typelibdir)"; do \
+	for dir in "$(DESTDIR)$(libdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -833,7 +779,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-girDATA install-typelibDATA
+install-data-am:
 
 install-dvi: install-dvi-am
 
@@ -884,33 +830,32 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-girDATA uninstall-libLTLIBRARIES \
-	uninstall-typelibDATA
+uninstall-am: uninstall-libLTLIBRARIES
 
 .MAKE: install-am install-strip
 
-.PHONY: CTAGS GTAGS TAGS all all-am am--depfiles check check-am clean \
-	clean-generic clean-libLTLIBRARIES clean-libtool cscopelist-am \
-	ctags ctags-am distclean distclean-compile distclean-generic \
-	distclean-libtool distclean-tags distdir dvi dvi-am html \
-	html-am info info-am install install-am install-data \
-	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-girDATA install-html install-html-am \
-	install-info install-info-am install-libLTLIBRARIES \
-	install-man install-pdf install-pdf-am install-ps \
-	install-ps-am install-strip install-typelibDATA installcheck \
+.PHONY: CTAGS GTAGS TAGS all all-am all-local am--depfiles check \
+	check-am clean clean-generic clean-libLTLIBRARIES \
+	clean-libtool cscopelist-am ctags ctags-am distclean \
+	distclean-compile distclean-generic distclean-libtool \
+	distclean-tags distdir dvi dvi-am html html-am info info-am \
+	install install-am install-data install-data-am install-dvi \
+	install-dvi-am install-exec install-exec-am install-html \
+	install-html-am install-info install-info-am \
+	install-libLTLIBRARIES install-man install-pdf install-pdf-am \
+	install-ps install-ps-am install-strip installcheck \
 	installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-compile \
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	tags tags-am uninstall uninstall-am uninstall-girDATA \
-	uninstall-libLTLIBRARIES uninstall-typelibDATA
+	tags tags-am uninstall uninstall-am uninstall-libLTLIBRARIES
 
 .PRECIOUS: Makefile
 
 
 -include $(INTROSPECTION_MAKEFILE)
 
-@HAVE_INTROSPECTION_TRUE@gpicolan-1.0.gir: libgpicolan-1.0.la
+@HAVE_INTROSPECTION_TRUE@all-local:
+@HAVE_INTROSPECTION_TRUE@	g-ir-compiler --shared-library=libgpicolan-1.0.so --output=gpicolan-1.0.typelib gpicolan-1.0.gir
 
 @ENABLE_VAPIGEN_TRUE@-include $(VAPIGEN_MAKEFILE)
 

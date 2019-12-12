@@ -1,9 +1,17 @@
 
-namespace picolan
+namespace gpicolan
 {
 
-	public class AddressField
+	public class AddressField : Object
 	{
+		/**
+		 * AddressField: (constructor)
+		 * Returns: (transfer full): 
+		 */
+		public AddressField() {
+
+		}
+
 		public void set_address(uint8 addr) {
 			var bf = addr/8;
 			var bit = addr%8;
